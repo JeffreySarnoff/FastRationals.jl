@@ -2,7 +2,7 @@ using FasterRationals
 using BenchmarkTools
 
 ""
-    hilbert_square_matrix(::AkoRational, ::AkoInt, n_of_nxn)
+    hilbert_matrix(::AkoRational, ::AkoInt, n_of_nxn)
 
 #Example
 
