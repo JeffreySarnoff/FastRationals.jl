@@ -9,9 +9,10 @@ import Base: convert, promote_rule, string, show,
     (+), (-), (*), (//), div, rem, fld, mod, cld,
     (==), (<), (<=), isequal, isless
 
-#include("")
-#include("")
-#include("")
+#include("types/struct/fast_rational.jl")
+#include("types/mutable/fast_rational.jl")
+#include("types/namedtuple/fast_rational.jl")
+
 #include("")
 #include("")
 #include("")
