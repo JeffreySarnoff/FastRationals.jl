@@ -1,6 +1,7 @@
 module FasterRationals
 
-export FastRational
+export FastRational,
+    Q, Q2, QT
 
 import Base: convert, promote_rule, string, show,
     isfinite, isinteger,
