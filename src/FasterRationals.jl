@@ -13,8 +13,8 @@ import Base: convert, promote_rule, string, show,
 #include("types/mutable/fast_rational.jl")
 #include("types/namedtuple/fast_rational.jl")
 
-#include("")
-#include("")
-#include("")
+#include(joinpath("types/namedtuple", "compares.jl"))
+#include(joinpath("types/struct", "compares.jl"))
+#include(joinpath("types/mutable","compares.jl"))
 
 end # FasterRationals
