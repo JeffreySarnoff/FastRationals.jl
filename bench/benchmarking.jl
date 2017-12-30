@@ -1,7 +1,12 @@
 using FasterRationals
-using BenchmarkTools
 
-""
+using BenchmarkTools
+BenchmarkTools.DEFAULT_PARAMETERS.seconds = 5.0;
+BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 0.02;
+BenchmarkTools.estimate_overhead();
+BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
+
+"""
     hilbert_matrix(::AkoRational, ::AkoInt, n_of_nxn)
 
 #Example
