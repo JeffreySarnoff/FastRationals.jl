@@ -1,3 +1,8 @@
+@inline numerator(x::T) where {S, T<:FasterRational{S}} = x.num
+@inline denominator(x::T) where {S, T<:FasterRational{S}} = x.den
+@inline value(x::T) where {S, T<:FasterRational{S}} = (x.num, x.den)
+@inline eltype(x::T) where {S, T<:FasterRational{S}} = S
+
 
 """
     canonical(numerator::T, denominator::T) where T<:Signed
@@ -26,3 +31,11 @@ end
     den = div(den, gcdval)
     return num, den
 end
+
+
+#=
+    inspired by and/or copyied from julia/rational.jl
+=#
+
+iszero(x::Rational) = iszero(numerator(x))
+isone(x::Rational) = isone(numerator(x)) & isone(denominator(x))
