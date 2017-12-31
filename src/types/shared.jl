@@ -37,5 +37,6 @@ end
     inspired by and/or copyied from julia/rational.jl
 =#
 
-iszero(x::Rational) = iszero(numerator(x))
+iszero(x::Rational) = iszero(numerator(x)) & !iszero(denominator(x))
 isone(x::Rational) = isone(numerator(x)) & isone(denominator(x))
+isinteger(x::Rational) = iszero(rem(numerator(x), denominator(x)))
