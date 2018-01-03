@@ -32,11 +32,67 @@ end
     return num, den
 end
 
+@inline function Canonical(rational::T) where T<:FasterRational
+    return T(canonical(numerator(rational), denominator(rational))...,)
+end
+
+#=
+    arithmetic
+=#
+
+
+@inline function add_with_overflow(x::T, y::T) where T<:FasterRational
+    ovf = false
+    numer, ovfl = mul_with_overflow(numerator(x), denominator(y)) # here, numer is a temp
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), numerator(y)) # here, denom is a temp
+    ovf |= ovfl
+    numer, ovfl = add_with_overflow(numer, denom) # numerator of sum
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), denominator(y)) # denominator of sum
+    ovf |= ovfl
+
+    return numer, denom, ovf
+end
+
+@inline function sub_with_overflow(x::T, y::T) where T<:FasterRational
+    ovf = false
+    numer, ovfl = mul_with_overflow(numerator(x), denominator(y)) # here, numer is a temp
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), numerator(y)) # here, denom is a temp
+    ovf |= ovfl
+    numer, ovfl = sub_with_overflow(numer, denom) # numerator of difference
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), denominator(y)) # denominator of difference
+    ovf |= ovfl
+
+    return numer, denom, ovf
+end
+
+@inline function mul_with_overflow(x::T, y::T) where T<:FasterRational
+    ovf = false
+    numer, ovfl = mul_with_overflow(numerator(x), numerator(y))
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), denominator(y))
+    ovf |= ovfl
+
+    return numer, denom, ovf
+end
+
+@inline function div_with_overflow(x::T, y::T) where T<:FasterRational
+    ovf = false
+    numer, ovfl = mul_with_overflow(numerator(x), denominator(y))
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), numerator(y))
+    ovf |= ovfl
+
+    return numer, denom, ovf
+end
 
 #=
     inspired by and/or copyied from julia/rational.jl
 =#
 
-iszero(x::Rational) = iszero(numerator(x)) & !iszero(denominator(x))
-isone(x::Rational) = isone(numerator(x)) & isone(denominator(x))
-isinteger(x::Rational) = iszero(rem(numerator(x), denominator(x)))
+iszero(x::T) where T<:FasterRational = iszero(numerator(x)) & !iszero(denominator(x))
+isone(x::T) where T<:FasterRational = isone(numerator(x)) & isone(denominator(x))
+isinteger(x::T) where T<:FasterRational = iszero(rem(numerator(x), denominator(x)))
