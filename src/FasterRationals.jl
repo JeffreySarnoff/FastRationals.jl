@@ -48,7 +48,7 @@ struct TraitedRational{T, H<:RationalTrait}
 end
 
 @inline numerator(x::TraitedRational{T,H}) where {T,H} = x.num
-@inline denomintor(x::TraitedRational{T,H}) where {T,H} = x.den
+@inline denominator(x::TraitedRational{T,H}) where {T,H} = x.den
 @inline trait(x::TraitedRational{T,H})  where {T,H} = x.trait
 
 content(x::TraitedRational{T,H}) where {T,H} = numerator(x), denominator(x)
@@ -62,6 +62,10 @@ MayReduce(x::TraitedRational{T,H}) where {T,H} = x.trait === QMayReduce
 TraitedRational(x::Rational{T}) where {T} = TraitedRational(x.num, x.den, QIsReduced)
 Rational(x::TraitedRational{T,H}) where {T,H} = Rational{T}(x.num, x.den)
 
+TraitedRational{T,H}(x::T, y::T) where {T,H<:IsReduced} = TraitedRational{T,H}(x, y, QIsReduced)
+TraitedRational{T,H}(x::T, y::T) where {T,H<:Reduceable} = TraitedRational{T,H}(x, y, QReducable)
+TraitedRational{T,H}(x::T, y::T) where {T,H<:MayReduce} = TraitedRational{T,H}(x, y, QMayReduce)
+    
 canonical(x::TraitedRational{T,H}) where {T, H<:IsReduced} = x
 
 function canonical(x::TraitedRational{T,H}) where {T,H}
@@ -76,7 +80,7 @@ struct FasterRational{T, H<:RationalTrait}
 end
 
 @inline numerator(x::FasterRational{T,H}) where {T,H} = x.num
-@inline denomintor(x::FasterRational{T,H}) where {T,H} = x.den
+@inline denominator(x::FasterRational{T,H}) where {T,H} = x.den
 @inline trait(x::TraitedRational{T,H}) where {T,H} = H
 
 content(x::FasterRational{T,H}) where {T,H} = numerator(x), denominator(x)
