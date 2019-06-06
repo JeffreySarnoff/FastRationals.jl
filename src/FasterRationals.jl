@@ -2,6 +2,11 @@ module FasterRationals
 
 export FastRational
 
+import Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
+    checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
+    checked_div, checked_rem, checked_fld, checked_mod, checked_cld
+
+
 # traits
 
 """
@@ -118,7 +123,56 @@ end
     
     
     
-    
+# core parts of add, sub
+
+@inline function add_with_overflow_for_rational(x, y)
+    ovf = false
+    numer, ovfl = mul_with_overflow(numerator(x), denominator(y)) # here, numer is a temp
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), numerator(y)) # here, denom is a temp
+    ovf |= ovfl
+    numer, ovfl = add_with_overflow(numer, denom) # numerator of sum
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), denominator(y)) # denominator of sum
+    ovf |= ovfl
+
+    return numer, denom, ovf
+end
+
+@inline function sub_with_overflow_for_rational(x, y)
+    ovf = false
+    numer, ovfl = mul_with_overflow(numerator(x), denominator(y)) # here, numer is a temp
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), numerator(y)) # here, denom is a temp
+    ovf |= ovfl
+    numer, ovfl = sub_with_overflow(numer, denom) # numerator of difference
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), denominator(y)) # denominator of difference
+    ovf |= ovfl
+
+    return numer, denom, ovf
+end
+
+@inline function mul_with_overflow_for_rational(x, y)
+    ovf = false
+    numer, ovfl = mul_with_overflow(numerator(x), numerator(y))
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), denominator(y))
+    ovf |= ovfl
+
+    return numer, denom, ovf
+end
+
+@inline function div_with_overflow_for_rational(x, y)
+    ovf = false
+    numer, ovfl = mul_with_overflow(numerator(x), denominator(y))
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(denominator(x), numerator(y))
+    ovf |= ovfl
+
+    return numer, denom, ovf
+end
+
     
     
     
