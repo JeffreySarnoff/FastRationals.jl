@@ -47,13 +47,13 @@ struct TraitedRational{T, H<:RationalTrait}
     trait::H
 end
 
-@inline numerator(x::TraitedRational{T,H}) = x.num
-@inline denomintor(x::TraitedRational{T,H}) = x.den
-@inline trait(x::TraitedRational{T,H}) = x.trait
+@inline numerator(x::TraitedRational{T,H}) where {T,H} = x.num
+@inline denomintor(x::TraitedRational{T,H}) where {T,H} = x.den
+@inline trait(x::TraitedRational{T,H})  where {T,H} = x.trait
 
-content(x::TraitedRational{T,H}) = numerator(x), denominator(x)
+content(x::TraitedRational{T,H}) where {T,H} = numerator(x), denominator(x)
 
-eltype(x::TraitedRational{T,H}) = T
+eltype(x::TraitedRational{T,H}) where {T,H} = T
 
 IsReduced(x::TraitedRational{T,H}) where {T,H} = x.trait === QIsReduced
 Reducable(x::TraitedRational{T,H}) where {T,H} = x.trait === QReducable
@@ -64,7 +64,7 @@ Rational(x::TraitedRational{T,H}) where {T,H} = Rational{T}(x.num, x.den)
 
 canonical(x::TraitedRational{T,H}) where {T, H<:IsReduced} = x
 
-function canonical(x::TraitedRational{T,H}) =
+function canonical(x::TraitedRational{T,H}) where {T,H} =
     n, d = canonical(x.num, x.den)
     return TraitedRational{T, IsReduced}(n, d, QIsReduced)
 end
@@ -75,13 +75,13 @@ struct FasterRational{T, H<:RationalTrait}
     den::T
 end
 
-@inline numerator(x::FasterRational{T,H}) = x.num
-@inline denomintor(x::FasterRational{T,H}) = x.den
-@inline trait(x::TraitedRational{T,H}) = H
+@inline numerator(x::FasterRational{T,H}) where {T,H} = x.num
+@inline denomintor(x::FasterRational{T,H}) where {T,H} = x.den
+@inline trait(x::TraitedRational{T,H}) where {T,H} = H
 
-content(x::FasterRational{T,H}) = numerator(x), denominator(x)
+content(x::FasterRational{T,H}) where {T,H} = numerator(x), denominator(x)
 
-eltype(x::FasterRational{T,H}) = T
+eltype(x::FasterRational{T,H}) where {T,H} = T
 
 IsReduced(x::FasterRational{T,H}) where {T,H} = H === IsReduced
 Reducable(x::FasterRational{T,H}) where {T,H} = H === Reducable
@@ -94,7 +94,7 @@ Rational(x::FasterRational{T,H}) where {T,H} = Rational{T}(x.num, x.den)
 
 canonical(x::FasterRational{T,H}) where {T, H<:IsReduced} = x
 
-function canonical(x::FasterRational{T,H}) =
+function canonical(x::FasterRational{T,H}) where {T,H} =
     n, d = canonical(x.num, x.den)
     return FasterRational{T, IsReduced}(n, d)
 end
