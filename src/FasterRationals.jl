@@ -6,6 +6,7 @@ import Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
+import Base: numerator, denominator, eltype
 
 # traits
 
@@ -46,8 +47,13 @@ struct TraitedRational{T, H<:RationalTrait}
     trait::H
 end
 
+@inline numerator(x::TraitedRational{T,H}) = x.num
+@inline denomintor(x::TraitedRational{T,H}) = x.den
+@inline trait(x::TraitedRational{T,H}) = x.trait
+
+content(x::TraitedRational{T,H}) = numerator(x), denominator(x)
+
 eltype(x::TraitedRational{T,H}) = T
-trait(x::TraitedRational{T,H}) = t.trait
 
 IsReduced(x::TraitedRational{T,H}) where {T,H} = x.trait === QIsReduced
 Reducable(x::TraitedRational{T,H}) where {T,H} = x.trait === QReducable
@@ -69,8 +75,13 @@ struct FasterRational{T, H<:RationalTrait}
     den::T
 end
 
+@inline numerator(x::FasterRational{T,H}) = x.num
+@inline denomintor(x::FasterRational{T,H}) = x.den
+@inline trait(x::TraitedRational{T,H}) = H
+
+content(x::FasterRational{T,H}) = numerator(x), denominator(x)
+
 eltype(x::FasterRational{T,H}) = T
-trait(x::FasterRational{T,H}) = H
 
 IsReduced(x::FasterRational{T,H}) where {T,H} = H === IsReduced
 Reducable(x::FasterRational{T,H}) where {T,H} = H === Reducable
@@ -79,6 +90,7 @@ MayReduce(x::FasterRational{T,H}) where {T,H} = H === MayReduce
 FasterRational(x::Rational{T}) where {T} = FasterRational{T,IsReduced}(x.num, x.den)
 Rational(x::FasterRational{T,H}) where {T,H} = Rational{T}(x.num, x.den)
 
+# canonical(q) reduces q to lowest terms
 
 canonical(x::FasterRational{T,H}) where {T, H<:IsReduced} = x
 
@@ -127,7 +139,7 @@ end
 
 @inline function add_with_overflow_for_rational(x, y)
     ovf = false
-    numer, ovfl = mul_with_overflow(numerator(x), denominator(y)) # here, numer is a temp
+    numer, ovfl = mul_with_overflow(x, denominator(y)) # here, numer is a temp
     ovf |= ovfl
     denom, ovfl = mul_with_overflow(denominator(x), numerator(y)) # here, denom is a temp
     ovf |= ovfl
