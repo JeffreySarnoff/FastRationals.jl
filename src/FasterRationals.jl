@@ -186,7 +186,75 @@ end
 end
 
     
+
+function Base.:(+)(x::TraitedRational{T,H}, y::TraitedRational{T,H}) where {T,H}
+    numer, denom, ovf = add_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x + $y overflowed"))
     
+    return TraitedRational{T,MayReduce}(numer, denom)
+end
+
+function Base.:(-)(x::TraitedRational{T,H}, y::TraitedRational{T,H}) where {T,H}
+    numer, denom, ovf = sub_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x - $y overflowed"))
+    
+    return TraitedRational{T,MayReduce}(numer, denom)
+end
+
+function Base.:(*)(x::TraitedRational{T,H}, y::TraitedRational{T,H}) where {T,H}
+    numer, denom, ovf = mul_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x + $y overflowed"))
+    
+    return TraitedRational{T,MayReduce}(numer, denom)
+end
+
+function Base.:(/)(x::TraitedRational{T,H}, y::TraitedRational{T,H}) where {T,H}
+    numer, denom, ovf = div_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x + $y overflowed"))
+    
+    return TraitedRational{T,MayReduce}(numer, denom)
+end
+
+
+
+function Base.:(+)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
+    numer, denom, ovf = add_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x + $y overflowed"))
+    
+    return FasterRational{T,MayReduce}(numer, denom)
+end
+
+function Base.:(-)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
+    numer, denom, ovf = sub_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x - $y overflowed"))
+    
+    return FasterRational{T,MayReduce}(numer, denom)
+end
+
+function Base.:(*)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
+    numer, denom, ovf = mul_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x + $y overflowed"))
+    
+    return FasterRational{T,MayReduce}(numer, denom)
+end
+
+function Base.:(/)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
+    numer, denom, ovf = div_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x + $y overflowed"))
+    
+    return FasterRational{T,MayReduce}(numer, denom)
+end
+
+
+function Base.:(+)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
+    numer, denom, ovf = add_with_overflow_for_rational(x, y)
+    ovf && throw(OverflowError("$x + $y overflowed"))
+    
+    return FasterRational{T,MayReduce}(numer, denom)
+end
+
+
+
     
 
 struct ReducedRational{T<:Signed}
