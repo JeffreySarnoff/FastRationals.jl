@@ -64,7 +64,7 @@ Rational(x::TraitedRational{T,H}) where {T,H} = Rational{T}(x.num, x.den)
 
 canonical(x::TraitedRational{T,H}) where {T, H<:IsReduced} = x
 
-function canonical(x::TraitedRational{T,H}) where {T,H} =
+function canonical(x::TraitedRational{T,H}) where {T,H}
     n, d = canonical(x.num, x.den)
     return TraitedRational{T, IsReduced}(n, d, QIsReduced)
 end
