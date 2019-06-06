@@ -1,7 +1,84 @@
 module FasterRationals
 
-export FastRational,
-    Q, Q2, QT
+export FastRational
+
+# traits
+
+"""
+    RationalTrait
+
+a trait applicable to Rational values
+"""
+abstract type RationalTrait end
+
+"""
+    IsReduced <: RationalTrait
+
+This trait holds for rational values that are known to have been reduced to lowest terms.
+"""
+struct IsReduced  <: RationalTrait end
+const QIsReduced = IsReduced()
+
+"""
+    Reduceable <: RationalTrait
+
+This trait holds for rational values that are known not to be expressed in lowest terms.
+"""
+struct Reduceable <: RationalTrait end
+const QReduceable = Reduceable()
+
+"""
+    MayReduced <: RationalTrait
+
+This trait holds for rational values that may or may not be expressed in lowest terms.
+"""
+struct MayReduce  <: RationalTrait end
+const QMayReduce = MayReduce()
+
+struct TraitedRational{T, H<:RationalTrait}
+    num::T
+    den::T
+    trait::H
+end
+
+eltype(x::TraitedRational{T,H}) = T
+trait(x::TraitedRational{T,H}) = t.trait
+
+TraitedRational(x::Rational{T}) where {T} = TraitedRational(x.num, x.den, QIsReduced)
+
+
+struct FasterRational{T, H<:RationalTrait}
+    num::T
+    den::T
+end
+
+eltype(x::FasterRational{T,H}) = T
+trait(x::FasterRational{T,H}) = H
+
+FasterRational(x::Rational{T}) where {T} = FasterRational{T,IsReduced}(x.num, x.den)
+
+
+
+
+
+
+struct ReducedRational{T<:Signed}
+    num::T
+    den::T
+end
+
+struct ReducibleRational{T<:Signed}
+    num::T
+    den::T
+end
+
+struct UnreducedRational{T<:Signed}
+    num::T
+    den::T
+end
+
+
+       ReduceRawRational
 
 import Base: convert, promote_rule, string, show,
     isfinite, isinteger,
