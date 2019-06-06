@@ -44,6 +44,10 @@ end
 eltype(x::TraitedRational{T,H}) = T
 trait(x::TraitedRational{T,H}) = t.trait
 
+IsReduced(x::TraitedRational{T,H}) where {T,H} = x.trait === QIsReduced
+Reducable(x::TraitedRational{T,H}) where {T,H} = x.trait === QReducable
+MayReduce(x::TraitedRational{T,H}) where {T,H} = x.trait === QMayReduce
+
 TraitedRational(x::Rational{T}) where {T} = TraitedRational(x.num, x.den, QIsReduced)
 
 
@@ -54,6 +58,10 @@ end
 
 eltype(x::FasterRational{T,H}) = T
 trait(x::FasterRational{T,H}) = H
+
+IsReduced(x::FasterRational{T,H}) where {T,H} = H === IsReduced
+Reducable(x::FasterRational{T,H}) where {T,H} = H === Reducable
+MayReduce(x::FasterRational{T,H}) where {T,H} = H === MayReduce
 
 FasterRational(x::Rational{T}) where {T} = FasterRational{T,IsReduced}(x.num, x.den)
 
