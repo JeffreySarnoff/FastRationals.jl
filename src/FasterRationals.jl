@@ -112,17 +112,17 @@ canonical representation.
 - denominator is strictly positive (d > 0)
 """ canonical
 
-function canonical(num::T, den::T) where {T<:SignedInt}
+function canonical(num::T, den::T) where {T<:Signed}
     num, den = canonical_signed(num, den)
     num, den = canonical_valued(num, den)
     return num, den
 end
 
-@inline function canonical_signed(num::T, den::T) where {T<:SignedInt}
+@inline function canonical_signed(num::T, den::T) where {T<:Signed}
     return flipsign(num, den), abs(den)
 end
 
-@inline function canonical_valued(num::T, den::T) where {T<:SignedInt}
+@inline function canonical_valued(num::T, den::T) where {T<:Signed}
     gcdval = gcd(num, den)
     gcdval === one(T) && return num, den
     num = div(num, gcdval)
