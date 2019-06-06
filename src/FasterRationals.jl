@@ -94,7 +94,7 @@ Rational(x::FasterRational{T,H}) where {T,H} = Rational{T}(x.num, x.den)
 
 canonical(x::FasterRational{T,H}) where {T, H<:IsReduced} = x
 
-function canonical(x::FasterRational{T,H}) where {T,H} =
+function canonical(x::FasterRational{T,H}) where {T,H}
     n, d = canonical(x.num, x.den)
     return FasterRational{T, IsReduced}(n, d)
 end
