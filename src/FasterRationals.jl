@@ -6,7 +6,10 @@ import Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
-import Base: numerator, denominator, eltype
+import Base: numerator, denominator, eltype, convert, promote_rule, decompose
+    sign, signbit, copysign, flipsign, abs,
+    ==, !=, <, <=, 
+    +, -, *, /, ^, div
 
 # traits
 
@@ -23,76 +26,37 @@ abstract type RationalTrait end
 This trait holds for rational values that are known to have been reduced to lowest terms.
 """
 struct IsReduced  <: RationalTrait end
-const QIsReduced = IsReduced()
 
 """
-    Reduceable <: RationalTrait
-
-This trait holds for rational values that are known not to be expressed in lowest terms.
-"""
-struct Reduceable <: RationalTrait end
-const QReduceable = Reduceable()
-
-"""
-    MayReduced <: RationalTrait
+    MayReduce <: RationalTrait
 
 This trait holds for rational values that may or may not be expressed in lowest terms.
 """
 struct MayReduce  <: RationalTrait end
-const QMayReduce = MayReduce()
 
-struct TraitedRational{T, H<:RationalTrait}
-    num::T
-    den::T
-    trait::H
-end
-
-@inline numerator(x::TraitedRational{T,H}) where {T,H} = x.num
-@inline denominator(x::TraitedRational{T,H}) where {T,H} = x.den
-@inline trait(x::TraitedRational{T,H})  where {T,H} = x.trait
-
-content(x::TraitedRational{T,H}) where {T,H} = numerator(x), denominator(x)
-
-eltype(x::TraitedRational{T,H}) where {T,H} = T
-
-IsReduced(x::TraitedRational{T,H}) where {T,H} = x.trait === QIsReduced
-Reducable(x::TraitedRational{T,H}) where {T,H} = x.trait === QReducable
-MayReduce(x::TraitedRational{T,H}) where {T,H} = x.trait === QMayReduce
-
-TraitedRational(x::Rational{T}) where {T} = TraitedRational(x.num, x.den, QIsReduced)
-Rational(x::TraitedRational{T,H}) where {T,H} = Rational{T}(x.num, x.den)
-
-TraitedRational{T,H}(x::T, y::T) where {T,H<:IsReduced} = TraitedRational{T,H}(x, y, QIsReduced)
-TraitedRational{T,H}(x::T, y::T) where {T,H<:Reduceable} = TraitedRational{T,H}(x, y, QReducable)
-TraitedRational{T,H}(x::T, y::T) where {T,H<:MayReduce} = TraitedRational{T,H}(x, y, QMayReduce)
-    
-canonical(x::TraitedRational{T,H}) where {T, H<:IsReduced} = x
-
-function canonical(x::TraitedRational{T,H}) where {T,H}
-    n, d = canonical(x.num, x.den)
-    return TraitedRational{T, IsReduced}(n, d, QIsReduced)
-end
-    
-
-struct FasterRational{T, H<:RationalTrait}
+struct FasterRational{T<:Signed, H<:RationalTrait} <: Real
     num::T
     den::T
 end
 
-@inline numerator(x::FasterRational{T,H}) where {T,H} = x.num
-@inline denominator(x::FasterRational{T,H}) where {T,H} = x.den
-@inline trait(x::TraitedRational{T,H}) where {T,H} = H
+numerator(x::FasterRational{T,H}) where {T,H} = x.num
+denominator(x::FasterRational{T,H}) where {T,H} = x.den
+eltype(x::FasterRational{T,H}) where {T,H} = T
 
 content(x::FasterRational{T,H}) where {T,H} = numerator(x), denominator(x)
 
-eltype(x::FasterRational{T,H}) where {T,H} = T
-
-IsReduced(x::FasterRational{T,H}) where {T,H} = H === IsReduced
-Reducable(x::FasterRational{T,H}) where {T,H} = H === Reducable
-MayReduce(x::FasterRational{T,H}) where {T,H} = H === MayReduce
+trait(x::FasterRational{T,H}) where {T,H} = H
+isreduced(x::FasterRational{T,H}) where {T,H} = H === IsReduced
+mayreduce(x::FasterRational{T,H}) where {T,H} = H === MayReduce
 
 FasterRational(x::Rational{T}) where {T} = FasterRational{T,IsReduced}(x.num, x.den)
-Rational(x::FasterRational{T,H}) where {T,H} = Rational{T}(x.num, x.den)
+Rational(x::FasterRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
+Rational(x::FasterRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
+
+convert(::Type{Rational{T}}, x::FasterRational{T}) where {T} = Rational(x)
+convert(::Type{FasterRational{T}}, x::Rational{T}) where {T} = FasterRational(x)
+
+promote_rule(::Type{Rational{T}}, ::Type{FasterRational{T}}) where {T} = FasterRational{T}
 
 # canonical(q) reduces q to lowest terms
 
@@ -102,8 +66,6 @@ function canonical(x::FasterRational{T,H}) where {T,H}
     n, d = canonical(x.num, x.den)
     return FasterRational{T, IsReduced}(n, d)
 end
-
-
 
 """
     canonical(numerator::T, denominator::T) where T<:Signed
@@ -136,7 +98,33 @@ end
     
     
     
-    
+
+sign(x::FasterRational{T,H}) where {T<:Signed,H} = FasterRational{T,IsReduced}(sign(x.num), one(T))
+signbit(x::FasterRational{T,H}) where {T,H} = signbit(x.num)
+
+copysign(x::FasterRational, y::Real) = copysign(x.num,y) // x.den
+copysign(x::FasterRational, y::FasterRational) = copysign(x.num,y.num) // x.den
+copysign(x::FasterRational, y::Rational) = copysign(x.num,y.num) // x.den
+
+abs(x::FasterRational) = Rational(abs(x.num), x.den)
+
+typemin(::Type{FasterRational{T}}) where {T<:Signed} = -one(T)//zero(T)
+typemin(::Type{FasterRational{T}}) where {T<:Unsigned} = zero(T)//one(T)
+typemax(::Type{FasterRational{T}}) where {T<:Integer} = one(T)//zero(T)
+
+isinteger(x::FasterRational{T}) where {T} = x.den == 1
+
++(x::FasterRational{T}) where {T} = (+x.num) // x.den
+-(x::FasterRational{T}) where {T} = (-x.num) // x.den
+
+function -(x::FasterRational{T}) where T<:BitSigned
+    x.num == typemin(T) && throw(OverflowError("rational numerator is typemin(T)"))
+    (-x.num) // x.den
+end
+function -(x::FasterRational{T}) where T<:Unsigned
+    x.num != zero(T) && throw(OverflowError("cannot negate unsigned number"))
+    x
+end    
     
     
 # core parts of add, sub
