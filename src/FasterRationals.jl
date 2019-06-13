@@ -121,14 +121,17 @@ typemax(::Type{FasterRational{T,H}}) where {T<:Integer,H} = FasterRational{T,IsR
 isinteger(x::FasterRational{T,IsReduced}) where {T} = x.den == 1
 isinteger(x::FasterRational{T,MayReduce}) where {T} = canonical(x.num,x.den)[2] == 1
 
-+(x::FasterRational{T}) where {T} = (+x.num) // x.den
--(x::FasterRational{T}) where {T} = (-x.num) // x.den
++(x::FasterRational{T,H}) where {T,H} = FasterRational{T,H}(+x.num, x.den)
+-(x::FasterRational{T,H}) where {T,H} = FasterRational{T,H}(-x.num, x.den)
 
-function -(x::FasterRational{T}) where T<:BitSigned
+function -(x::FasterRational{T,IsReduced}) where {T<:BitSigned}
     x.num == typemin(T) && throw(OverflowError("rational numerator is typemin(T)"))
-    (-x.num) // x.den
+    FasterRational{T,IsReduced}(-x.num, x.den)
 end
-function -(x::FasterRational{T}) where T<:Unsigned
+-(x::FasterRational{T,MayReduced}) where {T<:BitSigned} =
+    -FasterRational{T,IsReduced}(canonical(x.num, x.den)...,)
+    
+function -(x::FasterRational{T,H}) where {T<:Unsigned,H}
     x.num != zero(T) && throw(OverflowError("cannot negate unsigned number"))
     x
 end    
