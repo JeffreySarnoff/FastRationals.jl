@@ -188,44 +188,42 @@ end
     return numer, denom, ovf
 end
 
-    
 
-function Base.:(+)(x::TraitedRational{T,H}, y::TraitedRational{T,H}) where {T,H}
+function Base.:(+)(x::FasterRational{T,IsReduced}, y::FasterRational{T,IsReduced}) where {T}
     numer, denom, ovf = add_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x + $y overflowed"))
-    
-    return TraitedRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(-)(x::TraitedRational{T,H}, y::TraitedRational{T,H}) where {T,H}
-    numer, denom, ovf = sub_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x - $y overflowed"))
-    
-    return TraitedRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(*)(x::TraitedRational{T,H}, y::TraitedRational{T,H}) where {T,H}
-    numer, denom, ovf = mul_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x + $y overflowed"))
-    
-    return TraitedRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(/)(x::TraitedRational{T,H}, y::TraitedRational{T,H}) where {T,H}
-    numer, denom, ovf = div_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x + $y overflowed"))
-    
-    return TraitedRational{T,MayReduce}(numer, denom)
-end
-
-
-
-function Base.:(+)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
-    numer, denom, ovf = add_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x + $y overflowed"))
-    
+    ovf && throw(OverflowError("$x + $y overflowed"))   
     return FasterRational{T,MayReduce}(numer, denom)
 end
+
+
+function Base.:(+)(x::FasterRational{T,MayReduce}, y::FasterRational{T,IsReduced}) where {T}
+    numer, denom, ovf = add_with_overflow_for_rational(x, y)
+    if ovf
+        xnum, xden = canonical(numerator(x), denominator(x))
+        return FasterRational{T,IsReduced}(xnum, xden) + y
+    end
+    return FasterRational{T,MayReduce}(numer, denom)
+end
+
+function Base.:(+)(x::FasterRational{T,IsReduced}, y::FasterRational{T,MayReduce}) where {T}
+    numer, denom, ovf = add_with_overflow_for_rational(x, y)
+    if ovf
+        ynum, yden = canonical(numerator(y), denominator(y))
+        return x + FasterRational{T, IsReduced}(ynum, yden)
+    end
+    return FasterRational{T,MayReduce}(numer, denom)
+end
+
+function Base.:(+)(x::FasterRational{T,MayReduce}, y::FasterRational{T,MayReduce}) where {T}
+    numer, denom, ovf = add_with_overflow_for_rational(x, y)
+    if ovf
+        xnum, xden = canonical(numerator(x), denominator(x))
+        ynum, yden = canonical(numerator(y), denominator(y))
+        return FasterRational{T,IsReduced}(xnum, xden) + FasterRational{T, IsReduced}(ynum, yden)
+    end
+    return FasterRational{T,MayReduce}(numer, denom)
+end
+
 
 function Base.:(-)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
     numer, denom, ovf = sub_with_overflow_for_rational(x, y)
@@ -247,62 +245,5 @@ function Base.:(/)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
     
     return FasterRational{T,MayReduce}(numer, denom)
 end
-
-
-function Base.:(+)(x::FasterRational{T,H}, y::FasterRational{T,H}) where {T,H}
-    numer, denom, ovf = add_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x + $y overflowed"))
-    
-    return FasterRational{T,MayReduce}(numer, denom)
-end
-
-
-
-    
-
-struct ReducedRational{T<:Signed}
-    num::T
-    den::T
-end
-
-struct ReducibleRational{T<:Signed}
-    num::T
-    den::T
-end
-
-struct UnreducedRational{T<:Signed}
-    num::T
-    den::T
-end
-
-
-       ReduceRawRational
-
-import Base: convert, promote_rule, string, show,
-    isfinite, isinteger,
-    signbit, flipsign, changesign,
-    (+), (-), (*), (//), div, rem, fld, mod, cld,
-    (==), (<), (<=), isequal, isless
-
-import Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow
-
-const SignedInt = Union{Int16, Int32, Int64, Int128, BigInt}
-
-
-include(joinpath(".", "types", "namedtuple", "fast_rational.jl"))
-    
-include(joinpath(".", "types","shared.jl"))
-
-include(joinpath("types", "namedtuple", "fast_rational.jl"))
-include(joinpath("types", "struct",     "fast_rational.jl"))
-include(joinpath("types", "mutable",    "fast_rational.jl"))
-
-include(joinpath("int_ops", "namedtuple", "fast_rational.jl"))
-include(joinpath("int_ops", "struct",     "fast_rational.jl"))
-include(joinpath("int_ops", "mutable",    "fast_rational.jl"))
-
-include(joinpath("types", "namedtuple", "compares.jl"))
-include(joinpath("types", "struct",     "compares.jl"))
-include(joinpath("types", "mutable",    "compares.jl"))
 
 end # FasterRationals
