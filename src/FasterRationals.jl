@@ -99,14 +99,20 @@ end
     
     
 
-sign(x::FasterRational{T,H}) where {T<:Signed,H} = FasterRational{T,IsReduced}(sign(x.num), one(T))
-signbit(x::FasterRational{T,H}) where {T,H} = signbit(x.num)
+sign(x::FasterRational{T,IsReduced}) where {T<:Signed} = FasterRational{T,IsReduced}(sign(x.num), one(T))
+sign(x::FasterRational{T,MayReduce}) where {T<:Signed} = FasterRational{T,IsReduced}(sign(x.num)*sign(x.den), one(T))
+signbit(x::FasterRational{T,IsReduced}) where {T<:Signed} = signbit(x.num)
+signbit(x::FasterRational{T,MayReduce}) where {T<:Signed} = xor(signbit(x.num), signbit(x.den))
+
+sign(x::FasterRational{T,H}) where {T<:Unsigned, H} = FasterRational{T,IsReduced}(one(T), one(T))
+signbit(x::FasterRational{T,H}) where {T<:Unsigned} = false
+
 
 copysign(x::FasterRational, y::Real) = copysign(x.num,y) // x.den
 copysign(x::FasterRational, y::FasterRational) = copysign(x.num,y.num) // x.den
 copysign(x::FasterRational, y::Rational) = copysign(x.num,y.num) // x.den
 
-abs(x::FasterRational) = Rational(abs(x.num), x.den)
+abs(x::FasterRational{T,H}) where {T,H} = FasterRational{T,H}(abs(x.num), x.den)
 
 typemin(::Type{FasterRational{T}}) where {T<:Signed} = -one(T)//zero(T)
 typemin(::Type{FasterRational{T}}) where {T<:Unsigned} = zero(T)//one(T)
