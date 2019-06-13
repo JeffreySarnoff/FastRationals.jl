@@ -144,7 +144,7 @@ end
 
 @inline function add_with_overflow_for_rational(x, y)
     ovf = false
-    numer, ovfl = mul_with_overflow(x, denominator(y)) # here, numer is a temp
+    numer, ovfl = mul_with_overflow(numerator(x), denominator(y)) # here, numer is a temp
     ovf |= ovfl
     denom, ovfl = mul_with_overflow(denominator(x), numerator(y)) # here, denom is a temp
     ovf |= ovfl
