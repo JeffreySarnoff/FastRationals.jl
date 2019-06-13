@@ -103,7 +103,7 @@ signbit(x::FasterRational{T,IsReduced}) where {T<:Signed} = signbit(x.num)
 signbit(x::FasterRational{T,MayReduce}) where {T<:Signed} = xor(signbit(x.num), signbit(x.den))
 
 sign(x::FasterRational{T,H}) where {T<:Unsigned, H} = FasterRational{T,IsReduced}(one(T), one(T))
-signbit(x::FasterRational{T,H}) where {T<:Unsigned} = false
+signbit(x::FasterRational{T,H}) where {T<:Unsigned, H} = false
 
 copysign(x::FasterRational, y::Real) = y >= 0 ? abs(x) : -abs(x)
 copysign(x::FasterRational, y::FasterRational) = FasterRational{T,H}(copysign(x.num, y.num), x.den)
