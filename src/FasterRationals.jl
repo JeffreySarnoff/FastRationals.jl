@@ -6,8 +6,8 @@ import Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
-import Base: numerator, denominator, eltype, convert, promote_rule, decompose
-    isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs,
+import Base: numerator, denominator, eltype, convert, promote_rule, decompose,
+    isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, 
     ==, !=, <, <=, 
     +, -, *, /, ^, div
 
