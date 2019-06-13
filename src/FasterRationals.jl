@@ -114,11 +114,12 @@ copysign(x::FasterRational, y::Rational) = copysign(x.num,y.num) // x.den
 
 abs(x::FasterRational{T,H}) where {T,H} = FasterRational{T,H}(abs(x.num), x.den)
 
-typemin(::Type{FasterRational{T}}) where {T<:Signed} = -one(T)//zero(T)
-typemin(::Type{FasterRational{T}}) where {T<:Unsigned} = zero(T)//one(T)
-typemax(::Type{FasterRational{T}}) where {T<:Integer} = one(T)//zero(T)
+typemin(::Type{FasterRational{T,H}}) where {T<:Signed,H} = FasterRational{T,IsReduced}(typemin(T),one(T))
+typemin(::Type{FasterRational{T,H}}) where {T<:Unsigned,H} = FasterRational{T,IsReduced}(zero(T),one(T))
+typemax(::Type{FasterRational{T,H}}) where {T<:Integer,H} = FasterRational{T,IsReduced}(typemax(T),one(T))
 
-isinteger(x::FasterRational{T}) where {T} = x.den == 1
+isinteger(x::FasterRational{T,IsReduced}) where {T} = x.den == 1
+isinteger(x::FasterRational{T,MayReduce}) where {T} = canonical(x.num,x.den)[2] == 1
 
 +(x::FasterRational{T}) where {T} = (+x.num) // x.den
 -(x::FasterRational{T}) where {T} = (-x.num) // x.den
