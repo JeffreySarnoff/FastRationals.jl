@@ -131,7 +131,7 @@ function -(x::FasterRational{T,IsReduced}) where {T<:BitSigned}
     x.num == typemin(T) && throw(OverflowError("rational numerator is typemin(T)"))
     FasterRational{T,IsReduced}(-x.num, x.den)
 end
--(x::FasterRational{T,MayReduced}) where {T<:BitSigned} =
+-(x::FasterRational{T,MayReduce}) where {T<:BitSigned} =
     -FasterRational{T,IsReduced}(canonical(x.num, x.den)...,)
     
 function -(x::FasterRational{T,H}) where {T<:Unsigned,H}
