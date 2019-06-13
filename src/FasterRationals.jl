@@ -94,9 +94,7 @@ end
     num = div(num, gcdval)
     den = div(den, gcdval)
     return num, den
-end
-    
-    
+end 
     
 
 sign(x::FasterRational{T,IsReduced}) where {T<:Signed} = FasterRational{T,IsReduced}(sign(x.num), one(T))
@@ -107,10 +105,13 @@ signbit(x::FasterRational{T,MayReduce}) where {T<:Signed} = xor(signbit(x.num), 
 sign(x::FasterRational{T,H}) where {T<:Unsigned, H} = FasterRational{T,IsReduced}(one(T), one(T))
 signbit(x::FasterRational{T,H}) where {T<:Unsigned} = false
 
+copysign(x::FasterRational, y::Real) = y >= 0 ? abs(x) : -abs(x)
+copysign(x::FasterRational, y::FasterRational) = FasterRational{T,H}(copysign(x.num, y.num), x.den)
+copysign(x::FasterRational, y::Rational) = FasterRational{T,H}(copysign(x.num,y.num), x.den)
 
-copysign(x::FasterRational, y::Real) = copysign(x.num,y) // x.den
-copysign(x::FasterRational, y::FasterRational) = copysign(x.num,y.num) // x.den
-copysign(x::FasterRational, y::Rational) = copysign(x.num,y.num) // x.den
+flipsign(x::FasterRational, y::Real) = FasterRational{T,H}(flipsign(x.num,y) // x.den)
+flipsign(x::FasterRational, y::FasterRational) = flipsign(x.num,y.num) // x.den
+flipsign(x::FasterRational, y::Rational) = flipsign(x.num,y.num) // x.den
 
 abs(x::FasterRational{T,H}) where {T,H} = FasterRational{T,H}(abs(x.num), x.den)
 
