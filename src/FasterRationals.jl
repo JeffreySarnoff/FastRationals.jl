@@ -16,27 +16,27 @@ import Base: show, string, numerator, denominator, eltype, convert, promote_rule
 # traits
 
 """
-    RationalTrait
+    RationalState
 
-a trait applicable to Rational values
+a state applicable to Rational values
 """
-abstract type RationalTrait end
-
-"""
-    IsReduced <: RationalTrait
-
-This trait holds for rational values that are known to have been reduced to lowest terms.
-"""
-struct IsReduced  <: RationalTrait end
+abstract type RationalState end
 
 """
-    MayReduce <: RationalTrait
+    IsReduced <: RationalState
 
-This trait holds for rational values that may or may not be expressed in lowest terms.
+This state holds for rational values that are known to have been reduced to lowest terms.
 """
-struct MayReduce  <: RationalTrait end
+struct IsReduced  <: RationalState end
 
-struct FastRational{T<:Signed, H<:RationalTrait} <: Real
+"""
+    MayReduce <: RationalState
+
+This state holds for rational values that may or may not be expressed in lowest terms.
+"""
+struct MayReduce  <: RationalState end
+
+struct FastRational{T<:Signed, H<:RationalState} <: Real
     num::T
     den::T
 end
