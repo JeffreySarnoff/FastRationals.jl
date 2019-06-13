@@ -50,10 +50,12 @@ isreduced(x::FastRational{T,MayReduce}) where {T} = false
 mayreduce(x::FastRational{T,IsReduced}) where {T} = false
 mayreduce(x::FastRational{T,MayReduce}) where {T} = true
 
-FastRational(x::FastRational{T,IsReduced}) where {T} = x
-FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(canonical(x.num, x.den))
+FastRational(num::T, den::T) where T = FastRational(canonical(num, den))
 FastRational(x::NTuple{2,T}) where T = FastRational{T,IsReduced}(x[1], x[2])
 
+FastRational(x::FastRational{T,IsReduced}) where {T} = x
+FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(x.num, x.den)
+    
 FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
 Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
