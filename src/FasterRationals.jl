@@ -2,7 +2,9 @@ module FasterRationals
 
 export FastRational
 
-import Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
+using Base: BitSigned
+
+using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
