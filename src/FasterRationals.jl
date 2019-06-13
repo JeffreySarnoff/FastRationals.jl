@@ -8,7 +8,7 @@ using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
-import Base: numerator, denominator, eltype, convert, promote_rule, decompose,
+import Base: show, string, numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, 
     ==, !=, <, <=, 
     +, -, *, /, ^, div
@@ -328,6 +328,15 @@ function Base.:(/)(x::FasterRational{T,MayReduce}, y::FasterRational{T,MayReduce
         return FasterRational{T,IsReduced}(xnum, xden) / FasterRational{T, IsReduced}(ynum, yden)
     end
     return FasterRational{T,MayReduce}(numer, denom)
+end
+
+function string(x::FasterRational{T,IsReduced}) where {T}
+    num, den = canonical(numerator(x), denominator(x))
+    return string(num,"//",den)
+end
+
+function show(io::IO, x::FasterRational{T,H}) where {T,H}
+    print(io, string(x))
 end
 
 end # FasterRationals
