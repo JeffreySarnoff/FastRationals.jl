@@ -13,8 +13,6 @@ import Base: show, string, numerator, denominator, eltype, convert, promote_rule
     ==, !=, <, <=, 
     +, -, *, /, ^, div
 
-# traits
-
 """
     RationalState
 
@@ -47,9 +45,14 @@ eltype(x::FastRational{T,H}) where {T,H} = T
 
 content(x::FastRational{T,H}) where {T,H} = numerator(x), denominator(x)
 
-trait(x::FastRational{T,H}) where {T,H} = H
-isreduced(x::FastRational{T,H}) where {T,H} = H === IsReduced
-mayreduce(x::FastRational{T,H}) where {T,H} = H === MayReduce
+isreduced(x::FastRational{T,IsReduced}) where {T} = true
+isreduced(x::FastRational{T,MayReduce}) where {T} = false
+mayreduce(x::FastRational{T,IsReduced}) where {T} = false
+mayreduce(x::FastRational{T,MayReduce}) where {T} = true
+
+FastRational(x::FastRational{T,IsReduced}) where {T} = x
+FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(canonical(x.num, x.den))
+FastRational(x::NTuple{2,T}) where T = FastRational{T,IsReduced}(x[1], x[2])
 
 FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
@@ -107,7 +110,10 @@ signbit(x::FastRational{T,MayReduce}) where {T<:Signed} = xor(signbit(x.num), si
 sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(one(T), one(T))
 signbit(x::FastRational{T,H}) where {T<:Unsigned, H} = false
 
-copysign(x::FastRational, y::Real) = y >= 0 ? abs(x) : -abs(x)
+negate(x::S) where {S<:Signed} = x !== typemin(S) ? -x : throw(OverflowError("cannot negate typemin($S)"))
+negate(x::U) where {U<:Unsigned} = throw(OverflowError("cannot negate $U"))
+negate(x::FastRational{
+copysign(x::FastRational, y::Real) = y >= 0 ? abs(x) : negate(abs(x))
 copysign(x::FastRational, y::FastRational) = FastRational{T,H}(copysign(x.num, y.num), x.den)
 copysign(x::FastRational, y::Rational) = FastRational{T,H}(copysign(x.num,y.num), x.den)
 
