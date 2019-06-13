@@ -110,8 +110,8 @@ copysign(x::FasterRational, y::FasterRational) = FasterRational{T,H}(copysign(x.
 copysign(x::FasterRational, y::Rational) = FasterRational{T,H}(copysign(x.num,y.num), x.den)
 
 flipsign(x::FasterRational, y::Real) = FasterRational{T,H}(flipsign(x.num,y), x.den)
-flipsign(x::FasterRational, y::FasterRational) = flipsign(x.num,y.num), x.den)
-flipsign(x::FasterRational, y::Rational) = flipsign(x.num,y.num), x.den)
+flipsign(x::FasterRational, y::FasterRational) = FasterRational{T,H}(flipsign(x.num,y.num), x.den)
+flipsign(x::FasterRational, y::Rational) = FasterRational{T,H}(flipsign(x.num,y.num), x.den)
 
 abs(x::FasterRational{T,H}) where {T,H} = FasterRational{T,H}(abs(x.num), x.den)
 
