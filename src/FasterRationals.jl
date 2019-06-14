@@ -68,7 +68,7 @@ convert(::Type{FastRational{T1,H}}, x::Rational{T2}) where {T1,T2,H} =
     FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
 # disambiguate
 convert(::Type{FastRational{T,H}}, x::FastRational{T,H}) where {T,H} = x
-convert(::Type{FastRational{T,IsReduced}}, x::FastRational{T,MayReduced}) where {T} = FastRational(x)
+convert(::Type{FastRational{T,IsReduced}}, x::FastRational{T,MayReduce}) where {T} = FastRational(x)
 convert(::Type{FastRational{T,MayReduce}}, x::FastRational{T,IsReduced}) where {T} = x
 
 convert(::Type{FastRational{T,H}}, x::AbstractFloat) where {T,H} = FastRational(convert(Rational{T}, x))
