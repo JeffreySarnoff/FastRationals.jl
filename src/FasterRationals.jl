@@ -65,6 +65,16 @@ convert(::Type{FastRational{T}}, x::Rational{T}) where {T} = FastRational(x)
 
 promote_rule(::Type{Rational{T}}, ::Type{FastRational{T}}) where {T} = FastRational{T}
 
+
+signbit(x::FastRational{T,H}) where {T<:Signed, H} = xor(signbit(x.num), signbit(x.den))
+sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
+abs(x::FastRational{T,IsReduced}) where {T<:Signed} = FastRational{T,IsReduced}(abs(z.num), x.den)
+abs(x::FastRational{T,MayReduce}) where {T<:Signed} = FastRational{T,IsReduced}(abs(z.num), abs(x.den))
+
+signbit(x::FastRational{T,H}) where {T<:Unsigned, H} = false
+sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(one(T), one(T))
+
+
 # canonical(q) reduces q to lowest terms
 
 canonical(x::FastRational{T,H}) where {T, H<:IsReduced} = x
@@ -103,12 +113,6 @@ end
     return num, den
 end 
     
-signbit(x::FastRational{T,H}) where {T<:Signed, H} = xor(signbit(x.num), signbit(x.den))
-sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
-
-signbit(x::FastRational{T,H}) where {T<:Unsigned, H} = false
-sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(one(T), one(T))
-
 negate(x::S) where {S<:Signed} = x !== typemin(S) ? -x : throw(OverflowError("cannot negate typemin($S)"))
 negate(x::U) where {U<:Unsigned} = throw(OverflowError("cannot negate $U"))
 negate(x::FastRational{
