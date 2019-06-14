@@ -68,8 +68,8 @@ convert(::Type{FastRational{T1,H}}, x::Rational{T2}) where {T1,T2,H} =
     FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
 # disambiguate
 convert(::Type{FastRational{T,H}}, x::FastRational{T,H}) where {T,H} = x
-convert(::Type{FastRational{T,IsReduced}}, x::FastRational{T,MayReduced}) = FastRational(x)
-convert(::Type{FastRational{T,MayReduce}}, x::FastRational{T,IsReduced}) = x
+convert(::Type{FastRational{T,IsReduced}}, x::FastRational{T,MayReduced}) where {T} = FastRational(x)
+convert(::Type{FastRational{T,MayReduce}}, x::FastRational{T,IsReduced}) where {T} = x
 
 convert(::Type{FastRational{T,H}}, x::AbstractFloat) where {T,H} = FastRational(convert(Rational{T}, x))
 convert(::Type{F}, x::FastRational{T,H}) where {T,H,F<:AbstractFloat} = F(convert(Rational{T}, x))
@@ -130,7 +130,7 @@ end
 
 mulwider(x::T, y::T) where {T<:Integer} =
     usewidemul(x,y) ? widemul(x,y) : x*y 
-@inline usewidemul(x::T, y::T) where {T<:Integer| =
+@inline usewidemul(x::T, y::T) where {T<:Integer} =
     signbit(leading_zeros(abs(x)) + leading_zeros(abs(y)) - (one(T) - 8*sizeof(T))
     
 (==)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T} =
