@@ -58,6 +58,7 @@ const FR = FastRational
             @test (FR(a//b) >= c) == (a/b >= c)
             @test (FR(a//b) >  c) == (a/b >  c)
             for d = -5:5
+                if b == d == 0; continue; end
                 if c == d == 0; continue; end
                 @test (FR(a//b) == FR(c//d)) == (a/b == c/d)
                 @test (FR(a//b) != FR(c//d)) == (a/b != c/d)
