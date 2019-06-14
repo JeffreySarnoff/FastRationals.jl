@@ -1,6 +1,9 @@
-# adapted from Base/test/rational.jl
 using FastRationals
+using FastRationals: IsReduced, MayReduce
+
 using Test
+
+# adapted from Base/test/rational.jl
 
 const FR = FastRational
 
