@@ -47,4 +47,4 @@ Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` excep
 ----
 
 <a name="source">𝖆</a>: Harmon Stopples 2019-06-14T02:13Z 
-<a name="source">[𝓪]</a>
+<a name="source"><sup>𝓪</sup></a>: Harmon Stopples 2019-06-14T02:13Z
