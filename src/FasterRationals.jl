@@ -116,12 +116,12 @@ negate(x::S) where {S<:Signed} = x !== typemin(S) ? -x : throw(OverflowError("ca
 negate(x::U) where {U<:Unsigned} = throw(OverflowError("cannot negate $U"))
 
 copysign(x::FastRational, y::Real) = y >= 0 ? abs(x) : negate(abs(x))
-copysign(x::FastRational, y::FastRational) = FastRational{T,H}(copysign(x.num, y.num), x.den)
-copysign(x::FastRational, y::Rational) = FastRational{T,H}(copysign(x.num,y.num), x.den)
+copysign(x::FastRational{T,H}, y::FastRational) where {T,H} = FastRational{T,H}(copysign(x.num, y.num), x.den)
+copysign(x::FastRational{T,H}, y::Rational) where {T,H} = FastRational{T,H}(copysign(x.num,y.num), x.den)
 
-flipsign(x::FastRational, y::Real) = FastRational{T,H}(flipsign(x.num,y), x.den)
-flipsign(x::FastRational, y::FastRational) = FastRational{T,H}(flipsign(x.num,y.num), x.den)
-flipsign(x::FastRational, y::Rational) = FastRational{T,H}(flipsign(x.num,y.num), x.den)
+flipsign(x::FastRational{T,H}, y::Real) where {T,H} = FastRational{T,H}(flipsign(x.num,y), x.den)
+flipsign(x::FastRational{T,H}, y::FastRational) where {T,H} = FastRational{T,H}(flipsign(x.num,y.num), x.den)
+flipsign(x::FastRational{T,H}, y::Rational) where {T,H} = FastRational{T,H}(flipsign(x.num,y.num), x.den)
 
 abs(x::FastRational{T,H}) where {T,H} = FastRational{T,H}(abs(x.num), x.den)
 
