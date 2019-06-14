@@ -150,7 +150,7 @@ end
     
 # core parts of add, sub
 
-@inline function add_with_overflow_for_rational(x, y)
+@inline function addovf(x, y)
     ovf = false
     numer, ovfl = mul_with_overflow(numerator(x), denominator(y)) # here, numer is a temp
     ovf |= ovfl
@@ -164,7 +164,7 @@ end
     return numer, denom, ovf
 end
 
-@inline function sub_with_overflow_for_rational(x, y)
+@inline function subovf(x, y)
     ovf = false
     numer, ovfl = mul_with_overflow(numerator(x), denominator(y)) # here, numer is a temp
     ovf |= ovfl
@@ -178,7 +178,7 @@ end
     return numer, denom, ovf
 end
 
-@inline function mul_with_overflow_for_rational(x, y)
+@inline function mulovf(x, y)
     ovf = false
     numer, ovfl = mul_with_overflow(numerator(x), numerator(y))
     ovf |= ovfl
@@ -188,7 +188,7 @@ end
     return numer, denom, ovf
 end
 
-@inline function div_with_overflow_for_rational(x, y)
+@inline function divovf(x, y)
     ovf = false
     numer, ovfl = mul_with_overflow(numerator(x), denominator(y))
     ovf |= ovfl
@@ -198,144 +198,39 @@ end
     return numer, denom, ovf
 end
 
-
-function Base.:(+)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T}
-    numer, denom, ovf = add_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x + $y overflowed"))   
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(+)(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T}
-    numer, denom, ovf = add_with_overflow_for_rational(x, y)
-    if ovf
-        xnum, xden = canonical(numerator(x), denominator(x))
-        return FastRational{T,IsReduced}(xnum, xden) + y
+for (F,G) in ((:(+), :addovf), (:(-), :subovf)), (:(*), :subovf)), (:(/), :divovf)))
+  @eval begin
+    function $F(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T}
+      num, den, ovf = $G(x, y)
+      ovf && throw(OverflowError("$x + $y overflowed"))   
+      return FastRational{T,MayReduce}(num, den)
     end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(+)(x::FastRational{T,IsReduced}, y::FastRational{T,MayReduce}) where {T}
-    numer, denom, ovf = add_with_overflow_for_rational(x, y)
-    if ovf
-        ynum, yden = canonical(numerator(y), denominator(y))
-        return x + FastRational{T, IsReduced}(ynum, yden)
+    function $F(x::FastRational{T,IsReduced}, y::FastRational{T,MayReduce}) where {T}
+      num, den, ovf = $G(x, y)
+      if ovf
+         num, den = canonical(y.num, y.den)
+         return $F(x, FastRational{T,IsReduced}(num, den))
+      end
+      return FastRational{T,MayReduce}(num, den)
     end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(+)(x::FastRational{T,MayReduce}, y::FastRational{T,MayReduce}) where {T}
-    numer, denom, ovf = add_with_overflow_for_rational(x, y)
-    if ovf
-        xnum, xden = canonical(numerator(x), denominator(x))
-        ynum, yden = canonical(numerator(y), denominator(y))
-        return FastRational{T,IsReduced}(xnum, xden) + FastRational{T, IsReduced}(ynum, yden)
+    function $F(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T}
+      num, den, ovf = $G(x, y)
+      if ovf
+         num, den = canonical(x.num, x.den)
+         return $F(FastRational{T,IsReduced}(num, den), y)
+      end
+      return FastRational{T,MayReduce}(num, den)
     end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-
-function Base.:(-)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T}
-    numer, denom, ovf = sub_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x - $y overflowed"))   
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(-)(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T}
-    numer, denom, ovf = sub_with_overflow_for_rational(x, y)
-    if ovf
-        xnum, xden = canonical(numerator(x), denominator(x))
-        return FastRational{T,IsReduced}(xnum, xden) - y
-    end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(-)(x::FastRational{T,IsReduced}, y::FastRational{T,MayReduce}) where {T}
-    numer, denom, ovf = sub_with_overflow_for_rational(x, y)
-    if ovf
-        ynum, yden = canonical(numerator(y), denominator(y))
-        return x - FastRational{T, IsReduced}(ynum, yden)
-    end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(-)(x::FastRational{T,MayReduce}, y::FastRational{T,MayReduce}) where {T}
-    numer, denom, ovf = sub_with_overflow_for_rational(x, y)
-    if ovf
-        xnum, xden = canonical(numerator(x), denominator(x))
-        ynum, yden = canonical(numerator(y), denominator(y))
-        return FastRational{T,IsReduced}(xnum, xden) - FastRational{T, IsReduced}(ynum, yden)
-    end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-
-function Base.:(*)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T}
-    numer, denom, ovf = mul_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x + $y overflowed"))   
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(*)(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T}
-    numer, denom, ovf = mul_with_overflow_for_rational(x, y)
-    if ovf
-        xnum, xden = canonical(numerator(x), denominator(x))
-        return FastRational{T,IsReduced}(xnum, xden) * y
-    end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(*)(x::FastRational{T,IsReduced}, y::FastRational{T,MayReduce}) where {T}
-    numer, denom, ovf = mul_with_overflow_for_rational(x, y)
-    if ovf
-        ynum, yden = canonical(numerator(y), denominator(y))
-        return x * FastRational{T, IsReduced}(ynum, yden)
-    end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(*)(x::FastRational{T,MayReduce}, y::FastRational{T,MayReduce}) where {T}
-    numer, denom, ovf = mul_with_overflow_for_rational(x, y)
-    if ovf
-        xnum, xden = canonical(numerator(x), denominator(x))
-        ynum, yden = canonical(numerator(y), denominator(y))
-        return FastRational{T,IsReduced}(xnum, xden) * FastRational{T, IsReduced}(ynum, yden)
-    end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-
-function Base.:(/)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T}
-    numer, denom, ovf = div_with_overflow_for_rational(x, y)
-    ovf && throw(OverflowError("$x / $y overflowed"))   
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(/)(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T}
-    numer, denom, ovf = div_with_overflow_for_rational(x, y)
-    if ovf
-        xnum, xden = canonical(numerator(x), denominator(x))
-        return FastRational{T,IsReduced}(xnum, xden) / y
-    end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(/)(x::FastRational{T,IsReduced}, y::FastRational{T,MayReduce}) where {T}
-    numer, denom, ovf = div_with_overflow_for_rational(x, y)
-    if ovf
-        ynum, yden = canonical(numerator(y), denominator(y))
-        return x / FastRational{T, IsReduced}(ynum, yden)
-    end
-    return FastRational{T,MayReduce}(numer, denom)
-end
-
-function Base.:(/)(x::FastRational{T,MayReduce}, y::FastRational{T,MayReduce}) where {T}
-    numer, denom, ovf = div_with_overflow_for_rational(x, y)
-    if ovf
-        xnum, xden = canonical(numerator(x), denominator(x))
-        ynum, yden = canonical(numerator(y), denominator(y))
-        return FastRational{T,IsReduced}(xnum, xden) / FastRational{T, IsReduced}(ynum, yden)
-    end
-    return FastRational{T,MayReduce}(numer, denom)
+    function $F(x::FastRational{T,MayReduce}, y::FastRational{T,MayReduce}) where {T}
+      num, den, ovf = $G(x, y)
+      if ovf
+         xnum, xden = canonical(x.num, x.den)
+         ynum, yden = canonical(y.num, y.den)
+         return $F(FastRational{T,IsReduced}(xnum, xden), FastRational{T,IsReduced}(ynum, yden))
+      end
+      return FastRational{T,MayReduce}(num, den)
+    end        
+  end
 end
 
 function string(x::FastRational{T,IsReduced}) where {T}
@@ -343,7 +238,7 @@ function string(x::FastRational{T,IsReduced}) where {T}
 end
 
 function string(x::FastRational{T,MayReduce}) where {T}
-    num, den = canonical(numerator(x), denominator(x))
+    num, den = canonical(x.num, x.den)
     return string(num,"//",den)
 end
 
