@@ -198,7 +198,7 @@ end
     return numer, denom, ovf
 end
 
-for (F,G) in ((:(+), :addovf), (:(-), :subovf)), (:(*), :subovf)), (:(/), :divovf)))
+for (F,G) in ((:(+), :addovf), (:(-), :subovf), (:(*), :mulovf), (:(/), :divovf))
   @eval begin
     function $F(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T}
       num, den, ovf = $G(x, y)
