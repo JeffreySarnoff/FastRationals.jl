@@ -1,6 +1,6 @@
 # FastRationals.jl
 
-#### Performant rational numbers.
+#### rationals with unreal performance <sup>[β](#involvement)</sup>
 
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
@@ -43,3 +43,7 @@ floor( (@belapsed test(Ref($x)[],Ref($y)[],Ref($z)[])) /
 ```
 
 Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` except there is no Infinity, no NaN comparisons.
+
+----
+
+<a name="source">β</a>: quotation by Harmon Stopples 2019-Jun-14T02:13Z 
