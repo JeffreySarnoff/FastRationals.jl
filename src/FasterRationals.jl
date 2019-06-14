@@ -173,7 +173,6 @@ end
     ovf |= ovfl
     denom, ovfl = mul_with_overflow(denominator(x), denominator(y)) # denominator of sum
     ovf |= ovfl
-
     return numer, denom, ovf
 end
 
@@ -187,7 +186,6 @@ end
     ovf |= ovfl
     denom, ovfl = mul_with_overflow(denominator(x), denominator(y)) # denominator of difference
     ovf |= ovfl
-
     return numer, denom, ovf
 end
 
@@ -197,7 +195,6 @@ end
     ovf |= ovfl
     denom, ovfl = mul_with_overflow(denominator(x), denominator(y))
     ovf |= ovfl
-
     return numer, denom, ovf
 end
 
@@ -207,7 +204,6 @@ end
     ovf |= ovfl
     denom, ovfl = mul_with_overflow(denominator(x), numerator(y))
     ovf |= ovfl
-
     return numer, denom, ovf
 end
 
