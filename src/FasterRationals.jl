@@ -270,7 +270,7 @@ function show(io::IO, x::FastRational{T,H}) where {T,H}
     print(io, string(x))
 end
 
-decompose(x::FastRational{T,IsReduced}) = x.num, zero(T), x.den
-decompose(x::FastRational{T,MayReduce}) = decompose(FastRational(x))
+decompose(x::FastRational{T,IsReduced}) where {T} = x.num, zero(T), x.den
+decompose(x::FastRational{T,MayReduce}) where {T} = decompose(FastRational(x))
 
 end # FastRationals
