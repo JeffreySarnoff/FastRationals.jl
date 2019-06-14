@@ -125,6 +125,11 @@ end
 end 
 
 
+mulwider(x::T, y::T) where {T<:Integer} =
+    usewidemul(x,y) ? widemul(x,y) : x*y 
+@inline usewidemul(x::T, y::T) where {T<:Integer| =
+    signbit(leading_zeros(abs(x)) + leading_zeros(abs(y)) - (one(T) - 8*sizeof(T))
+    
 (==)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T} =
     x.num === y.num && x.den === y.den
 (!=)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T} =
@@ -132,7 +137,7 @@ end
 
 for F in (:(==), :(!=), :(<), :(<=), :(>=), :(>))
   @eval $F(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1, H2} =
-    $F(x.num * y.den, x.den * y.num)
+    $F(mulwider(x.num, y.den), muwlider(x.den, y.num))
 end
 
 copysign(x::FastRational, y::Real) = y >= 0 ? abs(x) : negate(abs(x))
