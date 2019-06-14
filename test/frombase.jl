@@ -8,7 +8,7 @@ const FR = FastRational
     @test FR(2//2) == 1
     @test FR(1//1) == 1//1
     @test FR(2//2) == 1//1
-    @test FR(2//4) == FR(8//6)
+    @test FR(2//4) == FR(8//16)
     @test FR(1//2) + FR(1//2) == 1
     @test FR((-1)//3) == FR(-(1//3)) == -(1//3)
     @test FR(1//2) + FR(3//4) == FR(5//4) == 5//4
