@@ -140,7 +140,7 @@ mulwider(x::T, y::T) where {T<:Integer} =
 
 for F in (:(==), :(!=), :(<), :(<=), :(>=), :(>))
   @eval $F(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1, H2} =
-    $F(mulwider(x.num, y.den), muwlider(x.den, y.num))
+    $F(mulwider(x.num, y.den), mulwider(x.den, y.num))
 end
 
 copysign(x::FastRational, y::Real) = y >= 0 ? abs(x) : negate(abs(x))
