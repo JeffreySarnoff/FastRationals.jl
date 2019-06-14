@@ -55,7 +55,7 @@ FastRational(x::NTuple{2,T}) where T = FastRational{T,IsReduced}(x[1], x[2])
 
 FastRational(x::FastRational{T,IsReduced}) where {T} = x
 FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(x.num, x.den)
-    
+
 FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
 Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
@@ -135,10 +135,6 @@ for F in (:(==), :(!=), :(<), :(<=), :(>=), :(>))
     $F(x.num * y.den, x.den * y.num)
 end
 
-    
-negate(x::S) where {S<:Signed} = x !== typemin(S) ? -x : throw(OverflowError("cannot negate typemin($S)"))
-negate(x::U) where {U<:Unsigned} = throw(OverflowError("cannot negate $U"))
-
 copysign(x::FastRational, y::Real) = y >= 0 ? abs(x) : negate(abs(x))
 copysign(x::FastRational{T,H}, y::FastRational) where {T,H} = FastRational{T,H}(copysign(x.num, y.num), x.den)
 copysign(x::FastRational{T,H}, y::Rational) where {T,H} = FastRational{T,H}(copysign(x.num,y.num), x.den)
@@ -165,13 +161,13 @@ function -(x::FastRational{T,IsReduced}) where {T<:BitSigned}
 end
 -(x::FastRational{T,MayReduce}) where {T<:BitSigned} =
     -FastRational{T,IsReduced}(canonical(x.num, x.den)...,)
-    
+
 function -(x::FastRational{T,H}) where {T<:Unsigned,H}
     x.num != zero(T) && throw(OverflowError("cannot negate unsigned number"))
     x
-end    
-    
-    
+end
+
+
 # core parts of add, sub
 
 @inline function addovf(x, y)
@@ -265,5 +261,8 @@ end
 function show(io::IO, x::FastRational{T,H}) where {T,H}
     print(io, string(x))
 end
+
+decompose(x::FastRational{T,IsReduced}) = x.num, zero(T), x.den
+decompose(x::FastRational{T,MayReduce}) = decompose(FastRational(x))
 
 end # FastRationals
