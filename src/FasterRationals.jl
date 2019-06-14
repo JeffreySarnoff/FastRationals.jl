@@ -73,7 +73,7 @@ abs(x::FastRational{T,MayReduce}) where {T<:Signed} = FastRational{T,IsReduced}(
 
 signbit(x::FastRational{T,H}) where {T<:Unsigned, H} = false
 sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(one(T), one(T))
-
+abs(x::FastRational{T,H}) where {T<:Unsigned, H} = x
 
 # canonical(q) reduces q to lowest terms
 
