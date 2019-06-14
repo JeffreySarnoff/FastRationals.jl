@@ -103,14 +103,11 @@ end
     return num, den
 end 
     
+signbit(x::FastRational{T,H}) where {T<:Signed, H} = xor(signbit(x.num), signbit(x.den))
+sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
 
-sign(x::FastRational{T,IsReduced}) where {T<:Signed} = FastRational{T,IsReduced}(sign(x.num), one(T))
-sign(x::FastRational{T,MayReduce}) where {T<:Signed} = FastRational{T,IsReduced}(sign(x.num)*sign(x.den), one(T))
-signbit(x::FastRational{T,IsReduced}) where {T<:Signed} = signbit(x.num)
-signbit(x::FastRational{T,MayReduce}) where {T<:Signed} = xor(signbit(x.num), signbit(x.den))
-
-sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(one(T), one(T))
 signbit(x::FastRational{T,H}) where {T<:Unsigned, H} = false
+sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(one(T), one(T))
 
 negate(x::S) where {S<:Signed} = x !== typemin(S) ? -x : throw(OverflowError("cannot negate typemin($S)"))
 negate(x::U) where {U<:Unsigned} = throw(OverflowError("cannot negate $U"))
