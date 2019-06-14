@@ -65,7 +65,6 @@ convert(::Type{FastRational{T}}, x::Rational{T}) where {T} = FastRational(x)
 
 promote_rule(::Type{Rational{T}}, ::Type{FastRational{T}}) where {T} = FastRational{T}
 
-
 signbit(x::FastRational{T,H}) where {T<:Signed, H} = xor(signbit(x.num), signbit(x.den))
 sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
 abs(x::FastRational{T,IsReduced}) where {T<:Signed} = FastRational{T,IsReduced}(abs(z.num), x.den)
@@ -115,7 +114,7 @@ end
     
 negate(x::S) where {S<:Signed} = x !== typemin(S) ? -x : throw(OverflowError("cannot negate typemin($S)"))
 negate(x::U) where {U<:Unsigned} = throw(OverflowError("cannot negate $U"))
-negate(x::FastRational{
+
 copysign(x::FastRational, y::Real) = y >= 0 ? abs(x) : negate(abs(x))
 copysign(x::FastRational, y::FastRational) = FastRational{T,H}(copysign(x.num, y.num), x.den)
 copysign(x::FastRational, y::Rational) = FastRational{T,H}(copysign(x.num,y.num), x.den)
@@ -340,6 +339,10 @@ function Base.:(/)(x::FastRational{T,MayReduce}, y::FastRational{T,MayReduce}) w
 end
 
 function string(x::FastRational{T,IsReduced}) where {T}
+    return string(x.num,"//",x.den)
+end
+
+function string(x::FastRational{T,MayReduce}) where {T}
     num, den = canonical(numerator(x), denominator(x))
     return string(num,"//",den)
 end
