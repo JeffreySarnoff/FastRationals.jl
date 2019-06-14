@@ -11,6 +11,9 @@ poly = Poly([w,x,y,z])
 a,b,c,d = FastRational.([w,x,y,z]); p = FastRational(q)
 fastpoly = Poly([a,b,c,d])
 
+polyval(poly, q) == polyval(fastpoly, p)
+# true
+
 floor((@belapsed polyval($poly, $q)) / (@belapsed polyval($fastpoly, $r)))
 # 17.0
 ```
@@ -25,7 +28,10 @@ function test(x,y,z)
    c = z - b
    d = a / c
    return d
- end
+end
+
+test(x,y,z) == test(a,b,c)
+# true
 
 floor( (@belapsed test(Ref($x)[],Ref($y)[],Ref($z)[])) / 
        (@belapsed test(Ref($a)[],Ref($b)[],Ref($c)[])))
