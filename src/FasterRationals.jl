@@ -60,10 +60,11 @@ FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
 Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
 
-convert(::Type{Rational{T}}, x::FastRational{T}) where {T} = Rational(x)
-convert(::Type{FastRational{T}}, x::Rational{T}) where {T} = FastRational(x)
+convert(::Type{Rational{T}}, x::FastRational{T,H}) where {T,H} = Rational(x)
+convert(::Type{FastRational{T,H}}, x::Rational{T}) where {T,H} = FastRational(x)
 
-promote_rule(::Type{Rational{T}}, ::Type{FastRational{T}}) where {T} = FastRational{T}
+promote_rule(::Type{Rational{T}}, ::Type{FastRational{T,IsReduced}}) where {T} = FastRational{T,IsReduced}
+promote_rule(::Type{Rational{T}}, ::Type{FastRational{T,MayReduce}}) where {T} = FastRational{T,IsReduced}
 
 signbit(x::FastRational{T,H}) where {T<:Signed, H} = xor(signbit(x.num), signbit(x.den))
 sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
@@ -111,6 +112,18 @@ end
     den = div(den, gcdval)
     return num, den
 end 
+
+
+(==)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T} =
+    x.num === y.num && x.den === y.den
+(!=)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T} =
+    x.num !== y.num || x.den !== y.den
+
+for F in (:(==), :(!=), :(<), :(<=), :(>=), :(>))
+  @eval $F(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1, H2} =
+    $F(x.num * y.den, x.den * y.num)
+end
+
     
 negate(x::S) where {S<:Signed} = x !== typemin(S) ? -x : throw(OverflowError("cannot negate typemin($S)"))
 negate(x::U) where {U<:Unsigned} = throw(OverflowError("cannot negate $U"))
