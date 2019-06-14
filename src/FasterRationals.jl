@@ -9,7 +9,7 @@ using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
 import Base: show, string, numerator, denominator, eltype, convert, promote_rule, decompose,
-    isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, 
+    isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
     +, -, *, /, ^, div, fld, cld, rem, mod, trunc, floor, ceil, round
 
@@ -57,6 +57,7 @@ FastRational(x::FastRational{T,IsReduced}) where {T} = x
 FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(x.num, x.den)
 
 FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
+FastRational(x::T) where {T<:Real} = FastRational(rationalize(x))
 
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
 Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
@@ -75,11 +76,18 @@ convert(::Type{FastRational{T,MayReduce}}, x::FastRational{T,IsReduced}) where {
 convert(::Type{FastRational{T,H}}, x::AbstractFloat) where {T,H} = FastRational(convert(Rational{T}, x))
 convert(::Type{F}, x::FastRational{T,H}) where {T,H,F<:AbstractFloat} = F(convert(Rational{T}, x))
 
+float(x::FastRational{T,H}) where {T,H} = float(Rational(x))
+Base.Float64(x::FastRational{T,H}) where {T,H} = Float64(Rational(x))
+Base.Float32(x::FastRational{T,H}) where {T,H} = Float32(Rational(x))
+Base.BigFloat(x::FastRational{T,H}) where {T,H} = BigFloat(Rational(x))
+Base.BigInt(x::FastRational{T,H}) where {T,H} = BigInt(Rational(x))
+        
 promote_rule(::Type{Rational{T}}, ::Type{FastRational{T,IsReduced}}) where {T} = FastRational{T,IsReduced}
 promote_rule(::Type{Rational{T}}, ::Type{FastRational{T,MayReduce}}) where {T} = FastRational{T,IsReduced}
 promote_rule(::Type{FastRational{T,H}}, ::Type{T}) where {T,H} = FastRational{T,IsReduced}
 promote_rule(::Type{FastRational{T1,H}}, ::Type{T2}) where {T1,T2<:Integer,H} = FastRational{T1,IsReduced}
 promote_rule(::Type{FastRational{T1,H}}, ::Type{Rational{T2}}) where {T1,T2,H}= FastRational{T1,IsReduced}
+promote_rule(::Type{FastRational{T,H}}, ::Type{R}) where {T,H,R<:Real} = FastRational{T,H}
 
 signbit(x::FastRational{T,H}) where {T<:Signed, H} = signbit(x.num) !== signbit(x.den)
 sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
