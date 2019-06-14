@@ -11,7 +11,7 @@ using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
 import Base: show, string, numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, 
     ==, !=, <, <=, >=, >,
-    +, -, *, /, ^, div, fld, cld, rem, mod, trunc, floor, ceil
+    +, -, *, /, ^, div, fld, cld, rem, mod, trunc, floor, ceil, round
 
 """
     RationalState
