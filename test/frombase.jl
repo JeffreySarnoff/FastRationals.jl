@@ -5,8 +5,8 @@ const FR = FastRational
 
 @testset "Rationals" begin
     @test FR(1//1) == 1
-    @test FR(2//2_ == 1
-    @test FR(1//1_ == 1//1
+    @test FR(2//2) == 1
+    @test FR(1//1) == 1//1
     @test FR(2//2) == 1//1
     @test FR(2//4) == FR(8//6)
     @test FR(1//2) + FR(1//2) == 1
