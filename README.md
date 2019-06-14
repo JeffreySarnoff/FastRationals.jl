@@ -1,6 +1,6 @@
 # FastRationals.jl
 
-#### "rationals with unreal performance" <sup>[⬫](#source)</sup>
+#### "rationals with unreal performance" <sup>[⬥](#source)</sup>
 
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
@@ -46,4 +46,4 @@ Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` excep
 
 ----
 
-<a name="source">⬫</a>: quotation by Harmon Stopples 2019-Jun-14T02:13Z 
+<a name="source">⬥</a>: quotation by Harmon Stopples 2019-Jun-14T02:13Z 
