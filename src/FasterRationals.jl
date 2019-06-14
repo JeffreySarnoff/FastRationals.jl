@@ -2,7 +2,7 @@ module FastRationals
 
 export FastRational
 
-using Base: BitSigned
+using Base: BitInteger, BitSigned, BitUnsigned
 
 using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
@@ -34,7 +34,7 @@ This state holds for rational values that may or may not be expressed in lowest 
 """
 struct MayReduce  <: RationalState end
 
-struct FastRational{T<:BitSigned, H<:RationalState} <: Real
+struct FastRational{T<:BitInteger, H<:RationalState} <: Real
     num::T
     den::T
 end
