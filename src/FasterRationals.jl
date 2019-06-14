@@ -71,6 +71,9 @@ convert(::Type{FastRational{T,H}, x::FastRational{T,H}) where {T,H} = x
 convert(::Type{FastRational{T,IsReduced}, x::FastRational{T,MayReduced}) = FastRational(x)
 convert(::Type{FastRational{T,MayReduce}, x::FastRational{T,IsReduced}) = x
 
+convert(::Type{FastRational{T,H}}, x::AbstractFloat) where {T,H} = FastRational(convert(Rational{T}, x))
+convert(::Type{F}, x::FastRational{T,H}) where {T,H,F<:AbstractFloat} = F(convert(Rational{T}, x))
+
 promote_rule(::Type{Rational{T}}, ::Type{FastRational{T,IsReduced}}) where {T} = FastRational{T,IsReduced}
 promote_rule(::Type{Rational{T}}, ::Type{FastRational{T,MayReduce}}) where {T} = FastRational{T,IsReduced}
 promote_rule(::Type{FastRational{T,H}}, ::Type{T}) where {T,H} = FastRational{T,IsReduced}
