@@ -131,7 +131,7 @@ end
 mulwider(x::T, y::T) where {T<:Integer} =
     usewidemul(x,y) ? widemul(x,y) : x*y 
 @inline usewidemul(x::T, y::T) where {T<:Integer} =
-    signbit(leading_zeros(abs(x)) + leading_zeros(abs(y)) - (one(T) - 8*sizeof(T))
+    signbit(leading_zeros(abs(x)) + leading_zeros(abs(y)) - (one(T) - 8*sizeof(T)))
     
 (==)(x::FastRational{T,IsReduced}, y::FastRational{T,IsReduced}) where {T} =
     x.num === y.num && x.den === y.den
