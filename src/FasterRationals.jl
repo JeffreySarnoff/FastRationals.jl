@@ -11,7 +11,7 @@ using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
 import Base: show, string, numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, 
     ==, !=, <, <=, >=, >,
-    +, -, *, /, ^, div
+    +, -, *, /, ^, div, fld, cld, rem, mod, trunc, floor, ceil
 
 """
     RationalState
@@ -275,6 +275,19 @@ end
 function show(io::IO, x::FastRational{T,H}) where {T,H}
     print(io, string(x))
 end
+
+
+rem(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1,H2} = FastRational{T,IsReduced}(rem(Rational(x), Rational(y)))
+mod(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1,H2} = FastRational{T,IsReduced}(mod(Rational(x), Rational(y)))
+
+fld(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1,H2} = fld(Rational(x), Rational(y))
+cld(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1,H2} = cld(Rational(x), Rational(y))
+trunc(::Type{T}, x::FastRational) where {T} = trunc(Rational(x))
+floor(::Type{T}, x::FastRational) where {T} = floor(Rational(x))
+ceil(::Type{T}, x::FastRational) where {T} = ceil(Rational(x))
+round(::Type{T}, x::FastRational, r::RoundingMode=RoundNearest) where {T} = round(T,Rational(x), r)
+round(x::FastRational, r::RoundingMode) = round(Rational(x), r)
+
 
 decompose(x::FastRational{T,IsReduced}) where {T} = x.num, zero(T), x.den
 decompose(x::FastRational{T,MayReduce}) where {T} = decompose(FastRational(x))
