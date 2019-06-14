@@ -115,6 +115,11 @@ function canonical(num::T, den::T) where {T<:Signed}
     return num, den
 end
 
+function canonical(num::T, den::T) where {T<:Unsigned}
+    num, den = canonical_valued(num, den)
+    return num, den
+end
+
 @inline function canonical_signed(num::T, den::T) where {T<:Signed}
     return flipsign(num, den), abs(den)
 end
