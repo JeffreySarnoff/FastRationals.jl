@@ -73,8 +73,8 @@ promote_rule(::Type{FastRational{T1,H}}, ::Type{T2}) where {T1,T2<:Integer,H} = 
 
 signbit(x::FastRational{T,H}) where {T<:Signed, H} = xor(signbit(x.num), signbit(x.den))
 sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
-abs(x::FastRational{T,IsReduced}) where {T<:Signed} = FastRational{T,IsReduced}(abs(z.num), x.den)
-abs(x::FastRational{T,MayReduce}) where {T<:Signed} = FastRational{T,IsReduced}(abs(z.num), abs(x.den))
+abs(x::FastRational{T,IsReduced}) where {T<:Signed} = FastRational{T,IsReduced}(abs(x.num), x.den)
+abs(x::FastRational{T,MayReduce}) where {T<:Signed} = FastRational{T,IsReduced}(abs(x.num), abs(x.den))
 
 signbit(x::FastRational{T,H}) where {T<:Unsigned, H} = false
 sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(one(T), one(T))
