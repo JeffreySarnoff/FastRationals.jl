@@ -41,3 +41,5 @@ floor( (@belapsed test(Ref($x)[],Ref($y)[],Ref($z)[])) /
        (@belapsed test(Ref($a)[],Ref($b)[],Ref($c)[])))
 # 20.0
 ```
+
+Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ...` except there is no Infinity.
