@@ -103,12 +103,12 @@ const FR = FastRational
     @test !(1//3 > NaN)
 
     # PR 29561
-    @test abs(one(FastRational{UInt})) === one(FastRational{UInt})
-    @test abs(one(FastRational{Int})) === one(FastRational{Int})
-    @test abs(-one(FastRational{Int})) === one(FastRational{Int})
+    @test abs(one(FastRational{UInt,IsReduced})) === one(FastRational{UInt,IsReduced})
+    @test abs(one(FastRational{Int,IsReduced})) === one(FastRational{Int,IsReduced})
+    @test abs(-one(FastRational{Int,MayReduce})) === one(FastRational{Int,MayReduce})
 end
 
-        #=
+#=
 @testset "Rational methods" begin
     rand_int = rand(Int8)
 
