@@ -1,107 +1,113 @@
 
 using Test
 
+const FR = FastRational
+
 @testset "Rationals" begin
-    @test 1//1 == 1
-    @test 2//2 == 1
-    @test 1//1 == 1//1
-    @test 2//2 == 1//1
-    @test 2//4 == 3//6
-    @test 1//2 + 1//2 == 1
-    @test (-1)//3 == -(1//3)
-    @test 1//2 + 3//4 == 5//4
-    @test 1//3 * 3//4 == 1//4
-    @test 1//2 / 3//4 == 2//3
-    @test 1//0 == 1//0
-    @test 5//0 == 1//0
-    @test -1//0 == -1//0
-    @test -7//0 == -1//0
+    @test FR(1//1) == 1
+    @test FR(2//2_ == 1
+    @test FR(1//1_ == 1//1
+    @test FR(2//2) == 1//1
+    @test FR(2//4) == FR(8//6)
+    @test FR(1//2) + FR(1//2) == 1
+    @test FR((-1)//3) == FR(-(1//3)) == -(1//3)
+    @test FR(1//2) + FR(3//4) == FR(5//4) == 5//4
+    @test FR(1//3) * FR(3//4) == FR(1//4) == 1//4
+    @test FR(1//2) / FR(3//4) == FR(2//3)
+   # @test FR(1//0) == FR(1//0)  1//0 nut used
+   # @test 5//0 == 1//0
+   # @test -1//0 == -1//0
+   # @test -7//0 == -1//0
 
-    @test_throws OverflowError -(0x01//0x0f)
-    @test_throws OverflowError -(typemin(Int)//1)
-    @test_throws OverflowError (typemax(Int)//3) + 1
-    @test_throws OverflowError (typemax(Int)//3) * 2
-    @test (typemax(Int)//1) * (1//typemax(Int)) == 1
-    @test (typemax(Int)//1) / (typemax(Int)//1) == 1
-    @test (1//typemax(Int)) / (1//typemax(Int)) == 1
-    @test_throws OverflowError (1//2)^63
+    @test_throws OverflowError -FR(0x01//0x0f)
+    @test_throws OverflowError -FR(typemin(Int)//1)
+    @test_throws OverflowError FR(typemax(Int)//3) + 1
+    @test_throws OverflowError FR(typemax(Int)//3) * 2
+    @test FR(typemax(Int)//1) * FR(1//typemax(Int)) == 1
+    @test FR(typemax(Int)//1) / FR(typemax(Int)//1) == 1
+    @test FR(1//typemax(Int)) / FR(1//typemax(Int)) == 1
+    @test_throws OverflowError FR(1//2)^63
 
-    @test @inferred(rationalize(Int, 3.0, 0.0)) === 3//1
-    @test @inferred(rationalize(Int, 3.0, 0)) === 3//1
-    @test_throws ArgumentError rationalize(Int, big(3.0), -1.)
+    # rationalize does not apply
+    #    use `FastRational(rationalize(...))`
+    #        
+    # @test @inferred(rationalize(Int, 3.0, 0.0)) === 3//1
+    # @test @inferred(rationalize(Int, 3.0, 0)) === 3//1
+    # @test_throws ArgumentError rationalize(Int, big(3.0), -1.)
     # issue 26823
-    @test_throws InexactError rationalize(Int, NaN)
+    # @test_throws InexactError rationalize(Int, NaN)
 
     for a = -5:5, b = -5:5
         if a == b == 0; continue; end
         if ispow2(b)
-            @test a//b == a/b
-            @test convert(Rational,a/b) == a//b
+            @test FR(a//b) == FR(a/b)
+            @test convert(FastRational,a/b) == FR(a//b) 
         end
-        @test rationalize(a/b) == a//b
-        @test a//b == a//b
+        # @test rationalize(a/b) == a//b
+        @test FR(a//b) == FR(a//b)
         if b == 0
-            @test_throws DivideError round(Integer,a//b) == round(Integer,a/b)
+            @test_throws DivideError round(Integer,FR(a//b)) == round(Integer,a/b)
         else
-            @test round(Integer,a//b) == round(Integer,a/b)
+            @test round(Integer,FR(a//b)) == round(Integer,a/b)
         end
         for c = -5:5
-            @test (a//b == c) == (a/b == c)
-            @test (a//b != c) == (a/b != c)
-            @test (a//b <= c) == (a/b <= c)
-            @test (a//b <  c) == (a/b <  c)
-            @test (a//b >= c) == (a/b >= c)
-            @test (a//b >  c) == (a/b >  c)
+            @test (FR(a//b) == c) == (a/b == c)
+            @test (FR(a//b) != c) == (a/b != c)
+            @test (FR(a//b) <= c) == (a/b <= c)
+            @test (FR(a//b) <  c) == (a/b <  c)
+            @test (FR(a//b) >= c) == (a/b >= c)
+            @test (FR(a//b) >  c) == (a/b >  c)
             for d = -5:5
                 if c == d == 0; continue; end
-                @test (a//b == c//d) == (a/b == c/d)
-                @test (a//b != c//d) == (a/b != c/d)
-                @test (a//b <= c//d) == (a/b <= c/d)
-                @test (a//b <  c//d) == (a/b <  c/d)
-                @test (a//b >= c//d) == (a/b >= c/d)
-                @test (a//b >  c//d) == (a/b >  c/d)
+                @test (FR(a//b) == FR(c//d)) == (a/b == c/d)
+                @test (FR(a//b) != FR(c//d)) == (a/b != c/d)
+                @test (FR(a//b) <= FR(c//d)) == (a/b <= c/d)
+                @test (FR(a//b) <  FR(c//d)) == (a/b <  c/d)
+                @test (FR(a//b) >= FR(c//d)) == (a/b >= c/d)
+                @test (FR(a//b) >  FR(c//d)) == (a/b >  c/d)
             end
         end
     end
 
-    @test 0.5 == 1//2
-    @test 0.1 != 1//10
-    @test 0.1 == 3602879701896397//36028797018963968
-    @test Inf == 1//0 == 2//0 == typemax(Int)//0
-    @test -Inf == -1//0 == -2//0 == -typemax(Int)//0
-    @test floatmin() != 1//(BigInt(2)^1022+1)
-    @test floatmin() == 1//(BigInt(2)^1022)
-    @test floatmin() != 1//(BigInt(2)^1022-1)
-    @test floatmin()/2 != 1//(BigInt(2)^1023+1)
-    @test floatmin()/2 == 1//(BigInt(2)^1023)
-    @test floatmin()/2 != 1//(BigInt(2)^1023-1)
-    @test nextfloat(0.0) != 1//(BigInt(2)^1074+1)
-    @test nextfloat(0.0) == 1//(BigInt(2)^1074)
-    @test nextfloat(0.0) != 1//(BigInt(2)^1074-1)
+    @test 0.5 == FR(1//2)
+    @test 0.1 != FR(1//10)
+    @test 0.1 == FR(3602879701896397//36028797018963968)
+    # @test Inf == FR(1//0 == 2//0 == typemax(Int)//0
+    # @test -Inf == -1//0 == -2//0 == -typemax(Int)//0
+    # @test floatmin() != 1//(BigInt(2)^1022+1)
+    # @test floatmin() == 1//(BigInt(2)^1022)
+    # @test floatmin() != 1//(BigInt(2)^1022-1)
+    # @test floatmin()/2 != 1//(BigInt(2)^1023+1)
+    # @test floatmin()/2 == 1//(BigInt(2)^1023)
+    # @test floatmin()/2 != 1//(BigInt(2)^1023-1)
+    # @test nextfloat(0.0) != 1//(BigInt(2)^1074+1)
+    # @test nextfloat(0.0) == 1//(BigInt(2)^1074)
+    # @test nextfloat(0.0) != 1//(BigInt(2)^1074-1)
 
-    @test 1/3 < 1//3
-    @test !(1//3 < 1/3)
-    @test -1/3 < 1//3
-    @test -1/3 > -1//3
-    @test 1/3 > -1//3
-    @test 1/5 > 1//5
-    @test 1//3 < Inf
-    @test 0//1 < Inf
-    @test 1//0 == Inf
-    @test -1//0 == -Inf
-    @test -1//0 != Inf
-    @test 1//0 != -Inf
-    @test !(1//0 < Inf)
+    @test 1/3 < FR(1//3)
+    @test !(FR(1//3) < 1/3)
+    @test -1/3 < FR(1//3)
+    @test -1/3 > FR(-1//3)
+    @test 1/3 > FR(-1//3)
+    @test 1/5 > FR(1//5)
+    # @test 1//3 < Inf
+    # @test 0//1 < Inf
+    # @test 1//0 == Inf
+    # @test -1//0 == -Inf
+    # @test -1//0 != Inf
+    # @test 1//0 != -Inf
+    # @test !(1//0 < Inf)
     @test !(1//3 < NaN)
     @test !(1//3 == NaN)
     @test !(1//3 > NaN)
 
     # PR 29561
-    @test abs(one(Rational{UInt})) === one(Rational{UInt})
-    @test abs(one(Rational{Int})) === one(Rational{Int})
-    @test abs(-one(Rational{Int})) === one(Rational{Int})
+    @test abs(one(FastRational{UInt})) === one(FastRational{UInt})
+    @test abs(one(FastRational{Int})) === one(FastRational{Int})
+    @test abs(-one(FastRational{Int})) === one(FastRational{Int})
 end
 
+        #=
 @testset "Rational methods" begin
     rand_int = rand(Int8)
 
@@ -376,3 +382,4 @@ end
    @test -Rational(true) == -1//1
    @test -Rational(false) == 0//1
 end
+=#
