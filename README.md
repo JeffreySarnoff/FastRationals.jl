@@ -7,8 +7,8 @@
 
 ### computation using rational arithmetic
 
-| rational type           | equivalent work  |
-|:------------------------|:-----------------|
+|                         |  of equal value  |
+|:------------------------|:----------------:|
 |                         |                  |
 | FastRational{ Int32 }   |    five minutes  |
 |                         |                  |
