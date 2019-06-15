@@ -8,7 +8,7 @@ using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
-import Base: show, string, numerator, denominator, eltype, convert, promote_rule, decompose,
+import Base: show, repr, string, numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
     +, -, *, /, ^, div, fld, cld, rem, mod, trunc, floor, ceil, round
@@ -53,6 +53,10 @@ FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(x.num, x.den
 
 FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
 FastRational(x::T) where {T<:Real} = FastRational(rationalize(x))
+FastRational{T,IsReduced}(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
+FastRational{T,MayReduce}(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
+FastRational{T1,IsReduced}(x::Rational{T2}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
+FastRational{T1,MayReduce}(x::Rational{T2}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
 
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
 Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
@@ -266,18 +270,21 @@ for (F,G) in ((:(+), :addovf), (:(-), :subovf), (:(*), :mulovf), (:(/), :divovf)
 end
 
 function string(x::FastRational{T,IsReduced}) where {T}
-    return string(x.num,"//",x.den)
+    return string(x.num,"╱",x.den)
 end
 
 function string(x::FastRational{T,MayReduce}) where {T}
     num, den = canonical(x.num, x.den)
-    return string(num,"//",den)
+    return string(num,"╱",den)
 end
 
 function show(io::IO, x::FastRational{T,H}) where {T,H}
     print(io, string(x))
 end
 
+function repr(x::FastRational{T,IsReduced}) where {T}
+    return repr(string(x))
+end
 
 rem(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1,H2} = FastRational{T,IsReduced}(rem(Rational(x), Rational(y)))
 mod(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1,H2} = FastRational{T,IsReduced}(mod(Rational(x), Rational(y)))
