@@ -8,7 +8,8 @@ using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
-import Base: show, repr, string, numerator, denominator, eltype, convert, promote_rule, decompose,
+import Base: show, repr, string, tryparse, 
+    numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
     +, -, *, /, ^, div, fld, cld, rem, mod, trunc, floor, ceil, round
@@ -282,8 +283,22 @@ function show(io::IO, x::FastRational{T,H}) where {T,H}
     print(io, string(x))
 end
 
-function repr(x::FastRational{T,IsReduced}) where {T}
-    return repr(string(x))
+function repr(x::FastRational{T,H}) where {T,H}
+    return repr(Rational(x))
+end
+
+function tryparse(::Type{FastRational{T,IsReduced}}, s::String) where {T}
+    if !occursin("╱", s)
+        if !occursin("//", s)
+            tryparse(T, s)
+        else
+            num, den = String.(split(s,"//"))
+            FastRational{T,IsReduced}(parse(T,num), parse(T,den))
+        end
+    else
+        num, den = String.(split(s,"╱"))
+        FastRational{T,IsReduced}(parse(T,num), parse(T,den))
+    end
 end
 
 rem(x::FastRational{T,H1}, y::FastRational{T,H2}) where {T,H1,H2} = FastRational{T,IsReduced}(rem(Rational(x), Rational(y)))
