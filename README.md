@@ -7,9 +7,9 @@
 
 ### computing with rational arithmetic
 
-|                         | relative speed   |
+|                         |   |
 |:------------------------|:----------------:|
-|                         |                  |
+|                         |   relative speed               |
 | FastRational{ Int32 }   |    6x .. 12x     |
 |                         |                  |
 | SystemRational{ Int32 } |        1x        |
