@@ -1,10 +1,3 @@
-
-FastRationals.FastRational{T}(x::T) = FastRational{T,IsReduced}(x)
-
-FastRational{Int64,H}(x::FastRational{Int64,IsReduced}, y::FastRational{Int64,MayReduce}) where {H<:Main.FastRationals.RationalState} =
-    x * inv(FastRational(canonical(y)))
-
-
 Base.eltype(::Type{Rational{T}}) where {T} = T
 Base.eltype(::Type{FastRational{T,H}}) where {T,H} = T
 Base.eltype(x::Rational{T}) where {T} = T
