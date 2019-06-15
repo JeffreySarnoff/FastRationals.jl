@@ -10,7 +10,7 @@
 |                         | calculation time |   speedup   |
 |:------------------------|:----------------:|:-----------------:|
 |                         |                  |                   |
-| FastRational{ Int32 }   |    _four .. five mins_     |  15 .. 12          |
+| FastRational{ Int32 }   |    _four, five, six mins_     |  15x, 12x, 10x       |
 |                         |                   |                   |
 | SystemRational{ Int32 } |    _one hour_       |  1                |
 
