@@ -13,7 +13,8 @@ import Base: hash, show, repr, string, tryparse,
     numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
-    +, -, *, /, ^, inv, div, fld, cld, rem, mod, trunc, floor, ceil, round
+    +, -, *, /, ^, //, 
+    inv, div, fld, cld, rem, mod, trunc, floor, ceil, round
 
 """
     RationalState
@@ -67,6 +68,13 @@ FastRational{T1,MayReduce}(x::T2) where {T1<:BitInteger,T2} = FastRational{T1,Is
 
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
 Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
+
+//(x::FastRational{T,H}, y::Integer) where {T,H} = x / FastRational(y)
+//(x::Integer, y::FastRational{T,H}) where {T,H} = FastRational(x) / y
+//(x::FastRational, y::FastRational) = x / y
+//(x::FastRational{T,H}, y::Rational) where {T,H} = x / FastRational(y)
+//(x::Rational, y::FastRational{T,H}) where {T,H} = FastRational(x) / y
+//(x::FastRational, y::FastRational) = x / y
 
 convert(::Type{Rational{T}}, x::FastRational{T,H}) where {T,H} = Rational(x)
 convert(::Type{FastRational{T,H}}, x::Rational{T}) where {T,H} = FastRational(x)
