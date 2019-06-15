@@ -43,12 +43,7 @@ numerator(x::FastRational{T,H}) where {T,H} = x.num
 denominator(x::FastRational{T,H}) where {T,H} = x.den
 eltype(x::FastRational{T,H}) where {T,H} = T
 
-content(x::FastRational{T,H}) where {T,H} = numerator(x), denominator(x)
-
-isreduced(x::FastRational{T,IsReduced}) where {T} = true
-isreduced(x::FastRational{T,MayReduce}) where {T} = false
-mayreduce(x::FastRational{T,IsReduced}) where {T} = false
-mayreduce(x::FastRational{T,MayReduce}) where {T} = true
+content(x::FastRational{T,H}) where {T,H} = x.num, x.den
 
 FastRational(num::T, den::T) where {T} = FastRational(canonical(num, den))
 FastRational(x::NTuple{2,T}) where {T} = FastRational{T,IsReduced}(x[1], x[2])
@@ -294,7 +289,6 @@ floor(::Type{T}, x::FastRational) where {T} = floor(Rational(x))
 ceil(::Type{T}, x::FastRational) where {T} = ceil(Rational(x))
 round(::Type{T}, x::FastRational, r::RoundingMode=RoundNearest) where {T} = round(T,Rational(x), r)
 round(x::FastRational, r::RoundingMode) = round(Rational(x), r)
-
 
 decompose(x::FastRational{T,IsReduced}) where {T} = x.num, zero(T), x.den
 decompose(x::FastRational{T,MayReduce}) where {T} = decompose(FastRational(x))
