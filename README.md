@@ -12,7 +12,7 @@
 |                         |                  |                   |
 | FastRational{ Int32 }   |    5..10 _mins_     |  12 .. 6          |
 |                         |                   |                   |
-| SystemRational{ Int32 } |    1 _hour_       |  1                |
+| SystemRational{ Int32 } |    _one hour_       |  1                |
 
 ----
 
