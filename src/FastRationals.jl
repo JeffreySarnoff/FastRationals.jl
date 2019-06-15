@@ -12,7 +12,7 @@ import Base: show, repr, string, tryparse,
     numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
-    +, -, *, /, ^, div, fld, cld, rem, mod, trunc, floor, ceil, round
+    +, -, *, /, ^, inv, div, fld, cld, rem, mod, trunc, floor, ceil, round
 
 """
     RationalState
@@ -176,6 +176,11 @@ isinteger(x::FastRational{T,MayReduce}) where {T} = canonical(x.num,x.den)[2] ==
 +(x::FastRational{T,H}) where {T,H} = FastRational{T,H}(+x.num, x.den)
 -(x::FastRational{T,H}) where {T,H} = FastRational{T,H}(-x.num, x.den)
 
+inv(x::FastRational{T,IsReduced} where {T<:BitInteger} =
+   FastRational{T,IsReduced}(x.den, x.num)
+inv(x::FastRational{T,MayReduce} where {T<:BitInteger} =
+   FastRational{T,MayReduce}(x.den, x.num)
+        
 function -(x::FastRational{T,IsReduced}) where {T<:BitSigned}
     x.num == typemin(T) && throw(OverflowError("rational numerator is typemin(T)"))
     FastRational{T,IsReduced}(-x.num, x.den)
