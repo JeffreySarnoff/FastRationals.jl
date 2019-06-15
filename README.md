@@ -5,6 +5,16 @@
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
 
+#### arithmetic using rational numbers
+
+| rational type           | equivalent work  |
+|:------------------------|:-----------------|
+|                         |                  |
+| FastRational{ Int32 }   |    five minutes  |
+|                         |                  |
+| SystemRational{ Int32 } |    one hour      |
+
+
 ```
 using FastRationals, Polynomials, BenchmarkTools
 
@@ -44,7 +54,7 @@ relative_speedup =
     floor( (@belapsed test(Ref($x)[],Ref($y)[],Ref($z)[])) / 
            (@belapsed test(Ref($a)[],Ref($b)[],Ref($c)[])))
 
-# relative_speedup is (win_v111 = 14.0, wsh_v13x = 16.0)
+# relative_speedup is (win_v111 = 12.0, wsh_v13x = 16.0)
 ```
 
 Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` except there is no Infinity, no NaN comparisons.
