@@ -5,7 +5,7 @@
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
 
-#### rational arithmetic computation
+### computation using rational arithmetic
 
 | rational type           | equivalent work  |
 |:------------------------|:-----------------|
