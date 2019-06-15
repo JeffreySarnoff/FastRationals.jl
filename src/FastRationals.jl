@@ -101,7 +101,6 @@ Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
 //(x::FastRational, y::FastRational) = x / y
 //(x::FastRational{T,H}, y::Rational) where {T,H} = x / FastRational(y)
 //(x::Rational, y::FastRational{T,H}) where {T,H} = FastRational(x) / y
-//(x::FastRational, y::FastRational) = x / y
 
 convert(::Type{Rational{T}}, x::FastRational{T,H}) where {T,H} = Rational(x)
 convert(::Type{FastRational{T,H}}, x::Rational{T}) where {T,H} = FastRational(x)
