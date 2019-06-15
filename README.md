@@ -7,12 +7,12 @@
 
 ### computation using rational arithmetic
 
-|                         |  calculation time  |
-|:------------------------|:----------------:|
+|                         | calculation time |   speedup   |
+|:------------------------|:----------------:|:-----------------:|
+|                         |                  |                   |
+| FastRational{ Int32 }   |    five minutes  |  12        |
 |                         |                  |
-| FastRational{ Int32 }   |    five minutes  |
-|                         |                  |
-| SystemRational{ Int32 } |    one hour      |
+| SystemRational{ Int32 } |    one hour      |  1   |
 
 ----
 
