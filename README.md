@@ -14,6 +14,9 @@
 |                         |                  |
 | SystemRational{ Int32 } |    one hour      |
 
+----
+
+### Benchmarking
 
 ```
 using FastRationals, Polynomials, BenchmarkTools
