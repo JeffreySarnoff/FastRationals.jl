@@ -7,7 +7,7 @@
 
 ### computation using rational arithmetic
 
-|                         |  of equal value  |
+|                         |  calculation time  |
 |:------------------------|:----------------:|
 |                         |                  |
 | FastRational{ Int32 }   |    five minutes  |
