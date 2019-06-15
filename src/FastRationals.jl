@@ -287,17 +287,23 @@ function repr(x::FastRational{T,H}) where {T,H}
     return repr(Rational(x))
 end
 
-function tryparse(::Type{FastRational{T,IsReduced}}, s::String) where {T}
+function tryparse(::Type{FastRational{T,H}}, s::String) where {T,H}
     if !occursin("╱", s)
         if !occursin("//", s)
-            tryparse(T, s)
+            num = tryparse(T, s)
+            num = isnothing(num) : one(T) : num
+            FastRational{T,IsReduced}(canonical(num, one(T)))
         else
             num, den = String.(split(s,"//"))
-            FastRational{T,IsReduced}(parse(T,num), parse(T,den))
+            num = isempty(num) ? zero(T) : parse(T,num)
+            den = isempty(den) ? one(T)  : parse(T,den)
+            FastRational{T,IsReduced}(canonical(num, den))
         end
     else
         num, den = String.(split(s,"╱"))
-        FastRational{T,IsReduced}(parse(T,num), parse(T,den))
+        num = isempty(num) ? zero(T) : parse(T,num)
+        den = isempty(den) ? one(T)  : parse(T,den)
+        FastRational{T,IsReduced}(canonical(num, den))
     end
 end
 
