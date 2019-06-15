@@ -55,7 +55,7 @@ FastRational(x::FastRational{T,IsReduced}) where {T} = x
 FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(x.num, x.den)
 
 FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
-FastRational(x::T) where {T<:Integer} = FastRational(x)
+FastRational(x::T) where {T<:Integer} = FastRational(x, one(T))
 FastRational(x::T) where {T<:Rational} = FastRational(x)
 FastRational(x::T) where {T<:Real} = FastRational(rationalize(x))
 
