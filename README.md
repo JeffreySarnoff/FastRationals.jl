@@ -6,8 +6,7 @@
 ----
 
 ```
-using FastRationals, Polynomials
-using BenchmarkTools
+using FastRationals, Polynomials, BenchmarkTools
 
 w,x,y,z = 1//121, -2//877, 3//454, -4//171; q = 1//87
 poly = Poly([w,x,y,z])
@@ -18,11 +17,15 @@ fastpoly = Poly([a,b,c,d])
 polyval(poly, q) == polyval(fastpoly, p)
 # true
 
-floor((@belapsed polyval($poly, $q)) / (@belapsed polyval($fastpoly, $p)))
-# 14.0
+relative_speedup =
+    floor((@belapsed polyval($poly, $q)) / (@belapsed polyval($fastpoly, $p)))
+
+# relative_speedup is (win_v111 = 14.0, wsh_v13x = 17.0)
 ```
 
 ```
+using FastRationals, BenchmarkTools
+
 x, y, z = 1234//3451, 345//78912, 987//53
 a, b, c = FastRational.([x, y, z])
 
@@ -37,9 +40,11 @@ end
 test(x,y,z) == test(a,b,c)
 # true
 
-floor( (@belapsed test(Ref($x)[],Ref($y)[],Ref($z)[])) / 
-       (@belapsed test(Ref($a)[],Ref($b)[],Ref($c)[])))
-# 14.0
+relative_speedup =
+    floor( (@belapsed test(Ref($x)[],Ref($y)[],Ref($z)[])) / 
+           (@belapsed test(Ref($a)[],Ref($b)[],Ref($c)[])))
+
+# relative_speedup is (win_v111 = 14.0, wsh_v13x = 16.0)
 ```
 
 Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` except there is no Infinity, no NaN comparisons.
