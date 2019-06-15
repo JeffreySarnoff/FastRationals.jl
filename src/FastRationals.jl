@@ -8,7 +8,7 @@ using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
-import Base: show, repr, string, tryparse, 
+import Base: hash, show, repr, string, tryparse, zero, one,
     numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
@@ -88,6 +88,9 @@ promote_rule(::Type{FastRational{T,H}}, ::Type{T}) where {T,H} = FastRational{T,
 promote_rule(::Type{FastRational{T1,H}}, ::Type{T2}) where {T1,T2<:Integer,H} = FastRational{T1,IsReduced}
 promote_rule(::Type{FastRational{T1,H}}, ::Type{Rational{T2}}) where {T1,T2,H}= FastRational{T1,IsReduced}
 promote_rule(::Type{FastRational{T,H}}, ::Type{R}) where {T,H,R<:Real} = FastRational{T,H}
+
+one(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(one(T), one(T))
+zero(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(zero(T), one(T))
 
 signbit(x::FastRational{T,H}) where {T<:Signed, H} = signbit(x.num) !== signbit(x.den)
 sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
