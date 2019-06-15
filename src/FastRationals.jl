@@ -70,12 +70,12 @@ FastRational{T,MayReduce}(x::T) where {T<:BitInteger} = FastRational{T,IsReduced
 FastRational{T1,IsReduced}(x::T2) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x), one(T1))
 FastRational{T1,MayReduce}(x::T2) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x), one(T1))
 
-FastRational{T1,IsReduced}(x::FastRational{T2,IsReduced},x::FastRational{T2,IsReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
-FastRational{T1,MayReduce}(x::FastRational{T2,IsReduced},x::FastRational{T2,IsReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
-FastRational{T1,IsReduced}(x::FastRational{T2,MayReduced},x::FastRational{T2,MayReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(canonical(T1(x.num), T1(x.den)))
-FastRational{T1,MayReduce}(x::FastRational{T2,MayReduced},x::FastRational{T2,MayReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(canonical(T1(x.num), T1(x.den)))
-FastRational{T1,IsReduced}(x::FastRational{T2,IsReduced},x::FastRational{T2,MayReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
-FastRational{T1,MayReduce}(x::FastRational{T2,MayReduced},x::FastRational{T2,IsReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
+FastRational{T1,IsReduced}(x::FastRational{T2,IsReduced},y::FastRational{T2,IsReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
+FastRational{T1,MayReduce}(x::FastRational{T2,IsReduced},y::FastRational{T2,IsReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
+FastRational{T1,IsReduced}(x::FastRational{T2,MayReduced},y::FastRational{T2,MayReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(canonical(T1(x.num), T1(x.den)))
+FastRational{T1,MayReduce}(x::FastRational{T2,MayReduced},y::FastRational{T2,MayReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(canonical(T1(x.num), T1(x.den)))
+FastRational{T1,IsReduced}(x::FastRational{T2,IsReduced},y::FastRational{T2,MayReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
+FastRational{T1,MayReduce}(x::FastRational{T2,MayReduced},y::FastRational{T2,IsReduced}) where {T1<:BitInteger,T2} = FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
 
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
 Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
