@@ -8,7 +8,8 @@ using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
     checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
     checked_div, checked_rem, checked_fld, checked_mod, checked_cld
 
-import Base: hash, show, repr, string, tryparse, zero, one,
+import Base: hash, show, repr, string, tryparse,
+    zero, one, iszero, isone,
     numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
@@ -96,6 +97,9 @@ promote_rule(::Type{FastRational{T,H}}, ::Type{R}) where {T,H,R<:Real} = FastRat
 
 one(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(one(T), one(T))
 zero(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(zero(T), one(T))
+
+iszero(x::FastRational{T,H}) where {T,H} = iszero(x.num)
+isone(x::FastRational{T,H})  where {T,H} = x.num === x.den
 
 signbit(x::FastRational{T,H}) where {T<:Signed, H} = signbit(x.num) !== signbit(x.den)
 sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
