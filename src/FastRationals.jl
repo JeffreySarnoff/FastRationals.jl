@@ -86,9 +86,9 @@ FastRational{Int64,H}(x::FastRational{Int64,IsReduced}, y::FastRational{Int64,Ma
 FastRational{Int64,H}(x::FastRational{Int64,MayReduce}, y::FastRational{Int64,IsReduced}) where {H<:Main.FastRationals.RationalState} =
     FastRational(canonical(x) * inv(y)
 =#
-FastRational{T,H}(x::FastRational{T,IsReduced}, y::FastRational{T,MayReduce}) where {T,H<:Main.FastRationals.RationalState} =
+FastRational{T,H}(x::FastRational{T,IsReduced}, y::FastRational{T,MayReduce}) where {T,H<:RationalState} =
     x * inv(FastRational(canonical(y)))
-FastRational{T,H}(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T,H<:Main.FastRationals.RationalState} =
+FastRational{T,H}(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T,H<:RationalState} =
     FastRational(canonical(x) * inv(y))
 
 
