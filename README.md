@@ -18,13 +18,13 @@ fastpoly = Poly([a,b,c,d])
 polyval(poly, q) == polyval(fastpoly, p)
 # true
 
-floor((@belapsed polyval($poly, $q)) / (@belapsed polyval($fastpoly, $r)))
-# 17.0
+floor((@belapsed polyval($poly, $q)) / (@belapsed polyval($fastpoly, $p)))
+# 14.0
 ```
 
 ```
-x, y, z = 12345//34512, 345//789123, 9876//53
-a, b, c = FastRational.(x, y, z)
+x, y, z = 1234//3451, 345//78912, 987//53
+a, b, c = FastRational.([x, y, z])
 
 function test(x,y,z)
    a = x + y
@@ -39,7 +39,7 @@ test(x,y,z) == test(a,b,c)
 
 floor( (@belapsed test(Ref($x)[],Ref($y)[],Ref($z)[])) / 
        (@belapsed test(Ref($a)[],Ref($b)[],Ref($c)[])))
-# 20.0
+# 14.0
 ```
 
 Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` except there is no Infinity, no NaN comparisons.
