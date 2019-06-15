@@ -80,6 +80,20 @@ FastRational{T1,MayReduce}(x::FastRational{T2,MayReduce},y::FastRational{T2,IsRe
 FastRational{T,H}(x::FastRational{T,IsReduced},y::FastRational{T,MayReduce}) where {T<:BitInteger,H} = FastRational{T,IsReduced}(canonical(T(x.num), T(x.den)))
 FastRational{T,H}(x::FastRational{T,MayReduce},y::FastRational{T,IsReduced}) where {T<:BitInteger,H} = FastRational{T,IsReduced}(canonical(T(x.num), T(x.den)))
 
+FastRationals.FastRational{T}(x::T) = FastRational{T,IsReduced}(x)
+
+#=
+FastRational{Int64,H}(x::FastRational{Int64,IsReduced}, y::FastRational{Int64,MayReduce}) where {H<:Main.FastRationals.RationalState} =
+    x * inv(FastRational(canonical(y)))
+FastRational{Int64,H}(x::FastRational{Int64,MayReduce}, y::FastRational{Int64,IsReduced}) where {H<:Main.FastRationals.RationalState} =
+    FastRational(canonical(x) * inv(y)
+=#
+FastRational{TH}(x::FastRational{TIsReduced}, y::FastRational{T,MayReduce}) where {T,H<:Main.FastRationals.RationalState} =
+    x * inv(FastRational(canonical(y)))
+FastRational{T,H}(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T,H<:Main.FastRationals.RationalState} =
+    FastRational(canonical(x) * inv(y)
+
+
 
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
 Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
