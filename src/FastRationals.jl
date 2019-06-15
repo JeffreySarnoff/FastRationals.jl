@@ -179,9 +179,9 @@ isinteger(x::FastRational{T,MayReduce}) where {T} = canonical(x.num,x.den)[2] ==
 +(x::FastRational{T,H}) where {T,H} = FastRational{T,H}(+x.num, x.den)
 -(x::FastRational{T,H}) where {T,H} = FastRational{T,H}(-x.num, x.den)
 
-inv(x::FastRational{T,IsReduced} where {T<:BitInteger} =
+inv(x::FastRational{T,IsReduced}) where {T<:BitInteger} =
    FastRational{T,IsReduced}(x.den, x.num)
-inv(x::FastRational{T,MayReduce} where {T<:BitInteger} =
+inv(x::FastRational{T,MayReduce}) where {T<:BitInteger} =
    FastRational{T,MayReduce}(x.den, x.num)
         
 function -(x::FastRational{T,IsReduced}) where {T<:BitSigned}
