@@ -283,13 +283,16 @@ for (F,G) in ((:(+), :addovf), (:(-), :subovf), (:(*), :mulovf), (:(/), :divovf)
   end
 end
 
+const Solidus = "//"
+const Solunos = "╱"
+
 function string(x::FastRational{T,IsReduced}) where {T}
-    return string(x.num,"╱",x.den)
+    return string(x.num,Solidus,x.den)
 end
 
 function string(x::FastRational{T,MayReduce}) where {T}
     num, den = canonical(x.num, x.den)
-    return string(num,"╱",den)
+    return string(num,Solidus,den)
 end
 
 function show(io::IO, x::FastRational{T,H}) where {T,H}
@@ -301,19 +304,19 @@ function repr(x::FastRational{T,H}) where {T,H}
 end
 
 function tryparse(::Type{FastRational{T,H}}, s::String) where {T,H}
-    if !occursin("╱", s)
-        if !occursin("//", s)
+    if !occursin(Solunos, s)
+        if !occursin(Solidus, s)
             num = tryparse(T, s)
             num = isnothing(num) : one(T) : num
             FastRational{T,IsReduced}(canonical(num, one(T)))
         else
-            num, den = String.(split(s,"//"))
+            num, den = String.(split(s,Solidus))
             num = isempty(num) ? zero(T) : parse(T,num)
             den = isempty(den) ? one(T)  : parse(T,den)
             FastRational{T,IsReduced}(canonical(num, den))
         end
     else
-        num, den = String.(split(s,"╱"))
+        num, den = String.(split(s,Solunos))
         num = isempty(num) ? zero(T) : parse(T,num)
         den = isempty(den) ? one(T)  : parse(T,den)
         FastRational{T,IsReduced}(canonical(num, den))
