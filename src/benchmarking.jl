@@ -1,5 +1,3 @@
-
-
 function sums_toward_half(::Type{T}, n) where {T}
     athird = onethird(T)
     a2 = athird * athird 
