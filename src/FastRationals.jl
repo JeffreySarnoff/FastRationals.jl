@@ -42,17 +42,67 @@ struct FastRational{T<:BitInteger, H<:RationalState} <: Real
     den::T
 end
 
+#=  
+    FastRational constructs with
+      -- a BitInteger type
+      -- a RationalState
+      -- a numerator of type
+      -- a denominator of type
+
+    FastRational constructors trust 2Tuples to be ready for immediate use
+
+      FastRational( (num::T, den::T) ) ↦ FastRational{T,RationalState}(num, den)
+          
+          FastRational(twotuple::NTuple{2,T}) where {T}
+          FastRational(twotuple::Tuple{T, T}) where {T}
+          
+          2Tuples are obtained as NTuples with two participant values.
+          NTuples are tuples of values that share one type.  
+          ∴ 2Tuple participants are of some same shared type.
+
+
+
+      FastRational((num::T1, den::T2)) is not trusted to be ready for use
+          because (num::T1, den::T2) is not a 2Tuple, it is tuple of two.
+      
+      Multidispatch knows this and gives us bifurcated handling for free.
+
+           FastRational((n, d)::Tuple{T1, T2}) where {T1<:BitInteger, T1<:BitInteger}
+               # prepare and make ready
+
+           FastRational(n::T, d::T) where {T<:BitInteger}
+                # anticipate readiness and prepare
+
+
+the same type.   FastRational((num::T1, den::T2)) where T1 != T2
+FastRational constructors __never__ reduce 2Tuples 
+
+
+    FastRational constructors *always* reduce separates
+    FastRational(num, den) ↦ FastRational(canonical(num, den))
+
+    FastRational constructors *never* reduce 2Tuples 
+    FastRational((num, den)) ↦ FastRational{T,RationalState}(num, den)
+
+
+where num, den share type
+    to the constructor
+oaas a 2Tuple, 
+FastRational(x::NTuple{2,T}) where {T} = FastRational{T,IsReduced}(x[1], x[2])
+FastRational(num::T, den::T) where {T<:BitInteger} = FastRational(canonical(num, den))
+
+
 numerator(x::FastRational{T,H}) where {T,H} = x.num
 denominator(x::FastRational{T,H}) where {T,H} = x.den
 eltype(x::FastRational{T,H}) where {T,H} = T
 
 content(x::FastRational{T,H}) where {T,H} = x.num, x.den
 
+
+
 FastRational(x::FastRational{T,IsReduced}) where {T} = x
 FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(canonical(x.num, x.den))
 
-FastRational(num::T, den::T) where {T} = FastRational(canonical(num, den))
-FastRational(x::NTuple{2,T}) where {T} = FastRational{T,IsReduced}(x[1], x[2])
 
 
 FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
@@ -110,24 +160,9 @@ Base.Float32(x::FastRational{T,H}) where {T,H} = Float32(Rational(x))
 Base.BigFloat(x::FastRational{T,H}) where {T,H} = BigFloat(Rational(x))
 Base.BigInt(x::FastRational{T,H}) where {T,H} = BigInt(Rational(x))
         
+include("canonical.jl")
 
-promote_rule(::Type{FastRational{T,IsReduced}}, ::Type{T}) where {T<:BitInteger} = FastRational{T,IsReduced}
-promote_rule(::Type{FastRational{T,MayReduce}}, ::Type{T}) where {T<:BitInteger} = FastRational{T,IsReduced}
-promote_rule(::Type{FastRational{T,IsReduced}}, ::Type{Rational{T}}) where {T<:BitInteger} = FastRational{T,IsReduced}
-promote_rule(::Type{FastRational{T,MayReduce}}, ::Type{Rational{T}}) where {T<:BitInteger} = FastRational{T,IsReduced}
-
-convert(::Type{FastRational{T,IsReduced}}, x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
-convert(::Type{FastRational{T,MayReduce}}, x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
-convert(::Type{Rational{T}}, x::FastRational{T,MayReduce}) where {T} = Rational{T}(canonical(x.num, x.den))
-convert(::Type{Rational{T}}, x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
-
-
-promote_rule(::Type{FastRational{T,IsReduced}}, ::Type{A}) where {T,A} = FastRational{T,IsReduced}
-promote_rule(::Type{FastRational{T,MayReduce}}, ::Type{A}) where {T,A} = FastRational{T,IsReduced}
-
-convert(::Type{FastRational{T,IsReduced}}, x::T) where {T} = FastRational{T,IsReduced}(x, one(T))
-convert(::Type{FastRational{T,MayReduce}}, x::T) where {T} = FastRational{T,IsReduced}(x, one(T))
-
+include("promote_convert.jl")
 # ------------- promotion rules and conversion logic above has been reviewed
 
 # convert(::Type{Rational{T}}, x::FastRational{T,H}) where {T,H<:RationalState} = Rational(canonical(x.num, x.den))
@@ -161,53 +196,7 @@ signbit(x::FastRational{T,H}) where {T<:Unsigned, H} = false
 sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(one(T), one(T))
 abs(x::FastRational{T,H}) where {T<:Unsigned, H} = x
 
-# canonical(q) reduces q to lowest terms
 
-"""
-    canonical(numerator::T, denominator::T) where T<:Signed
-
-Rational numbers that are finite and normatively bounded by
-the extremal magnitude of an underlying signed type have a
-canonical representation.
-- numerator and denominator have no common factors
-- numerator may be negative, zero or positive
-- denominator is strictly positive (d > 0)
-""" canonical
-
-function canonical(num::T, den::T) where {T<:Signed}
-    num, den = canonical_signed(num, den)
-    num, den = canonical_valued(num, den)
-    return num, den
-end
-
-function canonical(num::T, den::T) where {T<:Unsigned}
-    num, den = canonical_valued(num, den)
-    return num, den
-end
-
-@inline function canonical_signed(num::T, den::T) where {T<:Signed}
-    return flipsign(num, den), abs(den)
-end
-
-@inline function canonical_valued(num::T, den::T) where {T<:Signed}
-    gcdval = gcd(num, den)
-    gcdval === one(T) && return num, den
-    num = div(num, gcdval)
-    den = div(den, gcdval)
-    return num, den
-end 
-
-
-
-
-# System Rationals are maintained in lowest terms, no additional work needed
-# FastRational{T,IsReduced} is already in lowest terms, no additional work needed
-# FastRational{T,MayReduce} may or may not be in lowest terms, must apply work
-
-@inline canonical(q::Rational{T}) where{T} = q)
-@inline canonical(q::FastRational{T,IsReduced}) where{T} = q
-@inline canonical(q::FastRational{T,MayReduce}) where{T} = canonical(q.num, q.den)
-@inline canonical(q::FastRational{T,H<:
 
 # optimize for FastRational{Int32} using Int64 cross-multiplication for comparisons
 @inline mulwider(x::T, y::T) where {T<:Integer} = widemul(x,y)
