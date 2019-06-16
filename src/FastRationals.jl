@@ -54,68 +54,29 @@ struct FastRational{T<:BitInteger, H<:RationalState} <: Real
 end
 
 #=  
-    FastRational constructs with
-      -- a BitInteger type
-      -- a RationalState
-      -- a numerator of type
-      -- a denominator of type
+    FastRational constructors *never*  process 2Tupled pairs
+        `num`, `den` already must be reduced to lowest terms
+         ( (num::T, den::T) ) ↦ (num, den)
 
-    FastRational constructors trust 2Tuples to be ready for immediate use
-
-      FastRational( (num::T, den::T) ) ↦ FastRational{T,RationalState}(num, den)
-          
-          FastRational(twotuple::NTuple{2,T}) where {T}
-          FastRational(twotuple::Tuple{T, T}) where {T}
-          
-          2Tuples are obtained as NTuples with two participant values.
-          NTuples are tuples of values that share one type.  
-          ∴ 2Tuple participants are of some same shared type.
-
-
-
-      FastRational((num::T1, den::T2)) is not trusted to be ready for use
-          because (num::T1, den::T2) is not a 2Tuple, it is tuple of two.
-      
-      Multidispatch knows this and gives us bifurcated handling for free.
-
-           FastRational((n, d)::Tuple{T1, T2}) where {T1<:BitInteger, T1<:BitInteger}
-               # prepare and make ready
-
-           FastRational(n::T, d::T) where {T<:BitInteger}
-                # anticipate readiness and prepare
+    FastRational constructors *always* process untupled pairs 
+        `num`, `den` may not yet be reduced to lowest terms
+         (num, den) ↦ canonical(num, den)  ↦ (num, den)
 =#
 
 
-
-the same type.   FastRational((num::T1, den::T2)) where T1 != T2
-FastRational constructors __never__ reduce 2Tuples 
-
-
-    FastRational constructors *always* reduce separates
-    FastRational(num, den) ↦ FastRational(canonical(num, den))
-
-    FastRational constructors *never* reduce 2Tuples 
-    FastRational((num, den)) ↦ FastRational{T,RationalState}(num, den)
-
-
-where num, den share type
-    to the constructor
-oaas a 2Tuple, 
-=#
-FastRational(x::NTuple{2,T}) where {T} = FastRational{T,IsReduced}(x[1], x[2])
+FastRational(x::NTuple{2,T}) where {T<:BitInteger} = FastRational{T,IsReduced}(x[1], x[2])
 FastRational(num::T, den::T) where {T<:BitInteger} = FastRational(canonical(num, den))
+
+
+numerator(x::FastRational{T,H})   where {T,H} = x.num
+denominator(x::FastRational{T,H}) where {T,H} = x.den
+numerdenom(x::FastRational{T,H})  where {T,H} = x.num, x.den
+
+
 
 basistype(::Type{FastRational{T,IsReduced}}) where T = T
 basistype(::Type{FastRational{T,MayReduce}}) where T = T
 basistype(::Type{Rational{T}}) where T = T
-
-numerator(x::FastRational{T,H}) where {T,H} = x.num
-denominator(x::FastRational{T,H}) where {T,H} = x.den
-
-
-                        
-content(x::FastRational{T,H}) where {T,H} = x.num, x.den
-
 
 
 FastRational(x::FastRational{T,IsReduced}) where {T} = x
