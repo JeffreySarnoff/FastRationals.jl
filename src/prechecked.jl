@@ -41,7 +41,22 @@ propinquity(x::T, y::T) where {T<:FastInteger} =
 #=
     Rapid determination of the working Type
 
+We are given two range-limited integers of the same
+performant system type, either signed or unsigned.
+We are asked : "Do you assert that this type would
+hold their product precisly, with full accuracy?"
 
+Responding `true` means
+- it is certain that their product is within the standard discrete domain of the given type.
+Responding `false` means
+- no assertion is made regarding the whether the given type would hold their product properly.
+
+
+nknown whether their product
+it is either known to uncertain or 
+of these two integers 
+
+precisely. given
 =#
 @inline function usewidemul(x::T, y::T) where {T<:FastSigned}
     iszero( (leading_zeros(abs(x)) + leading_zeros(abs(y))) >> sizeof(T) )
