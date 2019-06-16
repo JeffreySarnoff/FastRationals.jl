@@ -28,11 +28,7 @@ end
 
 
 sums_toward_half(Rational{Int64},17)
-(1743392200//3486784401, 1//3486784401)
+# (1743392200//3486784401, 1//3486784401)
 
 sums_toward_half(FastRational{Int64},17)
-
-
-julia> sum2third(FastRational{Int64},17)
-(1743392200//3486784401, 1//3486784401)
 
