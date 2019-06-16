@@ -38,6 +38,16 @@ This state holds for rational values that may or may not be expressed in lowest 
 """
 struct MayReduce  <: RationalState end
 
+"""
+    FastRational <: Real
+
+
+### fields 
+
+`num`: the rational numerator      zero and the signed values of a system integer
+`den`: the rational denominator    strictly positive values of a system integer
+
+"""
 struct FastRational{T<:BitInteger, H<:RationalState} <: Real
     num::T
     den::T
@@ -73,6 +83,8 @@ end
 
            FastRational(n::T, d::T) where {T<:BitInteger}
                 # anticipate readiness and prepare
+=#
+
 
 
 the same type.   FastRational((num::T1, den::T2)) where T1 != T2
