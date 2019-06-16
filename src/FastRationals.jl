@@ -165,7 +165,7 @@ Base.Float64(x::FastRational{T,H}) where {T,H} = Float64(Rational(x))
 Base.Float32(x::FastRational{T,H}) where {T,H} = Float32(Rational(x))
 Base.BigFloat(x::FastRational{T,H}) where {T,H} = BigFloat(Rational(x))
 Base.BigInt(x::FastRational{T,H}) where {T,H} = BigInt(Rational(x))
-        
+
 include("canonical.jl")
 
 include("promote_convert.jl")
