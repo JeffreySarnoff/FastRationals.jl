@@ -47,10 +47,19 @@ We are asked : "Do you assert that this type would
 hold their product precisly, with full accuracy?"
 
 Responding `true` means
-- it is certain that their product is within the standard discrete domain of the given type.
+  it is certain that their product is within the standard discrete domain of the given type.
 Responding `false` means
-- no assertion is made regarding the whether the given type would hold their product properly.
+  no assertion is made regarding the whether the given type would hold their product properly.
+    - there are two situations in which one returns `false`
+        (a) It is known that use of with the given type nay promulage inaccuracies.
+        (b) It is not known whether the precision of the given type covers this product.
 
+or it is unknown whether use of the given type would alter precision
+
+not known whether the type is a total covering of product pairs
+
+covers use of the given type the 
+cannot hold their product without introducing inaccuracy. 
 
 nknown whether their product
 it is either known to uncertain or 
