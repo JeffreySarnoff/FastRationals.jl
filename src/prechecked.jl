@@ -47,11 +47,11 @@ We are asked : "Do you assert that this type would
 hold their product precisly, with full accuracy?"
 
 `true` means
-  It is certain that their product is within the standard discrete domain of the given type.
+   It is certain that their product is within the standard discrete domain of the given type.
 
 `false` means
-  No assertion is made regarding the whether the given type would hold their product properly.
-
+   No assertion is made regarding the whether the given type would hold their product properly.
+   It is asserted that at least of (a) or (b) hold.
      (a) It is known that use of with the given type nay promulage inaccuracies.
      (b) It is not known whether the precision of the given type covers this product.
 """ usewidemul
