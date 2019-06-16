@@ -1,6 +1,7 @@
 module FastRationals
 
-export FastRational
+export FastRational,
+       basistype
 
 using Base: BitInteger, BitSigned, BitUnsigned
 
@@ -88,14 +89,19 @@ FastRational constructors __never__ reduce 2Tuples
 where num, den share type
     to the constructor
 oaas a 2Tuple, 
+=#
 FastRational(x::NTuple{2,T}) where {T} = FastRational{T,IsReduced}(x[1], x[2])
 FastRational(num::T, den::T) where {T<:BitInteger} = FastRational(canonical(num, den))
 
+basistype(::Type{FastRational{T,IsReduced}}) where T = T
+basistype(::Type{FastRational{T,MayReduce}}) where T = T
+basistype(::Type{Rational{T}}) where T = T
 
 numerator(x::FastRational{T,H}) where {T,H} = x.num
 denominator(x::FastRational{T,H}) where {T,H} = x.den
-eltype(x::FastRational{T,H}) where {T,H} = T
 
+
+                        
 content(x::FastRational{T,H}) where {T,H} = x.num, x.den
 
 
