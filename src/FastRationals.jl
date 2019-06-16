@@ -103,7 +103,7 @@ Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
 //(x::Rational, y::FastRational{T,H}) where {T,H} = FastRational(x) / y
 
 convert(::Type{Rational{T}}, x::FastRational{T,H}) where {T,H} = Rational(x)
-convert(::Type{FastRational{T,H}}, x::Rational{T}) where {T,H} = FastRational(x)
+
 convert(::Type{FastRational{T,H}}, x::T) where {T,H} = FastRational{T,IsReduced}(x, one(T))
 convert(::Type{FastRational{T1,H}}, x::T2) where {T1,T2<:Integer,H} = FastRational{T1,IsReduced}(T1(x), one(T1))
 convert(::Type{FastRational{T1,H}}, x::Rational{T2}) where {T1,T2,H} =
@@ -122,17 +122,30 @@ Base.Float32(x::FastRational{T,H}) where {T,H} = Float32(Rational(x))
 Base.BigFloat(x::FastRational{T,H}) where {T,H} = BigFloat(Rational(x))
 Base.BigInt(x::FastRational{T,H}) where {T,H} = BigInt(Rational(x))
         
-promote_rule(::Type{Rational{T}}, ::Type{FastRational{T,IsReduced}}) where {T} = FastRational{T,IsReduced}
-promote_rule(::Type{Rational{T}}, ::Type{FastRational{T,MayReduce}}) where {T} = FastRational{T,IsReduced}
-promote_rule(::Type{FastRational{T,H}}, ::Type{T}) where {T,H} = FastRational{T,IsReduced}
-promote_rule(::Type{FastRational{T1,H}}, ::Type{T2}) where {T1,T2<:Integer,H} = FastRational{T1,IsReduced}
-promote_rule(::Type{FastRational{T1,H}}, ::Type{Rational{T2}}) where {T1,T2,H}= FastRational{T1,IsReduced}
-promote_rule(::Type{FastRational{T,H}}, ::Type{R}) where {T,H,R<:Real} = FastRational{T,H}
+
+promote_rule(::Type{FastRational{T,IsReduced}}, ::Type{T}) where {T<:BitInteger} = FastRational{T,IsReduced}
+promote_rule(::Type{FastRational{T,MayReduce}}, ::Type{T}) where {T<:BitInteger} = FastRational{T,IsReduced}
+promote_rule(::Type{FastRational{T,IsReduced}}, ::Type{Rational{T}}) where {T<:BitInteger} = FastRational{T,IsReduced}
+promote_rule(::Type{FastRational{T,MayReduce}}, ::Type{Rational{T}}) where {T<:BitInteger} = FastRational{T,IsReduced}
+
+convert(::Type{FastRational{T,IsReduced}}, x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
+convert(::Type{FastRational{T,MayReduce}}, x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
+convert(::Type{Rational{T}}, x::FastRational{T,MayReduce}) where {T} = Rational{T}(canonical(x.num, x.den))
+convert(::Type{Rational{T}}, x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
+
+
+promote_rule(::Type{FastRational{T,IsReduced}}, ::Type{A}) where {T,A} = FastRational{T,IsReduced}
+promote_rule(::Type{FastRational{T,MayReduce}}, ::Type{A}) where {T,A} = FastRational{T,IsReduced}
+
+convert(::Type{FastRational{T,IsReduced}}, x::T) where {T} = FastRational{T,IsReduced}(x, one(T))
+convert(::Type{FastRational{T,MayReduce}}, x::T) where {T} = FastRational{T,IsReduced}(x, one(T))
+
+
+
+zero(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(zero(T), one(T))
+iszero(x::FastRational{T,H}) where {T,H} = iszero(x.num)
 
 one(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(one(T), one(T))
-zero(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(zero(T), one(T))
-
-iszero(x::FastRational{T,H}) where {T,H} = iszero(x.num)
 isone(x::FastRational{T,H})  where {T,H} = x.num === x.den
 
 signbit(x::FastRational{T,H}) where {T<:Signed, H} = signbit(x.num) !== signbit(x.den)
