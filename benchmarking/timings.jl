@@ -7,6 +7,8 @@ BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead()
 
 include("thingstotime.jl")
 
+slow2 = @belapsed sums_toward_half(Rational{Int8},2)
+fast2 = @belapsed sums_toward_half(FastRational{Int8, IsReduced},2)
 slow6 = @belapsed sums_toward_half(Rational{Int16},6)
 fast6 = @belapsed sums_toward_half(FastRational{Int16, IsReduced},6)
 slow16 = @belapsed sums_toward_half(Rational{Int32},16)
@@ -16,6 +18,8 @@ fast17 = @belapsed sums_toward_half(FastRational{Int64, IsReduced},17)
 slow77 = @belapsed sums_toward_half(Rational{Int128},77)
 fast77 = @belapsed sums_toward_half(FastRational{Int128, IsReduced},77)
 
+uslow2 = @belapsed sums_toward_half(Rational{UInt8},2)
+ufast2 = @belapsed sums_toward_half(FastRational{UInt8, IsReduced},2)
 uslow6 = @belapsed sums_toward_half(Rational{UInt16},6)
 ufast6 = @belapsed sums_toward_half(FastRational{UInt16, IsReduced},6)
 uslow16 = @belapsed sums_toward_half(Rational{UInt32},16)
