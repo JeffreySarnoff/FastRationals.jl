@@ -16,6 +16,10 @@ import Base: hash, show, repr, string, tryparse,
     +, -, *, /, ^, //, 
     inv, div, fld, cld, rem, mod, trunc, floor, ceil, round
 
+const FastSigned   = Union{Int8, Int16, Int32, Int64}
+const FastUnsigned = Union{UInt8, UInt16, UInt32, UInt64}
+const FastInteger  = Union{FastSigned, FastUnsigned}
+
 """
     RationalState
 
