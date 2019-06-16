@@ -39,7 +39,9 @@ propinquity(x::T, y::T) where {T<:FastInteger} =
     usewidemul(x,y) ? widemul(x,y) : x*y
 
 #=
-    
+    Rapid determination of the working Type
+
+
 =#
 @inline function usewidemul(x::T, y::T) where {T<:FastSigned}
     iszero( (leading_zeros(abs(x)) + leading_zeros(abs(y))) >> sizeof(T) )
