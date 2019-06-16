@@ -1,9 +1,9 @@
 using BenchmarkTools
 
-BenchmarkTools.DEFAULT_PARAMETERS.samples = 1_000
-BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 1.0e-8
-BenchmarkTools.DEFAULT_PARAMETERS.evals = 1
-BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead()
+BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
+BenchmarkTools.DEFAULT_PARAMETERS.samples = 1_000;
+BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 1.0e-8;
+BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
 
 include("thingstotime.jl")
 
