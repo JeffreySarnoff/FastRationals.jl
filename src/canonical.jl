@@ -14,7 +14,7 @@
     FastRational{T,MayReduce} may or may not be in lowest terms, must apply work
 =#
 
-@inline canonical(q::Rational{T}) where{T} = q)
+@inline canonical(q::Rational{T}) where{T} = q
 @inline canonical(q::FastRational{T,IsReduced}) where{T} = q
 @inline canonical(q::FastRational{T,MayReduce}) where{T} = canonical(q.num, q.den)
 
