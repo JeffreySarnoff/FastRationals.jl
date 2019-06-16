@@ -11,29 +11,24 @@
 """
     propinquity(x::T, y::T)
 
-x * y, without possiblity of overflow
-where T is a very fast system integer
+x * y, without possiblity of overflow, T is a very fast system integer
 
-The product is returned using the type
-provided. Provision of the return type
-is explict when specified explicitly;
-__note well__: explicit typing is an
-unsafe act, where internal logic is 
-applied presumptively, absent checks,
+The product is returned using the type provided. Provision of the return type
+is explict when specified explicitly; __note well__: explicit typing is an
+unsafe act, where internal logic is applied presumptively, absent checks,
 tests and precondition enforcement.
 
-Implict provision of the return type
-selects either the type of the args
-or selects the next larger like it.
-Given `Int32` arguments, the product
-is delivered as `Int32` or as `Int64`.
 
-A wider type is used when necessary
-to preclude overflow, and prevent
-the attendant incorrect values from
-being introduced to the computation.
-When the originating type holds
-the product properly, it is used.
+Implict provision of the return type selects either the type of the args
+or selects the next larger like it. The type of product of those `Int16s` is  allow `Int32` results and `Int32s` allow `Int64` results
+Using `Int16s` allows `Int16` and `Int32`results.
+Given two `Int32`s, an `Int32` or an `Int64`.
+
+
+
+A wider type is used when necessary to preclude overflow, and prevent
+the attendant incorrect values from being introduced to the computation.
+When the originating type holds the product properly, it is used.
 """
 propinquity(x::T, y::T) where {T<:FastInteger} =
     usewidemul(x,y) ? widemul(x,y) : x*y
