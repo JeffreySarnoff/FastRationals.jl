@@ -1,4 +1,4 @@
-function sums_toward_half(::Type{T}, n; details::Bool=falsee) where {T}
+function sums_toward_half(::Type{T}, n; details::Bool=false) where {T}
     one_third = onethird(T)
     one_ninth = one_third * one_third 
     s = one_third + one_ninth
