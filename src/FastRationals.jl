@@ -200,10 +200,8 @@ convert(::Type{F}, x::FastRational{T,H}) where {T,H,F<:AbstractFloat} = F(conver
 
 
 zero(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(zero(T), one(T))
-iszero(x::FastRational{T,H}) where {T,H} = iszero(x.num)
-
 one(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(one(T), one(T))
-isone(x::FastRational{T,H})  where {T,H} = x.num === x.den
+
 
 signbit(x::FastRational{T,H}) where {T<:Signed, H} = signbit(x.num) !== signbit(x.den)
 sign(x::FastRational{T,H}) where {T<:Signed, H} = FastRational{T,IsReduced}(signbit(x) ? -one(T) : one(T))
