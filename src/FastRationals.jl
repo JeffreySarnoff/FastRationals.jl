@@ -1,7 +1,6 @@
 module FastRationals
 
-export FastRational,
-       basistype
+export FastRational
 
 using Base: BitInteger, BitSigned, BitUnsigned
 
@@ -44,8 +43,8 @@ struct MayReduce  <: RationalState end
 
 ### fields 
 
-`num`: the rational numerator      zero and the signed values of a system integer
-`den`: the rational denominator    strictly positive values of a system integer
+`num`: the rational numerator      (zero and signed integer values)
+`den`: the rational denominator    (strictly positive integer values)
 
 """
 struct FastRational{T<:BitInteger, H<:RationalState} <: Real
