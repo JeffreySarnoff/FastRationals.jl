@@ -48,11 +48,12 @@ eltype(x::FastRational{T,H}) where {T,H} = T
 
 content(x::FastRational{T,H}) where {T,H} = x.num, x.den
 
+FastRational(x::FastRational{T,IsReduced}) where {T} = x
+FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(canonical(x.num, x.den))
+
 FastRational(num::T, den::T) where {T} = FastRational(canonical(num, den))
 FastRational(x::NTuple{2,T}) where {T} = FastRational{T,IsReduced}(x[1], x[2])
 
-FastRational(x::FastRational{T,IsReduced}) where {T} = x
-FastRational(x::FastRational{T,MayReduce}) where {T} = FastRational(x.num, x.den)
 
 FastRational(x::Rational{T}) where {T} = FastRational{T,IsReduced}(x.num, x.den)
 FastRational(x::T) where {T<:Integer} = FastRational(x, one(T))
@@ -91,10 +92,10 @@ FastRational{T,H}(x::FastRational{T,IsReduced}, y::FastRational{T,MayReduce}) wh
 FastRational{T,H}(x::FastRational{T,MayReduce}, y::FastRational{T,IsReduced}) where {T,H<:RationalState} =
     FastRational(canonical(x) * inv(y))
 
-
-
 Rational(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
-Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
+Rational(x::FastRational{T,MayReduce}) where {T} = Rational{T}(canonical(x.num, x.den))
+Rational{T}(x::FastRational{T,IsReduced}) where {T} = Rational{T}(x.num, x.den)
+Rational{T}(x::FastRational{T,MayReduce}) where {T} = Rational{T}(canonical(x.num, x.den))
 
 //(x::FastRational{T,H}, y::Integer) where {T,H} = x / FastRational(y)
 //(x::Integer, y::FastRational{T,H}) where {T,H} = FastRational(x) / y
@@ -102,19 +103,6 @@ Rational(x::FastRational{T,MayReduce}) where {T} = Rational(x.num, x.den)
 //(x::FastRational{T,H}, y::Rational) where {T,H} = x / FastRational(y)
 //(x::Rational, y::FastRational{T,H}) where {T,H} = FastRational(x) / y
 
-convert(::Type{Rational{T}}, x::FastRational{T,H}) where {T,H} = Rational(x)
-
-convert(::Type{FastRational{T,H}}, x::T) where {T,H} = FastRational{T,IsReduced}(x, one(T))
-convert(::Type{FastRational{T1,H}}, x::T2) where {T1,T2<:Integer,H} = FastRational{T1,IsReduced}(T1(x), one(T1))
-convert(::Type{FastRational{T1,H}}, x::Rational{T2}) where {T1,T2,H} =
-    FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
-# disambiguate
-convert(::Type{FastRational{T,H}}, x::FastRational{T,H}) where {T,H} = x
-convert(::Type{FastRational{T,IsReduced}}, x::FastRational{T,MayReduce}) where {T} = FastRational(x)
-convert(::Type{FastRational{T,MayReduce}}, x::FastRational{T,IsReduced}) where {T} = x
-
-convert(::Type{FastRational{T,H}}, x::AbstractFloat) where {T,H} = FastRational(convert(Rational{T}, x))
-convert(::Type{F}, x::FastRational{T,H}) where {T,H,F<:AbstractFloat} = F(convert(Rational{T}, x))
 
 float(x::FastRational{T,H}) where {T,H} = float(Rational(x))
 Base.Float64(x::FastRational{T,H}) where {T,H} = Float64(Rational(x))
@@ -140,6 +128,22 @@ promote_rule(::Type{FastRational{T,MayReduce}}, ::Type{A}) where {T,A} = FastRat
 convert(::Type{FastRational{T,IsReduced}}, x::T) where {T} = FastRational{T,IsReduced}(x, one(T))
 convert(::Type{FastRational{T,MayReduce}}, x::T) where {T} = FastRational{T,IsReduced}(x, one(T))
 
+# ------------- promotion rules and conversion logic above has been reviewed
+
+# convert(::Type{Rational{T}}, x::FastRational{T,H}) where {T,H<:RationalState} = Rational(canonical(x.num, x.den))
+
+convert(::Type{FastRational{T,H}}, x::T) where {T,H} = FastRational{T,IsReduced}(x, one(T))
+convert(::Type{FastRational{T1,H}}, x::T2) where {T1,T2<:Integer,H} = FastRational{T1,IsReduced}(T1(x), one(T1))
+convert(::Type{FastRational{T1,H}}, x::Rational{T2}) where {T1,T2,H} =
+    FastRational{T1,IsReduced}(T1(x.num), T1(x.den))
+# disambiguate
+convert(::Type{FastRational{T,H}}, x::FastRational{T,H}) where {T,H} = x
+convert(::Type{FastRational{T,IsReduced}}, x::FastRational{T,MayReduce}) where {T} = FastRational(x)
+convert(::Type{FastRational{T,MayReduce}}, x::FastRational{T,IsReduced}) where {T} = x
+
+convert(::Type{FastRational{T,H}}, x::AbstractFloat) where {T,H} = FastRational(convert(Rational{T}, x))
+convert(::Type{F}, x::FastRational{T,H}) where {T,H,F<:AbstractFloat} = F(convert(Rational{T}, x))
+
 
 
 zero(::Type{FastRational{T,H}}) where {T,H} = FastRational{T,IsReduced}(zero(T), one(T))
@@ -158,13 +162,6 @@ sign(x::FastRational{T,H}) where {T<:Unsigned, H} = FastRational{T,IsReduced}(on
 abs(x::FastRational{T,H}) where {T<:Unsigned, H} = x
 
 # canonical(q) reduces q to lowest terms
-
-canonical(x::FastRational{T,H}) where {T, H<:IsReduced} = x
-
-function canonical(x::FastRational{T,H}) where {T,H}
-    n, d = canonical(x.num, x.den)
-    return FastRational{T, IsReduced}(n, d)
-end
 
 """
     canonical(numerator::T, denominator::T) where T<:Signed
@@ -199,6 +196,18 @@ end
     den = div(den, gcdval)
     return num, den
 end 
+
+
+
+
+# System Rationals are maintained in lowest terms, no additional work needed
+# FastRational{T,IsReduced} is already in lowest terms, no additional work needed
+# FastRational{T,MayReduce} may or may not be in lowest terms, must apply work
+
+@inline canonical(q::Rational{T}) where{T} = q)
+@inline canonical(q::FastRational{T,IsReduced}) where{T} = q
+@inline canonical(q::FastRational{T,MayReduce}) where{T} = canonical(q.num, q.den)
+@inline canonical(q::FastRational{T,H<:
 
 # optimize for FastRational{Int32} using Int64 cross-multiplication for comparisons
 @inline mulwider(x::T, y::T) where {T<:Integer} = widemul(x,y)
