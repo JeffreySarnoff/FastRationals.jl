@@ -1,6 +1,6 @@
-isdefined(Main,:IsReduced) || IsReduced = FastRationals.IsReduced
-isdefined(Main,:MayReduce) || IsReducedMayReduce = FastRationals.MayReduce
-isdefined(Main,:basistype) || IsReducedbasistype = FastRationals.basistype
+if !isdefined(Main,:IsReduced); IsReduced = FastRationals.IsReduced; end;
+if !isdefined(Main,:MayReduce); MayReduce = FastRationals.MayReduce; end;
+if !isdefined(Main,:basistype); basistype = FastRationals.basistype; end;
 
 function sums_toward_half(::Type{T}, n; details::Bool=false) where {T}
     one_third = onethird(T)
