@@ -25,19 +25,17 @@ qfmr64 = @belapsed sums_toward_half(FastRational{Int64,MayReduce},17)
 
 qsys128 = @belapsed sums_toward_half(Rational{Int128},77)
 qfir128 = @belapsed sums_toward_half(FastRational{Int128,IsReduced},77)
-qfmr128 = @belapsed sums_toward_half(FastRational{I7nt128,MayReduce},77)
+qfmr128 = @belapsed sums_toward_half(FastRational{Int128,MayReduce},77)
+
 
 function reltimes(withtype, sys2fir, sys2fmr, fmr2fir)
   print("\n\n$withtype:\t")
   sysfir,sysfmr,fmrfir = round(qsys8 / qfir8, digits = 2), round(qsys8 / qfmr8, digits = 2), round(qfmr8 / qfir8, digits=3);
   print("sys/fir: $sysfir\t sys/fmr: $sysfmr\t fmr/fir: $fmrfir\n\n")
-  
-println("\nInt16\n")
-println(round(qsys16 / qfir16, digits = 2), round(qsys16 / qfmr16, digits = 2), round(qfmr16 / qfir16, digits=3))
-println("\nInt32\n")
-println(round(qsys32 / qfir32, digits = 2), round(qsys32 / qfmr32, digits = 2), round(qfmr32 / qfir32, digits=3))
-println("\nInt64\n")
-println(round(qsys64 / qfir64, digits = 2), round(qsys64 / qfmr64, digits = 2), round(qfmr64 / qfir64, digits=3))
-println("\nInt128\n")
-println(round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3))
+end  
+
+reltimes(Int8, round(qsys16 / qfir16, digits = 2), round(qsys16 / qfmr16, digits = 2), round(qfmr16 / qfir16, digits=3))
+reltimes(round(qsys32 / qfir32, digits = 2), round(qsys32 / qfmr32, digits = 2), round(qfmr32 / qfir32, digits=3))
+reltimes(round(qsys64 / qfir64, digits = 2), round(qsys64 / qfmr64, digits = 2), round(qfmr64 / qfir64, digits=3))
+reltimes(round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3))
 
