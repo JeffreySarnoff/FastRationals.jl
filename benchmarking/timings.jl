@@ -30,12 +30,12 @@ qfmr128 = @belapsed sums_toward_half(FastRational{Int128,MayReduce},77)
 
 function reltimes(withtype, sys2fir, sys2fmr, fmr2fir)
   print("\n\n$withtype:\t")
-  sysfir,sysfmr,fmrfir = round(qsys8 / qfir8, digits = 2), round(qsys8 / qfmr8, digits = 2), round(qfmr8 / qfir8, digits=3);
-  print("sys/fir: $sysfir\t sys/fmr: $sysfmr\t fmr/fir: $fmrfir\n\n")
+  print("sys/fir: $sys2fir\t sys/fmr: $sys2fmr\t fmr/fir: $fmr2fir\n\n")
 end  
 
-reltimes(Int8, round(qsys16 / qfir16, digits = 2), round(qsys16 / qfmr16, digits = 2), round(qfmr16 / qfir16, digits=3))
-reltimes(round(qsys32 / qfir32, digits = 2), round(qsys32 / qfmr32, digits = 2), round(qfmr32 / qfir32, digits=3))
-reltimes(round(qsys64 / qfir64, digits = 2), round(qsys64 / qfmr64, digits = 2), round(qfmr64 / qfir64, digits=3))
-reltimes(round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3))
+reltimes(Int8, round(qsys8 / qfir8, digits = 2), round(qsys8 / qfmr8, digits = 2), round(qfmr8 / qfir8, digits=3))
+reltimes(Int16, round(qsys16 / qfir16, digits = 2), round(qsys16 / qfmr16, digits = 2), round(qfmr16 / qfir16, digits=3))
+reltimes(Int32, round(qsys32 / qfir32, digits = 2), round(qsys32 / qfmr32, digits = 2), round(qfmr32 / qfir32, digits=3))
+reltimes(Int64, round(qsys64 / qfir64, digits = 2), round(qsys64 / qfmr64, digits = 2), round(qfmr64 / qfir64, digits=3))
+reltimes(Int128, round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3))
 
