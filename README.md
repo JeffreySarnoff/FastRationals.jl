@@ -2,7 +2,7 @@
 
 >  (  This will become available for use in concert with its announcement on Discourse.  )
 
- _please know that your interest and attentiveness are matters of moment for me -- Jeffrey Sarnoff_    
+ _please know that your interest and attentiveness are matters of moment and import_    
 
 ----
 ----
