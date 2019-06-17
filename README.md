@@ -1,3 +1,12 @@
+## > __I am busy breaking, fixing, testing, and refining all this week (June 17th--23rd)__
+
+>  (  This will become available for use in concert with its announcement on Discourse.  )
+
+ _please know that your interest and attentiveness are matters of moment for me -- Jeffrey Sarnoff_    
+
+----
+----
+
 # FastRationals.jl
 
 ### rationals with unreal performance <sup>[𝓪](#source)</sup>
