@@ -39,5 +39,5 @@ println(round(qsys32 / qfir32, digits = 2), round(qsys32 / qfmr32, digits = 2), 
 println("\nInt64\n")
 println(round(qsys64 / qfir64, digits = 2), round(qsys64 / qfmr64, digits = 2), round(qfmr64 / qfir64, digits=3))
 println("\nInt128\n")
-println(round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3))7
+println(round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3))
 
