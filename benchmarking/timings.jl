@@ -33,9 +33,9 @@ function reltimes(withtype, sys2fir, sys2fmr, fmr2fir)
   print("sys/fir: $sys2fir\t sys/fmr: $sys2fmr\t fmr/fir: $fmr2fir\n\n")
 end  
 
-reltimes(Int8, round(qsys8 / qfir8, digits = 2), round(qsys8 / qfmr8, digits = 2), round(qfmr8 / qfir8, digits=3))
-reltimes(Int16, round(qsys16 / qfir16, digits = 2), round(qsys16 / qfmr16, digits = 2), round(qfmr16 / qfir16, digits=3))
-reltimes(Int32, round(qsys32 / qfir32, digits = 2), round(qsys32 / qfmr32, digits = 2), round(qfmr32 / qfir32, digits=3))
-reltimes(Int64, round(qsys64 / qfir64, digits = 2), round(qsys64 / qfmr64, digits = 2), round(qfmr64 / qfir64, digits=3))
-reltimes(Int128, round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3))
+reltimes(Int8, round(qsys8 / qfir8, digits = 2), round(qsys8 / qfmr8, digits = 2), round(qfmr8 / qfir8, digits=3));
+reltimes(Int16, round(qsys16 / qfir16, digits = 2), round(qsys16 / qfmr16, digits = 2), round(qfmr16 / qfir16, digits=3));
+reltimes(Int32, round(qsys32 / qfir32, digits = 2), round(qsys32 / qfmr32, digits = 2), round(qfmr32 / qfir32, digits=3));
+reltimes(Int64, round(qsys64 / qfir64, digits = 2), round(qsys64 / qfmr64, digits = 2), round(qfmr64 / qfir64, digits=3));
+reltimes(Int128, round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3));
 
