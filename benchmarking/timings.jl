@@ -28,13 +28,13 @@ qfir128 = @belapsed sums_toward_half(FastRational{Int128,IsReduced},77)
 qfmr128 = @belapsed sums_toward_half(FastRational{I7nt128,MayReduce},77)
 
 println("\nInt8\n")
-println(round(qsys8 / qfir8, digits = 2), round(qsys8 / qmir8, digits = 2), round(qmir8 / qfir8, digits=3))
+println(round(qsys8 / qfir8, digits = 2), round(qsys8 / qfmr8, digits = 2), round(qfmr8 / qfir8, digits=3))
 println("\nInt16\n")
-println(round(qsys16 / qfir16, digits = 2), round(qsys16 / qmir16, digits = 2), round(qmir16 / qfir16, digits=3))
+println(round(qsys16 / qfir16, digits = 2), round(qsys16 / qfmr16, digits = 2), round(qfmr16 / qfir16, digits=3))
 println("\nInt32\n")
-println(round(qsys32 / qfir32, digits = 2), round(qsys32 / qmir32, digits = 2), round(qmir32 / qfir32, digits=3))
+println(round(qsys32 / qfir32, digits = 2), round(qsys32 / qfmr32, digits = 2), round(qfmr32 / qfir32, digits=3))
 println("\nInt64\n")
-println(round(qsys64 / qfir64, digits = 2), round(qsys64 / qmir64, digits = 2), round(qmir64 / qfir64, digits=3))
+println(round(qsys64 / qfir64, digits = 2), round(qsys64 / qfmr64, digits = 2), round(qfmr64 / qfir64, digits=3))
 println("\nInt128\n")
-println(round(qsys128 / qfir128, digits = 2), round(qsys128 / qmir128, digits = 2), round(qmir128 / qfir128, digits=3))7
+println(round(qsys128 / qfir128, digits = 2), round(qsys128 / qfmr128, digits = 2), round(qfmr128 / qfir128, digits=3))7
 
