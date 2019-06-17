@@ -50,5 +50,5 @@ hold their product precisly, with full accuracy?"
 end
 
 @inline function usewidemul(x::T, y::T) where {T<:FastUnsigned}
-    iszero( (leading_zeros(x) + leading_zeros(t)) >> sizeof(T) )
+    iszero( (leading_zeros(x) + leading_zeros(y)) >> sizeof(T) )
 end
