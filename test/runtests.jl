@@ -2,11 +2,13 @@ using FastRationals
 using FastRationals: IsReduced, MayReduce
 
 using Test
+using LinearAlgebra
 
 # adapted from Base/test/rational.jl
 
 const FR = FastRational
 
+#=
 @testset "Rationals" begin
     @test FR(1//1) == 1
     @test FR(2//2) == 1
@@ -80,4 +82,7 @@ const FR = FastRational
     @test abs(one(FastRational{Int,IsReduced})) === one(FastRational{Int,IsReduced})
     @test abs(-one(FastRational{Int,MayReduce})) === one(FastRational{Int,MayReduce})
 end
+=#
+
+@testset "tests" begin include("tests.jl") end
 
