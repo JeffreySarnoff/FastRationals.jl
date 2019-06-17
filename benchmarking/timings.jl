@@ -27,8 +27,11 @@ qsys128 = @belapsed sums_toward_half(Rational{Int128},77)
 qfir128 = @belapsed sums_toward_half(FastRational{Int128,IsReduced},77)
 qfmr128 = @belapsed sums_toward_half(FastRational{I7nt128,MayReduce},77)
 
-println("\nInt8\n")
-println(round(qsys8 / qfir8, digits = 2), round(qsys8 / qfmr8, digits = 2), round(qfmr8 / qfir8, digits=3))
+function reltimes(withtype, sys2fir, sys2fmr, fmr2fir)
+  print("\n\n$withtype:\t")
+  sysfir,sysfmr,fmrfir = round(qsys8 / qfir8, digits = 2), round(qsys8 / qfmr8, digits = 2), round(qfmr8 / qfir8, digits=3);
+  print("sys/fir: $sysfir\t sys/fmr: $sysfmr\t fmr/fir: $fmrfir\n\n")
+  
 println("\nInt16\n")
 println(round(qsys16 / qfir16, digits = 2), round(qsys16 / qfmr16, digits = 2), round(qfmr16 / qfir16, digits=3))
 println("\nInt32\n")
