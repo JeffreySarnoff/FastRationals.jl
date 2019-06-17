@@ -1,4 +1,4 @@
-## > __I am busy breaking, fixing, testing, and refining all this week (June 17th--23rd)__
+## > __I am busy breaking, fixing, testing, and refining (June 17th--23rd)__
 
 >  (  This will become available for use in concert with its announcement on Discourse.  )
 
