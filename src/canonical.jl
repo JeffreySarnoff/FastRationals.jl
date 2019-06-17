@@ -64,5 +64,6 @@ end
     gcdval === one(T) && return num, den
     num = div(num, gcdval)
     den = div(den, gcdval)
-    return num, den
+    return num ÷ den
 end 
+
