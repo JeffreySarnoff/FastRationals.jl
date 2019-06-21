@@ -1,7 +1,3 @@
-if !isdefined(Main,:IsReduced); IsReduced = FastRationals.IsReduced; end;
-if !isdefined(Main,:MayReduce); MayReduce = FastRationals.MayReduce; end;
-if !isdefined(Main,:basistype); basistype = FastRationals.basistype; end;
-
 function sums_toward_half(::Type{T}, n; details::Bool=false) where {T}
     one_third = onethird(T)
     one_ninth = one_third * one_third 
@@ -20,13 +16,13 @@ end
 
 
 function onethird(::Type{Q}) where Q
-    T = basistype(Q)
-    return Q(one(T), one(T)+one(T)+one(T))
+    return Q(one(Int32), 3*one(Int32))
 end
 
 
-slow17 = sums_toward_half(Rational{Int64},17)
-# (1743392200//3486784401, 1//3486784401)
+slow17 = sums_toward_half(Rational{Int32},17)
+# 193710244//387420489
 
-fast17 = sums_toward_half(FastRational{Int64, IsReduced},17)
-# (1743392200//3486784401, 1//3486784401)
+fast17 = sums_toward_half(FastRational,17)
+# 193710244//387420489
+
