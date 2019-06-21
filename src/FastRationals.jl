@@ -17,6 +17,9 @@ struct FastRational <: Real
     den::Int32
 end
 
+numerator(x::FastRational) = x.num
+denominator(x::FastRational) = x.den
+
 FastRational(x::Rational{Int32}) = FastRational(x.num, x.den)
 FastRational(x::Rational{T}) where {T<:Union{Int8, Int16}} =
     FastRational(x.num%Int32, x.den%Int32)
