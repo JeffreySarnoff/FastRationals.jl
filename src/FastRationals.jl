@@ -171,7 +171,6 @@ function /(x::FastRational, y::FastRational)
 end
 
 
-
 //(x::FastRational, y::Integer) = x / FastRational(y)
 //(x::Integer, y::FastRational) = FastRational(x) / y
 //(x::FastRational, y::FastRational) = x / y
