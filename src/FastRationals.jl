@@ -39,6 +39,13 @@ show(io::IO, x::FastRational) = show(io, Rational{Int32}(x))
 string(x::FastRational) = string(Rational{Int32}(x))
 
 
+signbit(x::FastRational) = signbit(x.num) !== signbit(x.den)
+sign(x::FastRational) = FastRational(signbit(x) ? -one(Int32) : one(Int32))
+abs(x::FastRational) = x.den !== typemin(Int32) ? FastRational(abs(x.num), abs(x.den)) :
+                                                  throw(ErrorException("abs(x//typemin) is disallowed"))
+-(x::FastRational) = x.den !== typemin(Int32) ? FastRational(-x.num, x.den) :
+                                                  throw(ErrorException("-(x//typemin) is disallowed"))
+
 # core parts of add, sub, mul, div
 
 @inline function addovf(x::FastRational, y::FastRational)
