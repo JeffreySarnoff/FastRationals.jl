@@ -19,7 +19,7 @@
 |                         |   |
 |:------------------------|:----------------:|
 |                         |   relative speed               |
-| FastRational{ Int32 }   |    6 .. 12     |
+| FastRational{ Int32 }   |    4 .. 16     |
 |                         |                  |
 | SystemRational{ Int32 } |        1        |
 
