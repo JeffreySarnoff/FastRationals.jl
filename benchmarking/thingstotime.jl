@@ -1,3 +1,19 @@
+function adds(x,y,z)
+    a = x + y
+    b = a + z
+    c = b + a
+    d = c + x
+    return d
+end
+
+function muls(x,y,z)
+    a = x * y
+    b = a * z
+    c = z * x
+    d = a * b
+    return d
+end
+
 function sums_toward_half(::Type{T}, n; details::Bool=false) where {T}
     one_third = onethird(T)
     one_ninth = one_third * one_third 
