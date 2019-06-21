@@ -125,7 +125,7 @@ function +(x::FastRational, y::FastRational)
     num, den, ovf = addovf(x, y)
     !ovf && return FastRational(num, den)
     num, den = addq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
-    num, den = Base.divgcd(num, den)
+    num, den = canonical(num, den)
     return FastRational(Int32(num), Int32(den))
 end
 
@@ -133,7 +133,7 @@ function -(x::FastRational, y::FastRational)
     num, den, ovf = subovf(x, y)
     !ovf && return FastRational(num, den)
     num, den = subq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
-    num, den = Base.divgcd(num, den)
+    num, den = canonical(num, den)
     return FastRational(Int32(num), Int32(den))
 end
 
@@ -141,7 +141,7 @@ function *(x::FastRational, y::FastRational)
     num, den, ovf = mulovf(x, y)
     !ovf && return FastRational(num, den)
     num, den = mulq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
-    num, den = Base.divgcd(num, den)
+    num, den = canonical(num, den)
     return FastRational(Int32(num), Int32(den))
 end
 
@@ -149,7 +149,7 @@ function /(x::FastRational, y::FastRational)
     num, den, ovf = divovf(x, y)
     !ovf && return FastRational(num, den)
     num, den = divq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
-    num, den = Base.divgcd(num, den)
+    num, den = canonical(num, den)
     return FastRational(Int32(num), Int32(den))
 end
 
@@ -167,5 +167,16 @@ Base.Float32(x::FastRational)  = Float32(Rational(x))
 Base.Float16(x::FastRational)  = Float16(Rational(x))
 Base.BigFloat(x::FastRational) = BigFloat(Rational(x))
 Base.BigInt(x::FastRational)   = BigInt(Rational(x))
+
+function canonical(num::T, den::T) where {T}
+    num, den = flipsign(num, den), abs(den)
+    gcdval = gcd(num, den)
+    gcdval === one(T) && return num, den
+    num = div(num, gcdval)
+    den = div(den, gcdval)
+    return num, den
+end
+
+decompose(x::FastRational) = x.num, zero(Int32), x.den
 
 end # FastRationals
