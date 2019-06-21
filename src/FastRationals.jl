@@ -40,6 +40,10 @@ Rational{T}(x::FastRational) where {T} = (T)(x.num)//(T)(x.den)
 
 promote_rule(::Type{Rational{T}}, ::Type{FastRational}) where {T} = FastRational
 convert(::Type{FastRational}, x::Rational{T}) where {T} = FastRational(x)
+promote_rule(::Type{FastRational}, ::Type{Float64}) = Float64
+convert(::Type{Float64}, x::FastRational) = x.num / x.den
+promote_rule(::Type{FastRational}, ::Type{Float32}) = Float32
+convert(::Type{Float32}, x::FastRational) = Float32(x.num / x.den)
 
 show(io::IO, x::FastRational) = show(io, Rational{Int32}(x))
 string(x::FastRational) = string(Rational{Int32}(x))
