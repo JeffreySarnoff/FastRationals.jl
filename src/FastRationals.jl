@@ -23,7 +23,8 @@ Rational(x::FastRational) = x.num//x.den
 Rational{Int32}(x::FastRational) = x.num//x.den
 Rational{T}(x::FastRational) where {T} = (T)(x.num)//(T)(x.den)
 
+Base.show(io::IO, x::FastRational) = show(io, Rational{Int32}(x))
+Base.string(x::FastRational) = string(Rational{Int32}(x))
 
-    
 
 end # FastRationals
