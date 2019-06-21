@@ -48,7 +48,7 @@ relative_speedup =
 ```
 using FastRationals, BenchmarkTools
 
-x, y, z = 1234//3451, 345//78912, 987//53
+x, y, z = Rational{Int32}.((1234//345, 345//789, 987//53))
 a, b, c = FastRational.([x, y, z])
 
 function test(x,y,z)
@@ -66,7 +66,7 @@ relative_speedup =
     floor( (@belapsed test(Ref($x)[],Ref($y)[],Ref($z)[])) / 
            (@belapsed test(Ref($a)[],Ref($b)[],Ref($c)[])))
 
-# relative_speedup is (win_v111 = 12.0, wsh_v13x = 16.0)
+# relative_speedup is ~4
 ```
 
 Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` except there is no Infinity, no NaN comparisons.
