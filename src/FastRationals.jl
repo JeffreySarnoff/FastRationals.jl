@@ -5,7 +5,7 @@ export FastRational
 using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow
 
 import Base: hash, show, repr, string, tryparse,
-    zero, one, iszero, isone,
+    zero, one, iszero, isone, isinteger,
     numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
@@ -46,6 +46,14 @@ convert(::Type{Float32}, x::FastRational) = Float32(x.num / x.den)
 show(io::IO, x::FastRational) = show(io, Rational{Int32}(x))
 string(x::FastRational) = string(Rational{Int32}(x))
 
+zero(::Type{FastRational}) = FastRational(zero(Int32), one(Int32))
+zero(x::FastRational) = zero(FastRational)
+one(::Type{FastRational}) = FastRational(one(Int32), one(Int32))
+one(x::FastRational) = one(FastRational)
+
+iszero(x::FastRational) = x.num === zero(Int32)
+isone(x::FastRational) = x.num === x.den
+isinteger(x::FastRational) = x.den == one(Int32) || canonical(x.num, x.den)[2] == one(Int32)
 
 signbit(x::FastRational) = signbit(x.num) !== signbit(x.den)
 sign(x::FastRational) = FastRational(ifelse(signbit(x), -one(Int32), one(Int32)), one(Int32))
@@ -185,11 +193,11 @@ end
 //(x::FastRational, y::Rational) = x / FastRational(y)
 //(x::Rational, y::FastRational) = FastRational(x) / y
 
-float(x::FastRational) = float(Rational(x))
-Base.Float64(x::FastRational)  = Float64(Rational(x))
-Base.Float32(x::FastRational)  = Float32(Rational(x))
-Base.Float16(x::FastRational)  = Float16(Rational(x))
-Base.BigFloat(x::FastRational) = BigFloat(Rational(x))
+float(x::FastRational) = x.num / x.den
+Base.Float64(x::FastRational)  = float(x)
+Base.Float32(x::FastRational)  = Float32(float(x))
+Base.Float16(x::FastRational)  = Float16(float(x))
+Base.BigFloat(x::FastRational) = BigFloat(x.num) / BigFloat(x.den)
 Base.BigInt(x::FastRational)   = BigInt(Rational(x))
 
 function canonical(num::T, den::T) where {T}
