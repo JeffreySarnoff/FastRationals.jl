@@ -30,10 +30,10 @@
 ```
 using FastRationals, Polynomials, BenchmarkTools
 
-w,x,y,z = 1//121, -2//877, 3//454, -4//171; q = 1//87
-poly = Poly([w,x,y,z])
+w,x,y,z = Rational{Int32}.([1//12, -2//77, 3//54, -4//17]); q = Rational{Int32}(1//7);
+a,b,c,d = FastRational.((w,x,y,z)); p = FastRational(q);
 
-a,b,c,d = FastRational.([w,x,y,z]); p = FastRational(q)
+poly = Poly([w,x,y,z])
 fastpoly = Poly([a,b,c,d])
 
 polyval(poly, q) == polyval(fastpoly, p)
@@ -42,7 +42,7 @@ polyval(poly, q) == polyval(fastpoly, p)
 relative_speedup =
     floor((@belapsed polyval($poly, $q)) / (@belapsed polyval($fastpoly, $p)))
 
-# relative_speedup is (win_v111 = 14.0, wsh_v13x = 17.0)
+# relative_speedup is ~16
 ```
 
 ```
