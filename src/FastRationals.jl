@@ -155,4 +155,17 @@ end
 
 
 
+//(x::FastRational, y::Integer) = x / FastRational(y)
+//(x::Integer, y::FastRational) = FastRational(x) / y
+//(x::FastRational, y::FastRational) = x / y
+//(x::FastRational, y::Rational) = x / FastRational(y)
+//(x::Rational, y::FastRational) = FastRational(x) / y
+
+float(x::FastRational) = float(Rational(x))
+Base.Float64(x::FastRational)  = Float64(Rational(x))
+Base.Float32(x::FastRational)  = Float32(Rational(x))
+Base.Float16(x::FastRational)  = Float16(Rational(x))
+Base.BigFloat(x::FastRational) = BigFloat(Rational(x))
+Base.BigInt(x::FastRational)   = BigInt(Rational(x))
+
 end # FastRationals
