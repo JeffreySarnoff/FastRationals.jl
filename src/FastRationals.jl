@@ -2,9 +2,7 @@ module FastRationals
 
 export FastRational
 
-using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
-    checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
-    checked_div, checked_rem, checked_fld, checked_mod, checked_cld
+using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow
 
 import Base: hash, show, repr, string, tryparse,
     zero, one, iszero, isone,
@@ -204,5 +202,7 @@ function canonical(num::T, den::T) where {T}
 end
 
 decompose(x::FastRational) = x.num, zero(Int32), x.den
+
+hash(x::FastRational) = xor(hash(x.num+x.den), (hash(x.num-x.den))
 
 end # FastRationals
