@@ -1,4 +1,3 @@
-
 @testset "avoid overflow during add/subtract" begin
     x =  div(typemax(Int32),6)
     @test FastRational(17, 2x) + FastRational(17, 3x) == FastRational(85, 6x)
