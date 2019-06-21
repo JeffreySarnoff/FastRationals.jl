@@ -38,6 +38,9 @@ Rational(x::FastRational) = x.num//x.den
 Rational{Int32}(x::FastRational) = x.num//x.den
 Rational{T}(x::FastRational) where {T} = (T)(x.num)//(T)(x.den)
 
+promote_rule(::Type{Rational{T}}, ::Type{FastRational}) where {T} = FastRational
+convert(::Type{FastRational}, x::Rational{T}) where {T} = FastRational(x)
+
 show(io::IO, x::FastRational) = show(io, Rational{Int32}(x))
 string(x::FastRational) = string(Rational{Int32}(x))
 
