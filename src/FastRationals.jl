@@ -49,6 +49,20 @@ abs(x::FastRational) = x.den !== typemin(Int32) ? FastRational(abs(x.num), abs(x
 -(x::FastRational) = x.den !== typemin(Int32) ? FastRational(-x.num, x.den) :
                                                   throw(ErrorException("-(x//typemin) is disallowed"))
 
+
+(==)(x::FastRational, y::FastRational) =
+    x.num%Int64 * y.den%Int64 === x.den%Int64 * y.num%Int64
+(!=)(x::FastRational, y::FastRational) =
+    x.num%Int64 * y.den%Int64 !== x.den%Int64 * y.num%Int64
+(<)(x::FastRational, y::FastRational) =
+    x.num%Int64 * y.den%Int64 < x.den%Int64 * y.num%Int64
+(<=)(x::FastRational, y::FastRational) =
+    x.num%Int64 * y.den%Int64 <= x.den%Int64 * y.num%Int64
+(>=)(x::FastRational, y::FastRational) =
+    x.num%Int64 * y.den%Int64 >= x.den%Int64 * y.num%Int64
+(>)(x::FastRational, y::FastRational) =
+    x.num%Int64 * y.den%Int64 > x.den%Int64 * y.num%Int64
+
 # core parts of add, sub, mul, div
 
 @inline function addovf(x::FastRational, y::FastRational)
