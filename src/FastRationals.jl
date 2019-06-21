@@ -2,6 +2,18 @@ module FastRationals
 
 export FastRational
 
+using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow,
+    checked_neg, checked_abs, checked_add, checked_sub, checked_mul,
+    checked_div, checked_rem, checked_fld, checked_mod, checked_cld
+
+import Base: hash, show, repr, string, tryparse,
+    zero, one, iszero, isone,
+    numerator, denominator, eltype, convert, promote_rule, decompose,
+    isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
+    ==, !=, <, <=, >=, >,
+    +, -, *, /, ^, //, 
+    inv, div, fld, cld, rem, mod, trunc, floor, ceil, round
+
 struct FastRational <: Real
     num::Int32
     den::Int32
@@ -23,8 +35,117 @@ Rational(x::FastRational) = x.num//x.den
 Rational{Int32}(x::FastRational) = x.num//x.den
 Rational{T}(x::FastRational) where {T} = (T)(x.num)//(T)(x.den)
 
-Base.show(io::IO, x::FastRational) = show(io, Rational{Int32}(x))
-Base.string(x::FastRational) = string(Rational{Int32}(x))
+show(io::IO, x::FastRational) = show(io, Rational{Int32}(x))
+string(x::FastRational) = string(Rational{Int32}(x))
+
+
+# core parts of add, sub, mul, div
+
+@inline function addovf(x::FastRational, y::FastRational)
+    ovf = false
+    numer, ovfl = mul_with_overflow(x.num, y.den) # here, numer is a temp
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(x.den, y.num) # here, denom is a temp
+    ovf |= ovfl
+    numer, ovfl = add_with_overflow(numer, denom) # numerator of sum
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(xden, yden) # denominator of sum
+    ovf |= ovfl
+    return numer, denom, ovf
+end
+
+@inline function addq(xnum::Int64, xden::Int64, ynum::Int64, yden::Int64)
+    numer = xnum * yden   # here, numer is a temp
+    denom = xden * ynum   # here, denom is a temp
+    numer = numer + denom # numerator of sum
+    denom = xden * yden   # denominator of sum
+    return numer, denom
+end
+
+@inline function subovf(x::FastRational, y::FastRational)
+    ovf = false
+    numer, ovfl = mul_with_overflow(x.num, y.den) # here, numer is a temp
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(x.den, y.num) # here, denom is a temp
+    ovf |= ovfl
+    numer, ovfl = sub_with_overflow(numer, denom) # numerator of difference
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(x.den, y.den) # denominator of difference
+    ovf |= ovfl
+    return numer, denom, ovf
+end
+
+@inline function subq(xnum::Int64, xden::Int64, ynum::Int64, yden::Int64)
+    numer = xnum * yden   # here, numer is a temp
+    denom = xden * ynum   # here, denom is a temp
+    numer = numer - denom # numerator of difference
+    denom = xden * yden   # denominator of difference
+    return numer, denom
+end
+
+
+@inline function mulovf(x::FastRational, y::FastRational)
+    ovf = false
+    numer, ovfl = mul_with_overflow(x.num, y.num)
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(x.den, y.den)
+    ovf |= ovfl
+    return numer, denom, ovf
+end
+
+@inline function mulq(xnum::Int64, xden::Int64, ynum::Int64, yden::Int64)
+    numer = xnum * ynum
+    denom = xden * yden
+    return numer, denom
+end
+
+@inline function divovf(x::FastRational, y::FastRational)
+    ovf = false
+    numer, ovfl = mul_with_overflow(x.num, y.den)
+    ovf |= ovfl
+    denom, ovfl = mul_with_overflow(x.den, y.num)
+    ovf |= ovfl
+    return numer, denom, ovf
+end
+
+@inline function divq(xnum::Int64, xden::Int64, ynum::Int64, yden::Int64)
+    numer = xnum * yden
+    denom = xden * ynum
+    return numer, denom
+end
+
+function +(x::FastRational, y::FastRational)
+    num, den, ovf = addovf(x, y)
+    !ovf && return FastRational(num, den)
+    num, den = addq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
+    num, den = Base.divgcd(num, den)
+    return FastRational(Int32(num), Int32(den))
+end
+
+function -(x::FastRational, y::FastRational)
+    num, den, ovf = subovf(x, y)
+    !ovf && return FastRational(num, den)
+    num, den = subq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
+    num, den = Base.divgcd(num, den)
+    return FastRational(Int32(num), Int32(den))
+end
+
+function *(x::FastRational, y::FastRational)
+    num, den, ovf = mulovf(x, y)
+    !ovf && return FastRational(num, den)
+    num, den = mulq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
+    num, den = Base.divgcd(num, den)
+    return FastRational(Int32(num), Int32(den))
+end
+
+function /(x::FastRational, y::FastRational)
+    num, den, ovf = divovf(x, y)
+    !ovf && return FastRational(num, den)
+    num, den = divq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
+    num, den = Base.divgcd(num, den)
+    return FastRational(Int32(num), Int32(den))
+end
+
 
 
 end # FastRationals
