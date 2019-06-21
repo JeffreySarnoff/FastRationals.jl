@@ -25,6 +25,8 @@ FastRational(x::Rational{T}) where {T<:Union{Int8, Int16}} =
 FastRational(x::Rational{T}) where {T<:Union{Int64, Int128, BigInt}} =
     FastRational(Int32(x.num), Int32(x.den))
 
+FastRational(x::NTuple{2,T}) where {T<:Signed} = FastRational(x[1]//x[2])
+
 FastRational(x::Int32) = FastRational(x.num, one(Int32))
 FastRational(x::T) where {T<:Union{Int8, Int16}} =
     FastRational(x%Int32, one(Int32))
@@ -56,7 +58,7 @@ abs(x::FastRational) = x.den !== typemin(Int32) ? FastRational(abs(x.num), abs(x
     ovf |= ovfl
     numer, ovfl = add_with_overflow(numer, denom) # numerator of sum
     ovf |= ovfl
-    denom, ovfl = mul_with_overflow(xden, yden) # denominator of sum
+    denom, ovfl = mul_with_overflow(x.den, y.den) # denominator of sum
     ovf |= ovfl
     return numer, denom, ovf
 end
