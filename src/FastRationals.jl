@@ -62,8 +62,13 @@ signbit(x::FastRational) = signbit(x.num) !== signbit(x.den)
 sign(x::FastRational) = FastRational(ifelse(signbit(x), -one(Int32), one(Int32)), one(Int32))
 abs(x::FastRational) = x.den !== typemin(Int32) ? FastRational(abs(x.num), abs(x.den)) :
                                                   throw(ErrorException("abs(x//typemin) is disallowed"))
--(x::FastRational) = x.den !== typemin(Int32) ? FastRational(-x.num, x.den) :
-                                                  throw(ErrorException("-(x//typemin) is disallowed"))
+-(x::FastRational) = x.den !== typemin(Int32) ? FastRational(-x.num, x.den) : throw(ErrorException("-(x//typemin) is disallowed"))
+
+copysign(x::FastRational, y::FastRational) = signbit(x) === signbit(y) ? x : -x
+copysign(x::FastRational, y::T) where {T<:Union{Rational,Integer}} = signbit(x) === signbit(y) ? x : -x
+flipsign(x::FastRational, y::FastRational) = signbit(y) ? -x : x
+flipsign(x::FastRational, y::T) where {T<:Union{Rational,Integer}} = signbit(y) ? -x : x
+
 function inv(x::FastRational)
     num, den = flipsign(x.den, x.num), abs(x.num)
     return FastRational(num, den)
