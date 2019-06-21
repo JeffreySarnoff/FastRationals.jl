@@ -51,7 +51,10 @@ abs(x::FastRational) = x.den !== typemin(Int32) ? FastRational(abs(x.num), abs(x
                                                   throw(ErrorException("abs(x//typemin) is disallowed"))
 -(x::FastRational) = x.den !== typemin(Int32) ? FastRational(-x.num, x.den) :
                                                   throw(ErrorException("-(x//typemin) is disallowed"))
-
+function inv(x::FastRational)
+    num, den = flipsign(x.den, x.num), abs(x.num)
+    return FastRational((num, den))
+end
 
 (==)(x::FastRational, y::FastRational) =
     x.num%Int64 * y.den%Int64 === x.den%Int64 * y.num%Int64
@@ -146,7 +149,7 @@ function +(x::FastRational, y::FastRational)
     !ovf && return FastRational(num, den)
     num, den = addq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
     num, den = canonical(num, den)
-    return FastRational(Int32(num), Int32(den))
+    return FastRational((Int32(num), Int32(den)))
 end
 
 function -(x::FastRational, y::FastRational)
@@ -154,7 +157,7 @@ function -(x::FastRational, y::FastRational)
     !ovf && return FastRational(num, den)
     num, den = subq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
     num, den = canonical(num, den)
-    return FastRational(Int32(num), Int32(den))
+    return FastRational((Int32(num), Int32(den)))
 end
 
 function *(x::FastRational, y::FastRational)
@@ -162,7 +165,7 @@ function *(x::FastRational, y::FastRational)
     !ovf && return FastRational(num, den)
     num, den = mulq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
     num, den = canonical(num, den)
-    return FastRational(Int32(num), Int32(den))
+    return FastRational((Int32(num), Int32(den)))
 end
 
 function /(x::FastRational, y::FastRational)
@@ -170,7 +173,7 @@ function /(x::FastRational, y::FastRational)
     !ovf && return FastRational(num, den)
     num, den = divq(x.num%Int64, x.den%Int64, y.num%Int64, y.den%Int64)
     num, den = canonical(num, den)
-    return FastRational(Int32(num), Int32(den))
+    return FastRational((Int32(num), Int32(den)))
 end
 
 
