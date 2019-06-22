@@ -48,25 +48,6 @@ promote_rule(::Type{FastQ64}, ::Type{FastQ32}) = FastQ64
 convert(::Type{FastQ64}, x::FastQ32) = FastQ64(x)
 
 include("promote_convert.jl")
-
-round(::Type{Integer}, x::T) where {T<:FastRational} = round(Integer, x.num//x.den)
-round(::Type{I}, x::T) where {I<:Integer, T<:FastRational} = round(I, x.num//x.den)
-ceil(::Type{Integer}, x::T) where {T<:FastRational} = ceil(Integer, x.num//x.den)
-ceil(::Type{I}, x::T) where {I<:Integer, T<:FastRational} = ceil(I, x.num//x.den)
-floor(::Type{Integer}, x::T) where {T<:FastRational} = floor(Integer, x.num//x.den)
-floor(::Type{I}, x::T) where {I<:Integer, T<:FastRational} = floor(I, x.num//x.den)
-trunc(::Type{Integer}, x::T) where {T<:FastRational} = trunc(Integer, x.num//x.den)
-trunc(::Type{I}, x::T) where {I<:Integer, T<:FastRational} = trunc(I, x.num//x.den)
-
-round(::Type{Integer}, x::T, ::RoundingMode{:ToZero}) where {T<:Rational} = trunc(Integer, x.num//x.den)
-round(::Type{I}, x::T, ::RoundingMode{:ToZero}) where {I<:Integer, T<:FastRational} = trunc(I, x.num//x.den)
-round(::Type{Integer}, x::T, ::RoundingMode{:FromZero}) where {T<:Rational} = -trunc(Integer, -x.num//x.den)
-round(::Type{I}, x::T, ::RoundingMode{:FromZero}) where {I<:Integer, T<:FastRational} = -trunc(I, -x.num//x.den)
-round(::Type{Integer}, x::T, ::RoundingMode{:RoundUp}) where {T<:Rational} = ceil(Integer, x.num//x.den)
-round(::Type{I}, x::T, ::RoundingMode{:RoundUp}) where {I<:Integer, T<:FastRational} = ceil(I, x.num//x.den)
-round(::Type{Integer}, x::T, ::RoundingMode{:RoundDown}) where {T<:Rational} = floor(Integer, x.num//x.den)
-round(::Type{I}, x::T, ::RoundingMode{:RoundDown}) where {I<:Integer, T<:FastRational} = floor(I, x.num//x.den)
-round(::Type{Integer}, x::T, ::RoundingMode{:RoundNearest}) where {T<:Rational} = round(Integer, x.num//x.den)
-round(::Type{I}, x::T, ::RoundingMode{:RoundNearest}) where {I<:Integer, T<:FastRational} = round(I, x.num//x.den)
+include("conform_to_int.jl")
 
 end # FastRationals
