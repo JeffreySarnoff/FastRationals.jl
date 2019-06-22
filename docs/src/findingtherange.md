@@ -9,8 +9,8 @@ A rational value has two integer-valued components, the numerator and the denomi
 
 
 
+![rationalarith](assets/rationalarith.PNG)
 
-`p = a/b; q = c/d; r = p + q = a/b + c/d;`
 
 
 -----
