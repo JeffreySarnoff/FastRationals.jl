@@ -4,9 +4,6 @@ struct FastQ32 <: FastRational
     den::Int32
 end
 
-numerator(x::FastQ32) = x.num
-denominator(x::FastQ32) = x.den
-
 typemax(::Type{FastQ32}) = FastQ32(typemax(Int32), one(Int32))
 typemin(::Type{FastQ32}) = FastQ32(typemin(Int32), one(Int32))
 
