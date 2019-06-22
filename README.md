@@ -18,7 +18,7 @@
 
 ## using FastRationals
 
-- `FastRationals` exports `FastRational{Int32}`, `FastRational{Int64}` and the short forms `FastQ32`, `FastQ64`.
+- __FastRationals__ exports types `FastRational{Int32} (FastQ32)` and `FastRational{Int64} (FastQ64)`.
 - Arithmetic is 12x..16x faster and matrix ops are 2x..6x faster when using appropriately ranged values.
 
 
