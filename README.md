@@ -77,16 +77,18 @@ You are welcome to submit a PR with the results of your benchmarking.  There is 
 [results.md](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/results.md).
 
 
-|  _small rationals_      |  Relative Speedup |
+|    computation          |  Relative Speedup |
 |:------------------------|:-----------------:|
 |      mul/div            |       20          |
 |      polyval            |       18          |
 |      add/sub            |       15          |
-|      4x4 matrix         |                   |
-|      mul                |       10          |
-|      lu                 |        5          |
-|      inv                |        3          |
+|                         |                   |
+|      mat mul            |       10          |
+|      mat lu             |        5          |
+|      mat inv            |        3          |
 
+- polynomial deg is 4
+- matrix size is 4x4
 ----
 
 ### Benchmarking
