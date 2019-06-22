@@ -15,7 +15,7 @@ import Base: hash, show, repr, string, tryparse,
 
 const FastInt = Union{Int8, Int16, Int32, Int64}
 
-include("FatQ32.jl")
-include("FatQ64.jl")
+include("FastQ32.jl")
+include("FastQ64.jl")
 
 end # FastRationals
