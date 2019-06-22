@@ -29,6 +29,7 @@ end
 include("FastQ32.jl")
 include("FastQ64.jl")
 
+
 numerator(x::T) where {T<:FastRational} = x.num
 denominator(x::T) where {T<:FastRational} = x.den
 
