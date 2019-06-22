@@ -40,7 +40,7 @@ julia> floor(Int,cbrt(typemax(Int64)))>>1
 1_048_576
 ```
 
-----
+
 
 
 
