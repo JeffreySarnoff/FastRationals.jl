@@ -1,4 +1,4 @@
-using FastRationals
+using FastRationals, LinearAlgebra
 using Test
 
 include("tests.jl")
