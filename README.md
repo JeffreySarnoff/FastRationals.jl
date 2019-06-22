@@ -67,7 +67,7 @@ FastRationals are at their most performant where overflow is absent or uncommon.
 
 ----
 
-## performance relative to system Rationals
+## performance relative to system rationals
 
 
 With appropriately ranged rationals, arithmetic sequences run 12x..16x faster and matrix ops run about 2x..6x faster.
