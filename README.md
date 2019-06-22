@@ -36,6 +36,7 @@ mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) <= maxbits(q
 mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) >= magzeros(q1) + magzeros(q2)
 ```
 
+
 FastRationals are at their most performant where overflow is absent or uncommon.  The converse holds, too: where overflow occurs very often, FastRationals have no intrinsic advantage to system Rationals.  How do we know what range of rational values are desireable?  A good place to start is to work with rational quantities that, paired `!mayoverflow(q1, q2)`.  As it is the nature of rational arithmetic to tend generate wider results, it makes sense to further constrain the working range.  This table is provided for reference.
 
 #### FastQ32
@@ -131,6 +132,29 @@ relative_speedup =
 ```
 
 Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` except there is no Infinity, no NaN comparisons.
+
+----
+
+#### notes
+
+deriving the expresssion for `mayoverflow`:
+```
+maxbits(q::T) where {T} = bitsof(T) - leading_zeros(maxmag(q))
+maxbits(q1::T) + maxbits(q2::T) = 
+       (bitsof(T) - leading_zeros(maxmag(q1))) + (bitsof(T) - leading_zeros(maxmag(q2)))
+    =  (bitsof(T) + bitsof(T)) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+    =  2*bitsof(T) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+    
+mayoverflow(q1::T, q2::T) = bitsof(T) <= maxbits(q1, q2) =
+     bitsof(T) <= 2*bitsof(T) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+   = (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= 2*bitsof(T) - bitsof(T)
+   = (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= bitsof(T)
+   
+mayoverflow(q1::T, q2::T) where {T} =
+    (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= bitsof(T)
+
+mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) >= magzeros(q1) + magzeros(q2)
+```
 
 ----
 
