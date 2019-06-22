@@ -4,7 +4,14 @@ basetype(x::FastQ32) = Int32
 typemax(::Type{FastQ32}) = FastQ32(typemax(Int32), one(Int32))
 typemin(::Type{FastQ32}) = FastQ32(typemin(Int32), one(Int32))
 
-FastQ32(x::Rational{Int32}) = FastQ32(x.num, x.den)
+@inline function FastQ32(x::Rational{Int32})
+    num, den = x.num, x.den
+    iszero(den) && throw(DivideError)
+    ((den | num) === typemin(T) && (den !== num)) && 
+        throw(DomainError("FastRationals use symmetric Ints, typemin(T) is not used."))   
+    return FastRational{T}(num, den)
+end
+
 FastQ32(x::Rational{T}) where {T<:Union{Int8, Int16}} =
     FastQ32(x.num%Int32, x.den%Int32)
 FastQ32(x::Rational{T}) where {T<:Union{Int64, Int128, BigInt}} =
