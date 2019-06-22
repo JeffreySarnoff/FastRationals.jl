@@ -19,7 +19,7 @@
 ## using FastRationals
 
 - `FastRationals` exports `FastRational{Int32}`, `FastRational{Int64}` with these short forms `FastQ32`, `FastQ64`.
-- With appropriately ranged values, arithmetic is 12x..16x and matrix ops are 2x..6x faster than system rationals.
+- Using appropriate values, arithmetic is 12x..16x and matrix ops are 2x..6x faster than with system rationals.
 
 FastRationals are intended for use with _smaller_ rational values.  To compare two rationals or to calculate the sum, difference, product, or ratio of two rationals requires pairwise multiplication of the constituents of one by the constituents of the other.  Whether or not it overflow depends on the number of leading zeros (`leading_zeros`) in the binary representation of the absolute value of the numerator and the denominator given with each rational.  
 
