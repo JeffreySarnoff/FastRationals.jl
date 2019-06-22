@@ -12,13 +12,20 @@ FR = FastQ32
     @test FR(1//3) * FR(3//4) == FR(1//4) == 1//4
     @test FR(1//2) / FR(3//4) == FR(2//3)
 
+    #=
     @test_throws OverflowError -FR(typemin(Int32)//1)
     @test_throws OverflowError FR(typemax(Int32)//3) + 1
     @test_throws OverflowError FR(typemax(Int32)//3) * 2
+    @test_throws OverflowError FR(1//2)^63
+    =#
+    @test_throws InexactError -FR(typemin(Int32)//1)
+    @test_throws InexactError FR(typemax(Int32)//3) + 1
+    @test_throws InexactError FR(typemax(Int32)//3) * 2
+    @test_throws InexactError FR(1//2)^63
+    
     @test FR(typemax(Int32)//1) * FR(1//typemax(Int32)) == 1
     @test FR(typemax(Int32)//1) / FR(typemax(Int32)//1) == 1
     @test FR(1//typemax(Int32)) / FR(1//typemax(Int32)) == 1
-    @test_throws OverflowError FR(1//2)^63
 
     for a = -5:5, b = -5:5
         if a == b == 0; continue; end
