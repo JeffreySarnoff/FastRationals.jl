@@ -27,7 +27,8 @@ _byref(x)  = x
 Wraps all interpolated code in _expression_ in a __Ref()__ to
 stop the compiler from cheating at simple benchmarks. Works
 with any macro that accepts interpolation
-Example
+
+#Example
     julia> @btime \$a + \$b
       0.024 ns (0 allocations: 0 bytes)
     3
@@ -35,10 +36,10 @@ Example
     julia> @noelide @btime \$a + \$b
       1.277 ns (0 allocations: 0 bytes)
     3
-""" @noelide
 
+"""
 macro noelide(expr)
-    out = postwalk(_refd, expr) |> esc
+    out = postwalk(_byref, expr) |> esc
 end
 
 
