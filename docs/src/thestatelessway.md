@@ -21,7 +21,29 @@ To allow computational advantage -- to procure performance that is absent from t
 
 Managing the resolution of overflow is an expensive incursion into the overall performance of the computational flow.  To the exent that we may proceed secure in the fact that our next calculation cannot overflow, we have at hand the opportunity to accelerate throughput.  By preferring a more coarse rational map, we lessen encounters with overflow and so augment performant paths.  In general terms, this is the technology that provides the greatly enhanced performance of this `FastRational`.
 
+----
 
+|   FastQ32   |  range      | refinement  |
+|-------------|-------------|-------------|
+|             |             |             |
+| desireable  |    ±255//1  |  ±1//255    |
+|             |             |             |
+| preferable  |  ±1_023//1  |  ±1//1_023  |
+|             |             |             |
+| admissible  | ±4_095//1   |  ±1//4_095  |
+
+----
+
+|   FastQ64   |  range         | refinement     |
+|-------------|----------------|----------------|
+|             |                |                |
+| desireable  |    ±65_535//1  |  ±1//65_535    |
+|             |                |                |
+| preferable  |  ±262_143//1   |  ±1//262_143   |
+|             |                |                |
+| admissible  | ±1_048_575//1  | ±1//1_048_575  |
+
+-----
 
 
 
