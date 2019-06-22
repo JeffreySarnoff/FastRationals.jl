@@ -29,6 +29,10 @@ end
 include("FastQ32.jl")
 include("FastQ64.jl")
 
+numerator(x::T) where {T<:FastRational} = x.num
+denominator(x::T) where {T<:FastRational} = x.den
+
+
 FastQ64(x::FastQ32) = FastQ64(Rational{Int64}(x.num//x.den))
 FastQ32(x::FastQ64) = FastQ32(Rational{Int32}(x.num//x.den))
 
