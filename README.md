@@ -71,9 +71,6 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 
 ## performance relative to system rationals
 
-
-With appropriately ranged rationals, arithmetic sequences run 12x..16x faster and matrix ops run about 2x..6x faster.
-
 #### actual results
 
 The code that generates these results is available in the `benchmarks` directory, run this file:
