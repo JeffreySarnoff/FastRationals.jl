@@ -46,11 +46,11 @@ end
 promote_rule(::Type{Rational{T}}, ::Type{FastQ64}) where {T} = FastQ64
 convert(::Type{FastQ64}, x::Rational{T}) where {T} = FastQ64(Int64(x.num), Int64(x.den))
 promote_rule(::Type{FastQ64}, ::Type{Float64}) = FastQ64
-convert(::Type{FastQ64}, x::Float64) = FastQ32(Rational{Int64}(x))
+convert(::Type{FastQ64}, x::Float64) = FastQ64(Rational{Int64}(x))
 promote_rule(::Type{FastQ64}, ::Type{Float32}) = FastQ64
-convert(::Type{Float32}, x::FastQ64) = FastQ32(Rational{Int64}(x))
+convert(::Type{Float32}, x::FastQ64) = FastQ64(Rational{Int64}(x))
 promote_rule(::Type{FastQ64}, ::Type{Float16}) = FastQ64
-convert(::Type{Float16}, x::FastQ64) = FastQ32(Rational{Int64}(x))
+convert(::Type{Float16}, x::FastQ64) = FastQ65(Rational{Int64}(x))
 
 promote_rule(::Type{I}, ::Type{FastQ64}) where {I<:Integer} = FastQ64
 convert(::Type{FastQ64}, x::I) where {I<:Integer} = FastQ64(Int64(x), one(Int32))
