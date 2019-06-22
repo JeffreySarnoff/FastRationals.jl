@@ -101,7 +101,6 @@ relspeed_arith64 =
    round( (@refd @belapsed testarith($x64,$y64,$z64)) /
           (@refd @belapsed testarith($a64,$b64,$c64)), digits=1);
 
-println("relspeed arith:\t $relspeed_arith32 (32)\t $relspeed_arith64 (64)")
 
 relspeed_add32 =
   round( (@refd @belapsed testadd($x32,$y32,$z32)) /
@@ -111,8 +110,6 @@ relspeed_add64 =
  round( (@refd @belapsed testadd($x64,$y64,$z64)) /
         (@refd @belapsed testadd($a64,$b64,$c64)), digits=1);
 
-println("relspeed add:\t $relspeed_add32 (32)\t $relspeed_add64 (64)")
-
 
 relspeed_mul32 =
  round( (@refd @belapsed testmul($x32,$y32,$z32)) /
@@ -121,8 +118,6 @@ relspeed_mul32 =
 relspeed_mul64 =
  round( (@refd @belapsed testmul($x64,$y64,$z64)) /
         (@refd @belapsed testmul($a64,$b64,$c64)), digits=1);
-        
-println("relspeed mul:\t $relspeed_mul32 (32)\t $relspeed_mul64 (64)")
 
 
 relspeed_ply32 =
@@ -137,7 +132,6 @@ relspeed_ply64w =
  round( (@refd @belapsed polyval($ply64w, $q64)) /
         (@refd @belapsed polyval($fastply64w, $fastq64)), digits=1);
 
-println("relspeed poly:\t $relspeed_ply32 (32)\t $relspeed_ply64 (64)")
 
 relspeed_matmul32 =
   round( (@refd @belapsed $m32*$m32) /
@@ -147,7 +141,6 @@ relspeed_matmul64 =
   round( (@refd @belapsed $m64*$m64) /
          (@refd @belapsed $mfast64*$mfast64), digits=1);
 
-println("relspeed matmul:\t $relspeed_matmul32 (32)\t $relspeed_matmul64 (64)")
 
 relspeed_matlu32 =
   round( (@refd @belapsed lu($m32)) /
@@ -157,7 +150,6 @@ relspeed_matlu64 =
   round( (@refd @belapsed lu($m64)) /
          (@refd @belapsed lu($mfast64)), digits=1);
          
-println("relspeed mat lu:\t $relspeed_matlu32 (32)\t $relspeed_matlu64 (64)")
 
 relspeed_matinv32 =
   round( (@refd @belapsed inv($m32)) /
@@ -167,5 +159,12 @@ relspeed_matinv64 =
   round( (@refd @belapsed inv($m64)) /
          (@refd @belapsed inv($mfast64)), digits=1);
 
-println("relspeed matinv:\t $relspeed_matinv32 (32)\t $relspeed_matinv64 (64)")
+println("\n\n\t\trelative speeds\n");
+println("relspeed arith:\t $relspeed_arith32 (32)\t $relspeed_arith64 (64)");
+println("relspeed add:\t $relspeed_add32 (32)\t $relspeed_add64 (64)");
+println("relspeed mul:\t $relspeed_mul32 (32)\t $relspeed_mul64 (64)");
+println("relspeed poly:\t $relspeed_ply32 (32)\t $relspeed_ply64 (64)");
+println("relspeed matmul:\t $relspeed_matmul32 (32)\t $relspeed_matmul64 (64)");
+println("relspeed mat lu:\t $relspeed_matlu32 (32)\t $relspeed_matlu64 (64)");
+println("relspeed matinv:\t $relspeed_matinv32 (32)\t $relspeed_matinv64 (64)");
 
