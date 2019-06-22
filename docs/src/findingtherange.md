@@ -5,7 +5,7 @@
 
 ## the rational milieu
 
-A rational value has two integer-valued components, the numerator and the denominator. Usually, arithmetic with rational values is applied with two values.  Sometimes, as with `muladd`, calculation proceeds with three rational values.  Here are `*`, `+` and `muladd` for rationals.
+A rational value has two integer-valued components, the numerator and the denominator. Usually, rational arithmetic is applied to two values at a time.  `muladd` is applied to three rational values.  Here are `*`, `+` and `muladd` for rationals.
 
 ```
 (a/b * c/d) == (a * c) / (b * d)
