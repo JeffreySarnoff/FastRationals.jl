@@ -16,13 +16,14 @@
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
 
-### using FastRationals
-
+## using FastRationals
 
 `FastRationals` exports two types: `FastQ32`, `FastQ64`, corresponding to `Rational{Int32}` and `Rational{Int64}`, respectively.
 FastRationals are intended for use with _smaller_ rational values.  To compare two rationals or to calculate the sum, difference, product, or ratio of two rationals requires pairwise multiplication of the constituents of one by the constituents of the other.  Whether or not it overflow depends on the number of leading zeros (`leading_zeros`) in the binary representation of the absolute value of the numerator and the denominator given with each rational.  
 
 We really want the larger in magnitude of the numerator and denominator. This is the value that determines the number of bits available to form a product without overflowing. Looked at another way, this is the value that determines whether forming a product could possibly overflow. That is the information of most use in this context. It is alright to determine there is a possiblity of overflow where in fact no overflow will occur.  It is not alright to determine there is no possiblity of overflow where in fact overflow will occur.  In the first instance, some additional work will be done.  In the second instance, an overflow error would stop the computation.
+
+#### _mayoverflow(rational, rational)_
 
 ```julia
 bitsof(::Type{T}) where {T} = sizeof(T) * 8
@@ -36,8 +37,9 @@ mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) <= maxbits(q
 mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) >= magzeros(q1) + magzeros(q2)
 ```
 
+### working with rational ranges
 
-FastRationals are at their most performant where overflow is absent or uncommon.  The converse holds, too: where overflow occurs very often, FastRationals have no intrinsic advantage.  How do we know what range of rational values are desireable?  A good place to start is to work with rational quantities that, paired `!mayoverflow(q1, q2)`.  As it is the nature of rational arithmetic to generate increasingly larger denominators, it makes sense to further constrain the working range.  These tables provide some guidance.
+FastRationals are at their most performant where overflow is absent or uncommon.  And vice versa: where overflow happens frequently, FastRationals have no intrinsic advantage.  How do we know what range of rational values are desireable?  A good place to start is to work with rational quantities that, paired `!mayoverflow(q1, q2)`.  As it is the nature of rational arithmetic to generate increasingly larger denominators, it makes sense to further constrain the working range.  These tables provide some guidance.
 
 #### FastQ32
 
@@ -62,14 +64,7 @@ FastRationals are at their most performant where overflow is absent or uncommon.
 | admissible  | ±1_048_575//1  | ±1//1_048_575  |
 
 
-
-
-```julia
-using FastRationals
-
-```
-
-### performance relative to system Rationals
+## performance relative to system Rationals
 
 
 With smaller rationals, arithmetic sequences run about 12x..16x faster.
