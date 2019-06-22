@@ -12,7 +12,7 @@ typemin(::Type{FastQ32}) = FastQ32(typemin(Int32), one(Int32))
 FastQ32(x::Rational{Int32}) = FastQ32(x.num, x.den)
 FastQ32(x::Rational{T}) where {T<:Union{Int8, Int16}} =
     FastQ32(x.num%Int32, x.den%Int32)
-FastQ32(x::Rational{T}) where {T<:Union{Int64, Int64, BigInt}} =
+FastQ32(x::Rational{T}) where {T<:Union{Int64, Int128, BigInt}} =
     FastQ32(Int32(x.num), Int32(x.den))
 
 FastQ32(x::NTuple{2,T}) where {T<:Signed} = FastQ32(x[1]//x[2])
