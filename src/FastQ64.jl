@@ -28,13 +28,6 @@ Rational(x::FastQ64) = x.num//x.den
 Rational{Int64}(x::FastQ64) = x.num//x.den
 Rational{T}(x::FastQ64) where {T} = (T)(x.num)//(T)(x.den)
 
-promote_rule(::Type{Rational{T}}, ::Type{FastQ64}) where {T} = FastQ64
-convert(::Type{FastQ64}, x::Rational{T}) where {T} = FastQ64(x)
-promote_rule(::Type{FastQ64}, ::Type{Float64}) = Float64
-convert(::Type{Float64}, x::FastQ64) = x.num / x.den
-promote_rule(::Type{FastQ64}, ::Type{Float32}) = Float32
-convert(::Type{Float32}, x::FastQ64) = Float32(x.num / x.den)
-
 show(io::IO, x::FastQ64) = show(io, Rational{Int64}(x))
 string(x::FastQ64) = string(Rational{Int64}(x))
 
