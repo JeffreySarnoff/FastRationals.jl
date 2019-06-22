@@ -73,6 +73,9 @@ With appropriately ranged rationals, arithmetic sequences run 12x..16x faster an
 
 The code that generates these results is available in the `benchmarks` directory, run this file:
 [relative_speedup.jl](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
+You are welcome to submit a PR with the results of your benchmarking.  There is a file dedicated to this:
+[results.md](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/results.md).
+
 
 |  _small rationals_      |  Relative Speedup |
 |:------------------------|:-----------------:|
@@ -81,7 +84,7 @@ The code that generates these results is available in the `benchmarks` directory
 |      add/sub            |       15          |
 |      4x4 matrix         |                   |
 |      mul                |       10          |
-|      lu                 |        5          | 
+|      lu                 |        5          |
 |      inv                |        3          |
 
 ----
