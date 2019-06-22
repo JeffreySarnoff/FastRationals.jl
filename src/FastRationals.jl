@@ -30,7 +30,6 @@ end
 include("FastQ32.jl")
 include("FastQ64.jl")
 
-
 numerator(x::T) where {T<:FastRational} = x.num
 denominator(x::T) where {T<:FastRational} = x.den
 
@@ -39,5 +38,7 @@ FastQ32(x::FastQ64) = FastQ32(Rational{Int32}(x.num//x.den))
 
 promote_rule(::Type{FastQ64}, ::Type{FastQ32}) = FastQ64
 convert(::Type{FastQ64}, x::FastQ32) = FastQ64(x)
+
+include("convert_promote.jl")
 
 end # FastRationals
