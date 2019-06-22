@@ -20,7 +20,58 @@
 
 
 `FastRationals` exports two types: `FastQ32`, `FastQ64`, corresponding to `Rational{Int32}` and `Rational{Int64}`, respectively.
-FastRationals are intended for use with _smaller_ rational values.  
+FastRationals are intended for use with _smaller_ rational values.  To compare two rationals or to calculate the sum, difference, product, or ratio of two rationals requires pairwise multiplication of the constituents of one by the constituents of the other.  Whether or not it overflow depends on the number of leading zeros (`leading_zeros`) in the binary representation of the absolute value of the numerator and the denominator given with each rational.  We really want the larger in magnitude of the numerator and denominator. This is the value that determines the number of bits available to form a product without overflowing. Looked at another way, this is the value that determines whether forming a product could possibly overflow. That is the information of most use in this context. It is alright to determine there is a possiblity of overflow where in fact no overflow will occur.  It is not alright to determine there is no possiblity of overflow where in fact overflow will occur.  In the first instance, some additional work will be done.  In the second instance, an overflow error would stop the computation.
+
+```julia
+bitsof(::Type{T}) where {T} = sizeof(T) * 8
+
+maxmag(q::Rational{T}) where {T} = max(abs(q.num), abs(q.den))  # q.den != typemin(T)
+maxbits(q::Rational{T}) where {T} = bitsof(T) - leading_zeros(maxmag(q))
+maxbits(q1::Rational{T}, q2::Rational{T}) where {T} = maxbits(q1) + maxbits(q2)
+
+mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) <= maxbits(q1, q2)
+```
+We simplify the expresssion for `mayoverflow` easily:
+```
+maxbits(q::T) where {T} = bitsof(T) - leading_zeros(maxmag(q))
+maxbits(q1::T) + maxbits(q2::T) = 
+       (bitsof(T) - leading_zeros(maxmag(q1))) + (bitsof(T) - leading_zeros(maxmag(q2)))
+    =  (bitsof(T) + bitsof(T)) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+    =  2*bitsof(T) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+    
+mayoverflow(q1::T, q2::T) = bitsof(T) <= maxbits(q1, q2) =
+     bitsof(T) <= 2*bitsof(T) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+   = (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= 2*bitsof(T) - bitsof(T)
+   = (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= bitsof(T)
+   
+mayoverflow(q1::T, q2::T) where {T} =
+    (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= bitsof(T)
+```
+
+FastRationals are at their most performant where overflow is absent or uncommon.  The converse holds, too: where overflow occurs very often, FastRationals have no intrinsic advantage to system Rationals.  How do we know what range of rational values are desireable?  A good place to start is to working with rational quantities that, taken in any pair, are such that `!mayoverflow(q1, q2)`.  As it is the nature of rational arithmetic to tend generate results increasing in their `maxmag`, it is prudent to constrain the range of rational values somewhat more.  Here is a table of desireable value ranges provided for your reference.
+
+
+| FastQ32     |  range      | refinement  |
+|-------------|-------------|-------------|
+|             |             |             |
+| desireable  |    ±511//1  |  ±1//511    |
+|             |             |             |
+| preferable  |  ±1_260//1  |  ±1//1_260  |
+|             |             |             |
+| admissible  | ±23_170//1  | ±1//23_170  |
+
+
+| FastQ64     |  range         | refinement     |
+|-------------|----------------|----------------|
+|             |                |                |
+| desireable  |    ±98_304//1  |  ±1//98_304    |
+|             |                |                |
+| preferable  |  ±524_288//1   |  ±1//524_288   |
+|             |                |                |
+| admissible  | ±2_097_152//1  | ±1//2_097_152  |
+
+
+
 
 The _multiplicative magnitude_ of a rational number is given by `multmag(q::Rational{T}) where {T} = max(abs(q.num), abs(q.den))` (the second `abs` is there for completeness).  From that, we obtain the _significant magnitude_ as `sigmag(q::Rational{T}) where {T} = bitsof(T) - leading_zeros(multmag(q))` where `bitsof(x::T) = sizeof(T) * 8`. 
 
