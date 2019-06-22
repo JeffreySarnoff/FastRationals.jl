@@ -15,11 +15,6 @@ A rational value has two integer-valued components, the numerator and the denomi
 (a/b * c/d) + s/t == ((a * c * t) + (b * d * s)) / (b * d * t)
 ```
 
-
-| rational arithmetic                           |
-|:---------------------------------------------:|
-| ![rationalarith](assets/rationalarith.PNG)    |
-
 -----
 
 |      the series formulation         |
