@@ -72,7 +72,7 @@ FR = FastQ64
 
     # PR 29561
     @test abs(one(FastQ64)) === one(FastQ64)
-    @test abs(-one(FastQ64) === one(FastQ64)
+    @test abs(-one(FastQ64)) === one(FastQ64)
 end
 
 
