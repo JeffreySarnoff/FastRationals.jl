@@ -135,27 +135,6 @@ Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` excep
 
 ----
 
-#### notes
-
-deriving the expresssion for `mayoverflow`:
-```
-maxbits(q::T) where {T} = bitsof(T) - leading_zeros(maxmag(q))
-maxbits(q1::T) + maxbits(q2::T) = 
-       (bitsof(T) - leading_zeros(maxmag(q1))) + (bitsof(T) - leading_zeros(maxmag(q2)))
-    =  (bitsof(T) + bitsof(T)) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
-    =  2*bitsof(T) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
-    
-mayoverflow(q1::T, q2::T) = bitsof(T) <= maxbits(q1, q2) =
-     bitsof(T) <= 2*bitsof(T) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
-   = (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= 2*bitsof(T) - bitsof(T)
-   = (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= bitsof(T)
-   
-mayoverflow(q1::T, q2::T) where {T} =
-    (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= bitsof(T)
-
-mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) >= magzeros(q1) + magzeros(q2)
-```
-
 ----
 
 <sup><a name="source">[𝓪](#attribution)</a></sup> Harmen Stoppels on 2019-06-14
