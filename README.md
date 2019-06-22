@@ -47,7 +47,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 ----
 
 |   FastQ32   |  range      | refinement  |
-|-------------|-------------|-------------|E
+|-------------|-------------|-------------|
 |             |             |             |
 | desireable  |    ±255//1  |  ±1//255    |
 |             |             |             |
