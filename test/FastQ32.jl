@@ -12,20 +12,19 @@ FR = FastQ32
     @test FR(1//3) * FR(3//4) == FR(1//4) == 1//4
     @test FR(1//2) / FR(3//4) == FR(2//3)
 
-    # @test_throws OverflowError -FR(0x01//0x0f)
-    @test_throws OverflowError -FR(typemin(Int)//1)
-    @test_throws OverflowError FR(typemax(Int)//3) + 1
-    @test_throws OverflowError FR(typemax(Int)//3) * 2
-    @test FR(typemax(Int)//1) * FR(1//typemax(Int)) == 1
-    @test FR(typemax(Int)//1) / FR(typemax(Int)//1) == 1
-    @test FR(1//typemax(Int)) / FR(1//typemax(Int)) == 1
+    @test_throws OverflowError -FR(typemin(Int32)//1)
+    @test_throws OverflowError FR(typemax(Int32)//3) + 1
+    @test_throws OverflowError FR(typemax(Int32)//3) * 2
+    @test FR(typemax(Int32)//1) * FR(1//typemax(Int32)) == 1
+    @test FR(typemax(Int32)//1) / FR(typemax(Int32)//1) == 1
+    @test FR(1//typemax(Int32)) / FR(1//typemax(Int32)) == 1
     @test_throws OverflowError FR(1//2)^63
 
     for a = -5:5, b = -5:5
         if a == b == 0; continue; end
         if ispow2(b)
             @test FR(a//b) == FR(a/b)
-            @test convert(FastRational,a/b) == FR(a//b) 
+            @test convert(FastQ32,a/b) == FR(a//b) 
         end
         # @test rationalize(a/b) == a//b
         @test FR(a//b) == FR(a//b)
@@ -64,7 +63,6 @@ FR = FastQ32
     @test 1/5 > FR(1//5)
 
     # PR 29561
-    @test abs(one(FastRational{UInt,IsReduced})) === one(FastRational{UInt,IsReduced})
-    @test abs(one(FastRational{Int,IsReduced})) === one(FastRational{Int,IsReduced})
-    @test abs(-one(FastRational{Int,MayReduce})) === one(FastRational{Int,MayReduce})
+    @test abs(one(FastQ32)) === one(FastQ32)
+    @test abs(-one(FastQ32)) === one(FastQ32)
 end
