@@ -73,8 +73,6 @@ FastRationals are at their most performant where overflow is absent or uncommon.
 
 
 
-The _multiplicative magnitude_ of a rational number is given by `multmag(q::Rational{T}) where {T} = max(abs(q.num), abs(q.den))` (the second `abs` is there for completeness).  From that, we obtain the _significant magnitude_ as `sigmag(q::Rational{T}) where {T} = bitsof(T) - leading_zeros(multmag(q))` where `bitsof(x::T) = sizeof(T) * 8`. 
-
 ```julia
 using FastRationals
 
