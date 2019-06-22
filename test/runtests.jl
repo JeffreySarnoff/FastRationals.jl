@@ -4,4 +4,4 @@ using Test
 include("FastQ32.jl")
 include("FastQ64.jl")
 
-include("contributed_tests.jl")
+#include("tests.jl")
