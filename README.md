@@ -64,6 +64,8 @@ FastRationals are at their most performant where overflow is absent or uncommon.
 | admissible  | ±1_048_575//1  | ±1//1_048_575  |
 
 
+----
+
 ## performance relative to system Rationals
 
 
