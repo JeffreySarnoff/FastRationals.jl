@@ -98,9 +98,11 @@ You are welcome to submit a PR with the results of your benchmarking.  There is 
 
 There is no `FastRational` representation for Infinity.  There is no support for comparing a `FastRational` with NaN.
 
-##### enhanced rounding
+#### enhanced rounding
 
-`FastRationals` support directed rounding maintaining type and directed rounding into an integer.
+`FastRationals` support two kinds of directed rounding, one maintains type, the other yields an integer.
+- all rounding modes are available
+    - `RoundNearest`, `RoundUp`, `RoundDown`, `RoundToZero`, `RoundFromZero`
 ```
 > q = FastQ32(22, 7)
 (3//1, 3//1)
