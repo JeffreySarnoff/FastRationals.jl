@@ -202,15 +202,6 @@ Base.Float16(x::FastQ64)  = Float16(float(x))
 Base.BigFloat(x::FastQ64) = BigFloat(x.num) / BigFloat(x.den)
 Base.BigInt(x::FastQ64)   = BigInt(Rational(x))
 
-function canonical(num::T, den::T) where {T}
-    num, den = flipsign(num, den), abs(den)
-    gcdval = gcd(num, den)
-    gcdval === one(T) && return num, den
-    num = div(num, gcdval)
-    den = div(den, gcdval)
-    return num, den
-end
-
 decompose(x::FastQ64) = x.num, zero(Int64), x.den
 
 hash(x::FastQ64) = xor(hash(x.num+x.den), (hash(x.num-x.den)))
