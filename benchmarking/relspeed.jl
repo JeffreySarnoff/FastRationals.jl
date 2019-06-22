@@ -21,11 +21,10 @@ _byref(x)  = x
 
 """
     @noelide @btime expression
-or
     @noelide @belapsed expression
-or
     @noelide @benchmark expression
-Wraps all interpolated code in `expression` in a `Ref()` to
+
+Wraps all interpolated code in _expression_ in a __Ref()__ to
 stop the compiler from cheating at simple benchmarks. Works
 with any macro that accepts interpolation
 Example
