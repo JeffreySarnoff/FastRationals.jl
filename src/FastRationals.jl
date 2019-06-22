@@ -1,6 +1,7 @@
 module FastRationals
 
-export FastQ32, FastQ64, FastRational
+export FastQ32, FastQ64, FastRational,
+       basetype
 
 
 using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow
@@ -32,7 +33,6 @@ include("FastQ64.jl")
 
 numerator(x::T) where {T<:FastRational} = x.num
 denominator(x::T) where {T<:FastRational} = x.den
-
 
 FastQ64(x::FastQ32) = FastQ64(Rational{Int64}(x.num//x.den))
 FastQ32(x::FastQ64) = FastQ32(Rational{Int32}(x.num//x.den))
