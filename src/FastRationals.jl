@@ -15,6 +15,15 @@ import Base: hash, show, repr, string, tryparse,
 
 const FastInt = Union{Int8, Int16, Int32, Int64}
 
+function canonical(num::T, den::T) where {T<:FastInt}
+    num, den = flipsign(num, den), abs(den)
+    gcdval = Base.gcd(num, den)
+    gcdval === one(T) && return num, den
+    num = div(num, gcdval)
+    den = div(den, gcdval)
+    return num, den
+end
+
 include("FastQ32.jl")
 include("FastQ64.jl")
 
