@@ -10,9 +10,9 @@ typemax(::Type{FastQ64}) = FastQ64(typemax(Int64), one(Int64))
 typemin(::Type{FastQ64}) = FastQ64(typemin(Int64), one(Int64))
 
 FastQ64(x::Rational{Int64}) = FastQ64(x.num, x.den)
-FastQ64(x::Rational{T}) where {T<:Union{Int8, Int16}} =
+FastQ64(x::Rational{T}) where {T<:Union{Int8, Int16, Int32}} =
     FastQ64(x.num%Int64, x.den%Int64)
-FastQ64(x::Rational{T}) where {T<:Union{Int128, Int128, BigInt}} =
+FastQ64(x::Rational{T}) where {T<:Union{Int128, BigInt}} =
     FastQ64(Int64(x.num), Int64(x.den))
 
 FastQ64(x::NTuple{2,T}) where {T<:Signed} = FastQ64(x[1]//x[2])
