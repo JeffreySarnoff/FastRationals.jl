@@ -69,7 +69,12 @@ FastRationals are at their most performant where overflow is absent or uncommon.
 
 With appropriately ranged rationals, arithmetic sequences run 12x..16x faster and matrix ops run about 2x..6x faster.
 
-|  _small rationals_ |  Relative Speedup |
+#### actual results
+
+The code that generates these results is available in the `benchmarks` directory, run this file:
+[relative_speedup.jl](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
+
+|  _small rationals_      |  Relative Speedup |
 |:------------------------|:-----------------:|
 |      mul/div            |       20          |
 |      polyval            |       18          |
