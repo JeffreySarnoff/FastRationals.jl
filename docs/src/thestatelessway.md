@@ -48,5 +48,6 @@ julia> floor(Int,cbrt(typemax(Int64)))>>1
 
 ----
 
-<sup><a name="Int16">[𝓪](#annotation)</a></sup> While support for `Int16` would be easy to add, our guidelines suggest its range be  ±1//16..±16//1. We have postponed its inclusion.
+<sup><a name="Int16">[𝓪](#annotation)</a></sup> While support for `Int16` would be easy to add, our guidelines suggest its range be  ±1//16..±16//1.    
+We have postponed its inclusion.
 
