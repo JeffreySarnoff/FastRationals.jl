@@ -1,5 +1,5 @@
 
-struct FastQ32 <: Real
+struct FastQ32 <: FastRational
     num::Int32
     den::Int32
 end
