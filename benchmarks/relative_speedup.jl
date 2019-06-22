@@ -161,14 +161,15 @@ relspeed_matinv64 =
          (@noelide @belapsed inv($mfast64)), digits=1);
 
 relspeeds = string(
-"\n\n\t\trelative speeds\n",
-"mul:   \t $relspeed_mul32 (32)\t $relspeed_mul64 (64)\n",
-"muladd:\t $relspeed_arith32 (32)\t $relspeed_arith64 (64)\n",
-"add:   \t $relspeed_add32 (32)\t $relspeed_add64 (64)\n",
-"poly:  \t $relspeed_ply32 (32)\t $relspeed_ply64w (64)\n",
-"matmul:\t $relspeed_matmul32 (32)\t $relspeed_matmul64 (64)\n",
-"matlu: \t $relspeed_matlu32 (32)\t $relspeed_matlu64 (64)\n",
-"matinv:\t $relspeed_matinv32 (32)\t $relspeed_matinv64 (64)\n");
+"\n\n\trelative speeds",
+"\n\t (32)\t (64)\n\n",
+"mul:   \t $relspeed_mul32 \t $relspeed_mul64 \n",
+"muladd:\t $relspeed_arith32 \t $relspeed_arith64 \n",
+"add:   \t $relspeed_add32 \t $relspeed_add64 \n",
+"poly:  \t $relspeed_ply32 \t $relspeed_ply64w \n",
+"matmul:\t $relspeed_matmul32 \t $relspeed_matmul64\n",
+"matlu: \t $relspeed_matlu32 \t $relspeed_matlu64 \n",
+"matinv:\t $relspeed_matinv32 \t $relspeed_matinv64 \n");
 
 print(relspeeds)
 
