@@ -160,11 +160,11 @@ relspeed_matinv64 =
          (@refd @belapsed inv($mfast64)), digits=1);
 
 println("\n\n\t\trelative speeds\n");
-println("relspeed arith:\t $relspeed_arith32 (32)\t $relspeed_arith64 (64)");
-println("relspeed add:\t $relspeed_add32 (32)\t $relspeed_add64 (64)");
-println("relspeed mul:\t $relspeed_mul32 (32)\t $relspeed_mul64 (64)");
-println("relspeed poly:\t $relspeed_ply32 (32)\t $relspeed_ply64 (64)");
-println("relspeed matmul:\t $relspeed_matmul32 (32)\t $relspeed_matmul64 (64)");
-println("relspeed mat lu:\t $relspeed_matlu32 (32)\t $relspeed_matlu64 (64)");
-println("relspeed matinv:\t $relspeed_matinv32 (32)\t $relspeed_matinv64 (64)");
+println("arith: \t $relspeed_arith32 (32)\t $relspeed_arith64 (64)");
+println("add:   \t $relspeed_add32 (32)\t $relspeed_add64 (64)");
+println("mul:   \t $relspeed_mul32 (32)\t $relspeed_mul64 (64)");
+println("poly:  \t $relspeed_ply32 (32)\t $relspeed_ply64 (64)");
+println("matmul:\t $relspeed_matmul32 (32)\t $relspeed_matmul64 (64)");
+println("mat lu:\t $relspeed_matlu32 (32)\t $relspeed_matlu64 (64)");
+println("matinv:\t $relspeed_matinv32 (32)\t $relspeed_matinv64 (64)");
 
