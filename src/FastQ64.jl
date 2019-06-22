@@ -1,4 +1,4 @@
-struct FastQ64 <: Real
+struct FastQ64 <: FastRational
     num::Int64
     den::Int64
 end
