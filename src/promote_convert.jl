@@ -8,7 +8,10 @@ Base.Float16(x::FastQ32)  = Float16(float(x))
 Base.BigFloat(x::FastQ32) = BigFloat(x.num) / BigFloat(x.den)
 Base.BigInt(x::FastQ32)   = BigInt(Rational(x))
 
-FastQ32(x::F) where {F<:AbstractFloat} = convert(F, x)
+function FastQ32(x::F) where {F<:AbstractFloat}
+    !isfinite(x) && throw(DomainError("finite values only"))
+    return FastQ32(Rational{Int32}(x))
+end
 
 # ------------------------- FastQ32
 
@@ -33,7 +36,10 @@ Base.Float16(x::FastQ64)  = Float16(float(x))
 Base.BigFloat(x::FastQ64) = BigFloat(x.num) / BigFloat(x.den)
 Base.BigInt(x::FastQ64)   = BigInt(Rational(x))
 
-FastQ64(x::F) where {F<:AbstractFloat} = convert(F, x)
+function FastQ64(x::F) where {F<:AbstractFloat}
+    !isfinite(x) && throw(DomainError("finite values only"))
+    return FastQ64(Rational{Int64}(x))
+end
 
 # ------------------------- FastQ64
 
