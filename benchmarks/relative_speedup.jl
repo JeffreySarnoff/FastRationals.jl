@@ -95,70 +95,70 @@ mfast64 = FastQ64.(m);
 
 
 relspeed_arith32 =
-    round( (@refd @belapsed testarith($x32,$y32,$z32)) /
-           (@refd @belapsed testarith($a32,$b32,$c32)), digits=1);
+    round( (@noelide @belapsed testarith($x32,$y32,$z32)) /
+           (@noelide @belapsed testarith($a32,$b32,$c32)), digits=1);
 
 relspeed_arith64 =
-   round( (@refd @belapsed testarith($x64,$y64,$z64)) /
-          (@refd @belapsed testarith($a64,$b64,$c64)), digits=1);
+   round( (@noelide @belapsed testarith($x64,$y64,$z64)) /
+          (@noelide @belapsed testarith($a64,$b64,$c64)), digits=1);
 
 
 relspeed_add32 =
-  round( (@refd @belapsed testadd($x32,$y32,$z32)) /
-         (@refd @belapsed testadd($a32,$b32,$c32)), digits=1);
+  round( (@noelide @belapsed testadd($x32,$y32,$z32)) /
+         (@noelide @belapsed testadd($a32,$b32,$c32)), digits=1);
 
 relspeed_add64 =
- round( (@refd @belapsed testadd($x64,$y64,$z64)) /
-        (@refd @belapsed testadd($a64,$b64,$c64)), digits=1);
+ round( (@noelide @belapsed testadd($x64,$y64,$z64)) /
+        (@noelide @belapsed testadd($a64,$b64,$c64)), digits=1);
 
 
 relspeed_mul32 =
- round( (@refd @belapsed testmul($x32,$y32,$z32)) /
-        (@refd @belapsed testmul($a32,$b32,$c32)), digits=1);
+ round( (@noelide @belapsed testmul($x32,$y32,$z32)) /
+        (@noelide @belapsed testmul($a32,$b32,$c32)), digits=1);
 
 relspeed_mul64 =
- round( (@refd @belapsed testmul($x64,$y64,$z64)) /
-        (@refd @belapsed testmul($a64,$b64,$c64)), digits=1);
+ round( (@noelide @belapsed testmul($x64,$y64,$z64)) /
+        (@noelide @belapsed testmul($a64,$b64,$c64)), digits=1);
 
 
 relspeed_ply32 =
- round( (@refd @belapsed polyval($ply32, $q32)) /
-        (@refd @belapsed polyval($fastply32, $fastq32)), digits=1);
+ round( (@noelide @belapsed polyval($ply32, $q32)) /
+        (@noelide @belapsed polyval($fastply32, $fastq32)), digits=1);
 
 relspeed_ply64 =
- round( (@refd @belapsed polyval($ply64, $q64)) /
-        (@refd @belapsed polyval($fastply64, $fastq64)), digits=1);
+ round( (@noelide @belapsed polyval($ply64, $q64)) /
+        (@noelide @belapsed polyval($fastply64, $fastq64)), digits=1);
         
 relspeed_ply64w =
- round( (@refd @belapsed polyval($ply64w, $q64)) /
-        (@refd @belapsed polyval($fastply64w, $fastq64)), digits=1);
+ round( (@noelide @belapsed polyval($ply64w, $q64)) /
+        (@noelide @belapsed polyval($fastply64w, $fastq64)), digits=1);
 
 
 relspeed_matmul32 =
-  round( (@refd @belapsed $m32*$m32) /
-         (@refd @belapsed $mfast32*$mfast32), digits=1);
+  round( (@noelide @belapsed $m32*$m32) /
+         (@noelide @belapsed $mfast32*$mfast32), digits=1);
 
 relspeed_matmul64 =
-  round( (@refd @belapsed $m64*$m64) /
-         (@refd @belapsed $mfast64*$mfast64), digits=1);
+  round( (@noelide @belapsed $m64*$m64) /
+         (@noelide @belapsed $mfast64*$mfast64), digits=1);
 
 
 relspeed_matlu32 =
-  round( (@refd @belapsed lu($m32)) /
-         (@refd @belapsed lu($mfast32)), digits=1);
+  round( (@noelide @belapsed lu($m32)) /
+         (@noelide @belapsed lu($mfast32)), digits=1);
 
 relspeed_matlu64 =
-  round( (@refd @belapsed lu($m64)) /
-         (@refd @belapsed lu($mfast64)), digits=1);
+  round( (@noelide @belapsed lu($m64)) /
+         (@noelide @belapsed lu($mfast64)), digits=1);
          
 
 relspeed_matinv32 =
-  round( (@refd @belapsed inv($m32)) /
-         (@refd @belapsed inv($mfast32)), digits=1);
+  round( (@noelide @belapsed inv($m32)) /
+         (@noelide @belapsed inv($mfast32)), digits=1);
 
 relspeed_matinv64 =
-  round( (@refd @belapsed inv($m64)) /
-         (@refd @belapsed inv($mfast64)), digits=1);
+  round( (@noelide @belapsed inv($m64)) /
+         (@noelide @belapsed inv($mfast64)), digits=1);
 
 relspeeds = string(
 "\n\n\t\trelative speeds\n",
