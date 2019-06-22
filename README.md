@@ -98,6 +98,30 @@ You are welcome to submit a PR with the results of your benchmarking.  There is 
 
 There is no `FastRational` representation for Infinity.  There is no support for comparing a `FastRational` with NaN.
 
+##### enhanced rounding
+
+`FastRationals` support directed rounding maintaining type and directed rounding into an integer.
+```
+> q = FastQ32(22, 7)
+(3//1, 3//1)
+
+> round(q), round(q, RoundNearest), round(-q), round(-q, RoundNearest)
+(3//1, 3//1, -3//1, -3//1)
+
+> round(q, RoundToZero), round(q, RoundFromZero), round(-q, RoundToZero), round(-q, RoundFromZero)
+(3//1, 4//1, -3//1, -4//1)
+
+> round(q, RoundDown), round(q, RoundUp), round(-q, RoundDown), round(-q, RoundUp)
+(3//1, 4//1, -4//1, -3//1)
+
+
+> round(Integer, q, RoundUp), typeof(round(Integer, q, RoundUp))
+4, Int32
+
+> round(Int16, -q, RoundUp), typeof(round(Int16, -q, RoundUp))
+-3, Int16
+```
+
 ----
 
 ### references
