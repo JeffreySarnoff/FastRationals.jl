@@ -9,13 +9,25 @@
 
 # FastRationals.jl
 
+----
+
 ### rationals with unreal performance <sup>[𝓪](#source)</sup>
 
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
 
-### computing with rational arithmetic
+### using FastRationals
 
+
+`FastRationals` exports two types: `FastQ32`, `FastQ64`, corresponding to `Rational{Int32}` and `Rational{Int64}`, respectively.
+FastRationals are intended for use with _smaller_ rational values.  
+
+The _multiplicative magnitude_ of a rational number is given by `multmag(q::Rational{T}) where {T} = max(abs(q.num), abs(q.den))` (the second `abs` is there for completeness).  From that, we obtain the _significant magnitude_ as `sigmag(q::Rational{T}) where {T} = bitsof(T) - leading_zeros(multmag(q))` where `bitsof(x::T) = sizeof(T) * 8`. 
+
+```julia
+using FastRationals
+
+```
 
 ### performance relative to system Rationals
 
