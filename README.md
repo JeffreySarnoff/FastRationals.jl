@@ -94,10 +94,9 @@ You are welcome to submit a PR with the results of your benchmarking.  There is 
 - matrix size is 4x4
 ----
 
+### differences from system rationals
 
-```
-
-Arithmetic works like `Rational` for eltypes `Int8, .., Int128, UInt8, ..` except there is no Infinity, no NaN comparisons.
+There is no FastRational representation for Infinity.  There is no support for comparing a FastRational with NaN.
 
 ----
 
