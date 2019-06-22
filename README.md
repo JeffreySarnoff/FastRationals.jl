@@ -50,27 +50,27 @@ mayoverflow(q1::T, q2::T) where {T} =
     (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= bitsof(T)
 ```
 
-FastRationals are at their most performant where overflow is absent or uncommon.  The converse holds, too: where overflow occurs very often, FastRationals have no intrinsic advantage to system Rationals.  How do we know what range of rational values are desireable?  A good place to start is to working with rational quantities that, taken in any pair, are such that `!mayoverflow(q1, q2)`.  As it is the nature of rational arithmetic to tend generate results increasing in their `maxmag`, it is prudent to constrain the range of rational values somewhat more.  Here is a table of desireable value ranges provided for your reference.
+FastRationals are at their most performant where overflow is absent or uncommon.  The converse holds, too: where overflow occurs very often, FastRationals have no intrinsic advantage to system Rationals.  How do we know what range of rational values are desireable?  A good place to start is to work with rational quantities that, paired `!mayoverflow(q1, q2)`.  As it is the nature of rational arithmetic to tend generate wider results, it makes sense to further constrain the working range.  This table is provided for reference.
 
 
 | FastQ32     |  range      | refinement  |
 |-------------|-------------|-------------|
 |             |             |             |
-| desireable  |    ±511//1  |  ±1//511    |
+| desireable  |    ±255//1  |  ±1//255    |
 |             |             |             |
-| preferable  |  ±1_260//1  |  ±1//1_260  |
+| preferable  |  ±1_023//1  |  ±1//1_023  |
 |             |             |             |
-| admissible  | ±23_170//1  | ±1//23_170  |
+| admissible  | ±4_095//1   |  ±1//4_095  |
 
 
 | FastQ64     |  range         | refinement     |
 |-------------|----------------|----------------|
 |             |                |                |
-| desireable  |    ±98_304//1  |  ±1//98_304    |
+| desireable  |    ±65_535//1  |  ±1//65_535    |
 |             |                |                |
-| preferable  |  ±524_288//1   |  ±1//524_288   |
+| preferable  |  ±262_143//1   |  ±1//262_143   |
 |             |                |                |
-| admissible  | ±2_097_152//1  | ±1//2_097_152  |
+| admissible  | ±1_048_575//1  | ±1//1_048_575  |
 
 
 
