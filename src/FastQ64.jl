@@ -177,7 +177,7 @@ function /(x::FastQ64, y::FastQ64)
 end
 
 function ^(x::FastQ64, y::Integer)
-    num, den = x.num%Int128^y, x.den%Int128^y
+    num, den = (x.num%Int128)^y, (x.den%Int128)^y
     num, den = canonical(num, den)
     return FastQ64(Int64(num), Int64(den))
 end
