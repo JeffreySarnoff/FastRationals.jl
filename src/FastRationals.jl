@@ -26,6 +26,13 @@ const FastQ32 = FastRational{Int32}
 const FastQ64 = FastRational{Int64}
 
 
+@inline function FastRational(num::T, den::T) where {T<:FastInt}
+    iszero(den) && throw(DivideError)
+    ((den | num) === typemin(T) && (den !== num)) && 
+        throw(DomainError("FastRationals use symmetric Ints, typemin(T) is not used."))   
+    return FastRational{T}(num, den)
+end
+
 function canonical(num::T, den::T) where {T<:BitSigned}
     num, den = flipsign(num, den), abs(den)
     gcdval = Base.gcd(num, den)
