@@ -8,7 +8,7 @@ BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
 
 walk(x, inner, outer) = outer(x)
 walk(x::Expr, inner, outer) = outer(Expr(x.head, map(inner, x.args)...))
-postwalk`f, x) = walk(x, x -> postwalk(f, x), f)
+postwalk(f, x) = walk(x, x -> postwalk(f, x), f)
 
 function _byref(expr::Expr)
     if expr.head == :$
@@ -35,7 +35,8 @@ Example
     julia> @noelide @btime \$a + \$b
       1.277 ns (0 allocations: 0 bytes)
     3
-"""
+""" @noelide
+
 macro noelide(expr)
     out = postwalk(_refd, expr) |> esc
 end
