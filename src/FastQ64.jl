@@ -3,6 +3,9 @@ struct FastQ64 <: FastRational
     den::Int64
 end
 
+basetype(::Type{FastQ64}) = Int64
+basetype(x::FastQ64) = Int64
+
 typemax(::Type{FastQ64}) = FastQ64(typemax(Int64), one(Int64))
 typemin(::Type{FastQ64}) = FastQ64(typemin(Int64), one(Int64))
 
