@@ -13,12 +13,12 @@ FR = FastQ64
     @test FR(1//2) / FR(3//4) == FR(2//3)
 
     # @test_throws OverflowError -FR(0x01//0x0f)
-    @test_throws OverflowError -FR(typemin(Int)//1)
-    @test_throws OverflowError FR(typemax(Int)//3) + 1
-    @test_throws OverflowError FR(typemax(Int)//3) * 2
-    @test FR(typemax(Int)//1) * FR(1//typemax(Int)) == 1
-    @test FR(typemax(Int)//1) / FR(typemax(Int)//1) == 1
-    @test FR(1//typemax(Int)) / FR(1//typemax(Int)) == 1
+    @test_throws OverflowError -FR(typemin(Int64)//1)
+    @test_throws OverflowError FR(typemax(Int64)//3) + 1
+    @test_throws OverflowError FR(typemax(Int64)//3) * 2
+    @test FR(typemax(Int)//1) * FR(1//typemax(Int64)) == 1
+    @test FR(typemax(Int)//1) / FR(typemax(Int64)//1) == 1
+    @test FR(1//typemax(Int)) / FR(1//typemax(Int64)) == 1
     @test_throws OverflowError FR(1//2)^63
 
     for a = -5:5, b = -5:5
@@ -64,9 +64,8 @@ FR = FastQ64
     @test 1/5 > FR(1//5)
 
     # PR 29561
-    @test abs(one(FastRational{UInt,IsReduced})) === one(FastRational{UInt,IsReduced})
-    @test abs(one(FastRational{Int,IsReduced})) === one(FastRational{Int,IsReduced})
-    @test abs(-one(FastRational{Int,MayReduce})) === one(FastRational{Int,MayReduce})
+    @test abs(one(FastQ64)) === one(FastQ64)
+    @test abs(-one(FastQ64) === one(FastQ64)
 end
 
 
