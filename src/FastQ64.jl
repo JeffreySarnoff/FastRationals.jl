@@ -193,13 +193,6 @@ end
 //(x::FastQ64, y::Rational) = x / FastQ64(y)
 //(x::Rational, y::FastQ64) = FastQ64(x) / y
 
-float(x::FastQ64) = x.num / x.den
-Base.Float64(x::FastQ64)  = float(x)
-Base.Float32(x::FastQ64)  = Float32(float(x))
-Base.Float16(x::FastQ64)  = Float16(float(x))
-Base.BigFloat(x::FastQ64) = BigFloat(x.num) / BigFloat(x.den)
-Base.BigInt(x::FastQ64)   = BigInt(Rational(x))
-
 decompose(x::FastQ64) = x.num, zero(Int64), x.den
 
 hash(x::FastQ64) = xor(hash(x.num+x.den), (hash(x.num-x.den)))
