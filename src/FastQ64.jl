@@ -1,8 +1,3 @@
-struct FastQ64 <: FastRational
-    num::Int64
-    den::Int64
-end
-
 basetype(::Type{FastQ64}) = Int64
 basetype(x::FastQ64) = Int64
 

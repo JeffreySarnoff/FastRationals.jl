@@ -1,6 +1,6 @@
 module FastRationals
 
-export FastQ32, FastQ64, FastRational,
+export FastRational, FastQ32, FastQ64,
        basetype
 
 
@@ -16,7 +16,15 @@ import Base: BitSigned, hash, show, repr, string, tryparse,
 
 const FastInt = Union{Int8, Int16, Int32, Int64}
 
-abstract type FastRational <: Real end
+
+struct FastRational{T} <: Real
+    num::T
+    den::T
+end
+
+const FastQ32 = FastRational{Int32}
+const FastQ64 = FastRational{Int64}
+
 
 function canonical(num::T, den::T) where {T<:BitSigned}
     num, den = flipsign(num, den), abs(den)

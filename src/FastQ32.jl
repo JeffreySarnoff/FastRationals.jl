@@ -1,8 +1,3 @@
-struct FastQ32 <: FastRational
-    num::Int32
-    den::Int32
-end
-
 basetype(::Type{FastQ32}) = Int32
 basetype(x::FastQ32) = Int32
 
