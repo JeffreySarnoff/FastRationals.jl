@@ -4,13 +4,7 @@ basetype(x::FastQ64) = Int64
 typemax(::Type{FastQ64}) = FastQ64(typemax(Int64), one(Int64))
 typemin(::Type{FastQ64}) = FastQ64(typemin(Int64), one(Int64))
 
-@inline function FastQ64(x::Rational{Int64})
-    num, den = x.num, x.den
-    iszero(den) && throw(DivideError)
-    ((den | num) === typemin(T) && (den !== num)) && 
-        throw(DomainError("FastRationals use symmetric Ints, typemin(T) is not used."))   
-    return FastRational{T}(num, den)
-end
+FastQ64(x::Rational{Int64}) = FastQ64(x.num, x.den)
 
 FastQ64(x::Rational{T}) where {T<:Union{Int8, Int16, Int32}} =
     FastQ64(x.num%Int64, x.den%Int64)
