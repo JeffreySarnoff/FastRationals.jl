@@ -1,6 +1,6 @@
-trunc(::Type{I}, x::FastRational{T}) where {I<:Integer, I<:Integer} = convert(T, div(x.num,x.den))
-floor(::Type{I}, x::FastRational{T}) where {I<:Integer, I<:Integer} = convert(T, fld(x.num,x.den))
-ceil(::Type{I},  x::FastRational{T}) where {I<:Integer, I<:Integer} = convert(T, cld(x.num,x.den))
+trunc(::Type{I}, x::FastRational{T}) where {I<:Integer, T<:FastInt} = convert(T, div(x.num,x.den))
+floor(::Type{I}, x::FastRational{T}) where {I<:Integer, T<:FastInt} = convert(T, fld(x.num,x.den))
+ceil(::Type{I},  x::FastRational{T}) where {I<:Integer, T<:FastInt} = convert(T, cld(x.num,x.den))
 
 trunc(::Type{Integer}, x::FastRational{T}) where {T<:FastInt} = trunc(T, x)
 floor(::Type{Integer}, x::FastRational{T}) where {T<:FastInt} = floor(T, x)
