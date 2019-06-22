@@ -3,9 +3,6 @@ struct FastQ64 <: FastRational
     den::Int64
 end
 
-numerator(x::FastQ64) = x.num
-denominator(x::FastQ64) = x.den
-
 typemax(::Type{FastQ64}) = FastQ64(typemax(Int64), one(Int64))
 typemin(::Type{FastQ64}) = FastQ64(typemin(Int64), one(Int64))
 
