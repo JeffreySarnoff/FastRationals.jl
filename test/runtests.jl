@@ -1,5 +1,7 @@
 using FastRationals, LinearAlgebra
 using Test
 
-include("tests.jl")
-include("frombase.jl")
+include("FastQ32.jl")
+include("FastQ64.jl")
+
+include("contributed_tests.jl")
