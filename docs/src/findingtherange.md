@@ -9,9 +9,9 @@ A rational value has two integer-valued components, the numerator and the denomi
 
 
 
-![rationalarith](assets/rationalarith.PNG)
-
-
+| rational arithmetic                           |
+|:---------------------------------------------:|
+| ![rationalarith](assets/rationalarith.PNG)    |
 
 -----
 
