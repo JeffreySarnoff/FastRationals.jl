@@ -16,16 +16,16 @@ FR = FastQ64
     @test_throws OverflowError -FR(typemin(Int64)//1)
     @test_throws OverflowError FR(typemax(Int64)//3) + 1
     @test_throws OverflowError FR(typemax(Int64)//3) * 2
-    @test FR(typemax(Int)//1) * FR(1//typemax(Int64)) == 1
-    @test FR(typemax(Int)//1) / FR(typemax(Int64)//1) == 1
-    @test FR(1//typemax(Int)) / FR(1//typemax(Int64)) == 1
+    @test FR(typemax(Int64)//1) * FR(1//typemax(Int64)) == 1
+    @test FR(typemax(Int64)//1) / FR(typemax(Int64)//1) == 1
+    @test FR(1//typemax(Int64)) / FR(1//typemax(Int64)) == 1
     @test_throws OverflowError FR(1//2)^63
 
     for a = -5:5, b = -5:5
         if a == b == 0; continue; end
         if ispow2(b)
             @test FR(a//b) == FR(a/b)
-            @test convert(FastRational,a/b) == FR(a//b) 
+            @test convert(FastQ64,a/b) == FR(a//b) 
         end
         # @test rationalize(a/b) == a//b
         @test FR(a//b) == FR(a//b)
