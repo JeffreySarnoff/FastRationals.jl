@@ -96,7 +96,8 @@ You are welcome to submit a PR with the results of your benchmarking.  There is 
 
 ### differences from system rationals
 
-There is no `FastRational` representation for Infinity.  There is no support for comparing a `FastRational` with NaN.
+- There is no `FastRational` representation for Infinity
+- There is no support for comparing a `FastRational` with NaN
 
 #### enhanced rounding
 
