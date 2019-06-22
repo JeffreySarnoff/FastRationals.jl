@@ -24,11 +24,6 @@ FastQ32(x::T) where {T<:Union{Int64, Int64, BigInt}} =
     FastQ32(Int32(x), one(Int32))
 FastQ32(x::Bool) = x ? one(FastQ32) : zero(FastQ32)
 
-function FastQ32(x::F) where {F<:AbstractFloat}
-    !isfinite(x) && throw(DomainError("finite values only"))
-    return FastQ32(Rational{Int64}(x))
-end
-
 Rational(x::FastQ32) = x.num//x.den
 Rational{Int32}(x::FastQ32) = x.num//x.den
 Rational{T}(x::FastQ32) where {T} = (T)(x.num)//(T)(x.den)
