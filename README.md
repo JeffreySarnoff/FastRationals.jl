@@ -16,12 +16,22 @@
 
 ### computing with rational arithmetic
 
-|                         |   |
-|:------------------------|:----------------:|
-|                         |   relative speed               |
-| FastRational{ Int32 }   |    4 .. 16     |
-|                         |                  |
-| SystemRational{ Int32 } |        1        |
+
+### performance relative to system Rationals
+
+
+With smaller rationals, arithmetic sequences run about 12x..16x faster.
+With smaller rationals, matrix operations run about 2x..6x faster.
+
+|  _small rationals_ |  Relative Speedup |
+|:------------------------|:-----------------:|
+|      mul/div            |       20          |
+|      polyval            |       18          |
+|      add/sub            |       15          |
+|      4x4 matrix         |                   |
+|      mul                |       10          |
+|      lu                 |        5          | 
+|      inv                |        3          |
 
 ----
 
