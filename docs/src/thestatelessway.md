@@ -32,6 +32,15 @@ Managing the resolution of overflow is an expensive incursion into the overall p
   |             |             |                |                 |                |
   | ±4_095//1   |  ±1//4_095  |    admissible  |  ±1_048_575//1  | ±1//1_048_575  |
 
+
+### quantifying the desireable
+
+julia> floor(Int,cbrt(typemax(Int64)))>>1
+1048576
+
+julia> a = 2097151; typemax(Int64) - (4*a + a^3)
+13194124853252
+
 ----
 
 
