@@ -23,7 +23,7 @@ FastRationals are intended for use with _smaller_ rational values.  To compare t
 
 We really want the larger in magnitude of the numerator and denominator. This is the value that determines the number of bits available to form a product without overflowing. Looked at another way, this is the value that determines whether forming a product could possibly overflow. That is the information of most use in this context. It is alright to determine there is a possiblity of overflow where in fact no overflow will occur.  It is not alright to determine there is no possiblity of overflow where in fact overflow will occur.  In the first instance, some additional work will be done.  In the second instance, an overflow error would stop the computation.
 
-#### _mayoverflow(rational, rational)_
+#### `mayoverflow(rational, rational)`
 
 ```julia
 bitsof(::Type{T}) where {T} = sizeof(T) * 8
@@ -67,8 +67,7 @@ FastRationals are at their most performant where overflow is absent or uncommon.
 ## performance relative to system Rationals
 
 
-With smaller rationals, arithmetic sequences run about 12x..16x faster.
-With smaller rationals, matrix operations run about 2x..6x faster.
+With appropriately ranged rationals, arithmetic sequences run 12x..16x faster and matrix ops run about 2x..6x faster.
 
 |  _small rationals_ |  Relative Speedup |
 |:------------------------|:-----------------:|
