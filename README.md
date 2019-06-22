@@ -41,9 +41,9 @@ mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) >= magzeros(
 
 FastRationals are at their most performant where overflow is absent or uncommon.  And vice versa: where overflow happens frequently, FastRationals have no intrinsic advantage.  How do we know what range of rational values are desireable?  A good place to start is to work with rational quantities that, paired `!mayoverflow(q1, q2)`.  As it is the nature of rational arithmetic to generate increasingly larger denominators, it makes sense to further constrain the working range.  These tables provide some guidance.
 
-#### FastQ32
+----
 
-|             |  range      | refinement  |
+|   FastQ32   |  range      | refinement  |
 |-------------|-------------|-------------|
 |             |             |             |
 | desireable  |    ±255//1  |  ±1//255    |
@@ -52,9 +52,9 @@ FastRationals are at their most performant where overflow is absent or uncommon.
 |             |             |             |
 | admissible  | ±4_095//1   |  ±1//4_095  |
 
-#### FastQ64
+----
 
-|             |  range         | refinement     |
+|   FastQ64   |  range         | refinement     |
 |-------------|----------------|----------------|
 |             |                |                |
 | desireable  |    ±65_535//1  |  ±1//65_535    |
