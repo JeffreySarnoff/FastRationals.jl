@@ -7,8 +7,10 @@ makedocs(
     pages = Any[
         "Overview" => "index.md",
         "Appropriate Uses" => "appropriate.md",
+        "Finding the Range" => "findingtherange.md",        
         "The Stateless Way" => "thestatelessway.md",
-        "Finding the Range" => "findingtherange.md",
+        "What cannot overflow?" => "mayoverflow.md",
+        "Rational Magnitude In Action" => "rationalmagnitude.md",
         "Two States, Two Types" => "twostates_twotypes",
         "Parameterized Modality" => "parameterized_modality",
         "References" => "references.md"
