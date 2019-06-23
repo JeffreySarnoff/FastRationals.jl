@@ -3,7 +3,6 @@ module FastRationals
 export FastRational, FastQ32, FastQ64,
        basetype
 
-
 using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow
 
 import Base: BitSigned, hash, show, repr, string, tryparse,
@@ -45,8 +44,8 @@ end
 include("FastQ32.jl")
 include("FastQ64.jl")
 
-numerator(x::T) where {T<:FastRational} = x.num
-denominator(x::T) where {T<:FastRational} = x.den
+numerator(x::FastRational{T}) where {T<:FastInt} = x.num
+denominator(x::FastRational{T}) where {T<:FastInt} = x.den
 
 FastQ64(x::FastQ32) = FastQ64(Rational{Int64}(x.num//x.den))
 FastQ32(x::FastQ64) = FastQ32(Rational{Int32}(x.num//x.den))
