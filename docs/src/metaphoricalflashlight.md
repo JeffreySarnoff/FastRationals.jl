@@ -34,8 +34,8 @@ rational_terms = [1//factorial(i) for i=1:nterms];
 fastq64_terms  = FastRational{Int64}.(rational_terms);
 
 # we want successively longer sequences so we can chart computational behavior
-rational_seqs = []
-fastq64_seqs  = []
+rational_seqs = [];
+fastq64_seqs  = [];
 for i in 1:nterms
      global rational_terms, fastq64terms, rational_seqs, fastq64_seqs
      push!(rational_seqs, rational_terms[1:i])
@@ -43,8 +43,8 @@ for i in 1:nterms
 end;
 
 # we time the summations so we can chart relative performance
-rational_times = []
-fastq64_times  = []
+rational_times = [];
+fastq64_times  = [];
 for i in 1:nterms
      global rational_seqs, fastq64_seqs, rational_times, fastq64_times
      rseq = rational_seqs[i]
@@ -66,8 +66,8 @@ rational_terms = Rational{Int32}.([1//factorial(i) for i=1:nterms]);
 fastq32_terms  = FastRational{Int32}.(rational_terms);
 
 # we want successively longer sequences so we can chart computational behavior
-rational_seqs = []
-fastq32_seqs  = []
+rational_seqs = [];
+fastq32_seqs  = [];
 for i in 1:nterms
      global rational_terms, fastq32_terms, rational_seqs, fastq32_seqs
      push!(rational_seqs, rational_terms[1:i])
@@ -75,8 +75,8 @@ for i in 1:nterms
 end;
 
 # we time the summations so we can chart relative performance
-rational_times = []
-fastq32_times  = []
+rational_times = [];
+fastq32_times  = [];
 for i in 1:nterms
      global rational_seqs, fastq32_seqs, rational_times, fastq32_times
      rseq = rational_seqs[i]
@@ -91,10 +91,10 @@ rational_to_fast32 = Float32.(rational_times ./ fastq32_times);
 
 # isolate each maximum
 
-len64 = length(rational_to_fast64)
-len32 = length(rational_to_fast32)
-idxofmax_fastq64 = (1:len64)[maximum(rational_to_fast64) .== rational_to_fast64]
-idxofmax_fastq32 = (1:len32)[maximum(rational_to_fast32) .== rational_to_fast32]
+len64 = length(rational_to_fast64);
+len32 = length(rational_to_fast32);
+idxofmax_fastq64 = (1:len64)[maximum(rational_to_fast64) .== rational_to_fast64];
+idxofmax_fastq32 = (1:len32)[maximum(rational_to_fast32) .== rational_to_fast32];
 
 println("\nThe maximum relative advantage of FastQ32 occured at index $idxofmax_fastq32\n")
 println("\nThe maximum relative advantage of FastQ64 occured at index $idxofmax_fastq64\n")
@@ -102,12 +102,12 @@ println("\nThe maximum relative advantage of FastQ64 occured at index $idxofmax_
 # plot
 
 plot(rational_to_fast64, size=(600,600))
-plot(rational_to_fast32, size=(600,600)
+plot(rational_to_fast32, size=(600,600))
 
 # also use log plots
 
 log_rational_to_fast64 = log.(rational_to_fast64);
-log_rational_to_fast32 = [log.(rational_to_fast32)...,  log_rational_to_fast64[(end-(len64-len32)+1):end]...,]
+log_rational_to_fast32 = [log.(rational_to_fast32)...,  log_rational_to_fast64[(end-(len64-len32)+1):end]...,];
  
 plot(log_rational_to_fast64, size=(600,600))
 plot!(log_rational_to_fast32)
