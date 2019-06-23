@@ -1,7 +1,6 @@
 using Documenter
 
 makedocs(
-    modules = [FastRationals],
     sitename = "FastRationals.jl",
     authors = "Jeffrey Sarnoff",
     pages = Any[
