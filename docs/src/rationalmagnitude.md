@@ -109,8 +109,8 @@ idxofmax_fastq32 = (1:len32)[maximum(rational_to_fast32) .== rational_to_fast32]
 # plot
 # use log plots
 
-log_rational_to_fast64 = log.(rational_to_fast64)
-log_rational_to_fast32 = log.([rational_to_fast32..., abs.(log_rational_to_fast64[(end-(len64-len32)+1):end])...,])
+log_rational_to_fast64 = log.(rational_to_fast64);
+log_rational_to_fast32 = [log.(rational_to_fast32)...,  log_rational_to_fast64[(end-(len64-len32)+1):end]...,]
  
 plot(log_rational_to_fast64, size=(500,500))
 plot!(log_rational_to_fast32)
