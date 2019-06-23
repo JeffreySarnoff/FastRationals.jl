@@ -1,6 +1,13 @@
 # A metaphorical flashlight
 
-### shines on the ponderousness of overflow
+## shines on the ponderousness of overflow
+
+It is demonstrated that `FastRationals` are designed for use with rational values where both numerator and denominator
+are of relatively small magnitude.  We find that their performance strengthens with additional use right up to the 
+`swallow tail` wherewith the magnitudes of each operands numerator aor denominator, taken together, become large
+enough to engender overflow in performing arithmetic.
+
+### what is demonstrated
 
 _The sequences and indicies appearing in this section were obtained by running the source text that follows._
 
@@ -20,8 +27,9 @@ _The sequences and indicies appearing in this section were obtained by running t
  mayoverflow(sum(fastq64_seqs[6]), fastq64_seqs[7][end])    === true
 ```
 
-
 -----
+
+### the repeatable demonstration
 
 ```
 using FastRationals, BenchmarkTools, MacroTools, Plots
