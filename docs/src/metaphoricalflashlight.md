@@ -4,7 +4,7 @@
 
 The sequences and their indicies appearing in this section were obtained by running the program source text that follows.
 
-- FastRational{Int32} most outperforms Rational{Int32} at index __6__ (10x).
+- `FastRational{Int32}` most outperforms `Rational{Int32}` at index __6__ (10x).
   - this is the largest index for which `mayoverflow(_,_) == false`.
   
 ```
@@ -12,7 +12,7 @@ The sequences and their indicies appearing in this section were obtained by runn
  mayoverflow(sum(fastq32_seqs[6]), fastq32_seqs[7][end])    === true
 ```
 
-- FastRational{Int64} most outperforms Rational{Int64} at index __8__ (12x).
+- `FastRational{Int64}` most outperforms `Rational{Int64}` at index __8__ (12x).
   - this is the largest index for which `mayoverflow(_,_) == false`.
 
 ```
