@@ -105,13 +105,16 @@ rational_to_fast32 = Float32.(rational_times ./ fastq32_times);
 
 # isolate each maximum
 
-idxofmax_fastq64 = (1:length(rational_to_fast64))[maximum(rational_to_fast64) .== rational_to_fast64]
-idxofmax_fastq32 = (1:length(rational_to_fast32))[maximum(rational_to_fast32) .== rational_to_fast32]
+len64 = length(rational_to_fast64)
+len32 = length(rational_to_fast32)
+idxofmax_fastq64 = (1:len64)[maximum(rational_to_fast64) .== rational_to_fast64]
+idxofmax_fastq32 = (1:len32)[maximum(rational_to_fast32) .== rational_to_fast32]
 
 # plot
 # use log plots
 
 log_rational_to_fast64 = log.(rational_to_fast64)
-log_rational_to_fast32 = log.(rational_to_fast32)
-
-plot(log_rational_to_fast64, log_rational_to_fast32, size=(500,500))
+log_rational_to_fast32 = log.([rational_to_fast32..., abs.(log_rational_to_fast64[(end-(len64-len32)+1):end])...,])
+ 
+plot(log_rational_to_fast64, size=(500,500))
+plot!(log_rational_to_fast32)
