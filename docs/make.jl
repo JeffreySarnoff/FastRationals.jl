@@ -1,4 +1,4 @@
-using Documenter, DoubleFloats
+using Documenter
 
 makedocs(
     modules = [FastRationals],
