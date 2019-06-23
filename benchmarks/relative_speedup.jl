@@ -10,19 +10,19 @@ walk(x, inner, outer) = outer(x)
 walk(x::Expr, inner, outer) = outer(Expr(x.head, map(inner, x.args)...))
 postwalk(f, x) = walk(x, x -> postwalk(f, x), f)
 
-function _byref(expr::Expr)
+function referred(expr::Expr)
     if expr.head == :$
         :($(Expr(:$, :(Ref($(expr.args...)))))[])
     else
         expr
     end
 end
-_byref(x)  = x
+referred(x)  = x
 
 """
-    @noelide @btime expression
-    @noelide @belapsed expression
-    @noelide @benchmark expression
+    @noelide _bmacro_ expression
+
+where _bmacro_ is one of @btime, @belapsed, @benchmark
 
 Wraps all interpolated code in _expression_ in a __Ref()__ to
 stop the compiler from cheating at simple benchmarks. Works
@@ -39,7 +39,7 @@ with any macro that accepts interpolation
 
 """
 macro noelide(expr)
-    out = postwalk(_byref, expr) |> esc
+    out = postwalk(referred, expr) |> esc
 end
 
 
