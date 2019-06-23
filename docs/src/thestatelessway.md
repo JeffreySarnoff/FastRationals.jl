@@ -26,11 +26,13 @@ Managing the resolution of overflow is an expensive incursion into the overall p
   |  range      | refinement  |                | range           | refinement     |
   |:-----------:|:-----------:|:--------------:|:---------------:|:--------------:|
   |             |             |                |                 |                |
+  |    ±215//1  |  ±1//215    |    sweet spot  |     ±55_108//1  |  ±1//55_108    |
+  |             |             |                |                 |                |
   |    ±255//1  |  ±1//255    |    preferable  |     ±65_535//1  |  ±1//65_535    |
   |             |             |                |                 |                |
-  |  ±1_023//1  |  ±1//1_023  |    reasonable  |   ±262_143//1   |  ±1//262_143   |
+  |  ±1_023//1  |  ±1//1_023  |    workable    |   ±262_143//1   |  ±1//262_143   |
   |             |             |                |                 |                |
-  | ±4_095//1   |  ±1//4_095  |    admissible  |  ±1_048_575//1  | ±1//1_048_575  |
+  | ±4_095//1   |  ±1//4_095  |    testable    |  ±1_048_575//1  | ±1//1_048_575  |
 
 
 ### quantifying the desireable
