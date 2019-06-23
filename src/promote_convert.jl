@@ -1,16 +1,21 @@
+float(x::FastRational{T}) where {T<:FastInt} = x.num / x.den
+
+Base.Float64(x::FastRational{T}) where {T<:FastInt}  = float(x)
+Base.Float32(x::FastRational{T}) where {T<:FastInt}  = Float32(float(x))I
+Base.Float16(x::FastRational{T}) where {T<:FastInt}  = Float16(float(x))
+Base.BigFloat(x::FastRational{T}) where {T<:FastInt} = BigFloat(x.num) / BigFloat(x.den)
+Base.BigInt(x::FastRational{T}) where {T<:FastInt}   = isinteger(x) ? BigInt((x.num//x.den).num) :
+                                                          throw(InexactError)
+
+
+
 # ------------------------- FastQ32
 
 
-float(x::FastQ32) = x.num / x.den
-Base.Float64(x::FastQ32)  = float(x)
-Base.Float32(x::FastQ32)  = Float32(float(x))
-Base.Float16(x::FastQ32)  = Float16(float(x))
-Base.BigFloat(x::FastQ32) = BigFloat(x.num) / BigFloat(x.den)
-Base.BigInt(x::FastQ32)   = BigInt(Rational(x))
 
-function FastQ32(x::F) where {F<:AbstractFloat}
+function FastRational{T}(x::F) where {T<:FastInt, F<:AbstractFloat}
     !isfinite(x) && throw(DomainError("finite values only"))
-    return FastQ32(Rational{Int32}(x))
+    return FastRational{T}(Rational{T}(x))
 end
 
 # ------------------------- FastQ32
@@ -29,12 +34,6 @@ convert(::Type{FastQ32}, x::I) where {I<:Integer} = FastQ32(Int32(x), one(Int32)
 
 # ------------------------- FastQ64
 
-float(x::FastQ64) = x.num / x.den
-Base.Float64(x::FastQ64)  = float(x)
-Base.Float32(x::FastQ64)  = Float32(float(x))
-Base.Float16(x::FastQ64)  = Float16(float(x))
-Base.BigFloat(x::FastQ64) = BigFloat(x.num) / BigFloat(x.den)
-Base.BigInt(x::FastQ64)   = BigInt(Rational(x))
 
 function FastQ64(x::F) where {F<:AbstractFloat}
     !isfinite(x) && throw(DomainError("finite values only"))
