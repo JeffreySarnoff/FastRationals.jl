@@ -13,8 +13,7 @@ We use the leading terms of this series as an investigative tool, a metaphorical
 |                                     |     factorialseq32fast = FastQ32.(factorialseq32)            |
 
 ```
-using FastRationals, BenchmarkTools, MacroTools, UnicodePlots, GR
-
+using FastRationals, BenchmarkTools, MacroTools, Plots
 
 
 BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
@@ -104,8 +103,15 @@ end;
 
 rational_to_fast32 = Float32.(rational_times ./ fastq32_times);
 
+# isolate each maximum
 
-# plot the results
+idxofmax_fastq64 = (1:length(rational_to_fast64))[maximum(rational_to_fast64) .== rational_to_fast64]
+idxofmax_fastq32 = (1:length(rational_to_fast32))[maximum(rational_to_fast32) .== rational_to_fast32]
 
-plot(rational_to_fast64, size=(500,500))
-plot!(rational_to_fast32, size=(500,500))
+# plot
+# use log plots
+
+log_rational_to_fast64 = log.(rational_to_fast64)
+log_rational_to_fast32 = log.(rational_to_fast32)
+
+plot(log_rational_to_fast64, log_rational_to_fast32, size=(500,500))
