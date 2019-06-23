@@ -13,12 +13,44 @@ We use the leading terms of this series as an investigative tool, a metaphorical
 |                                     |     factorialseq32fast = FastQ32.(factorialseq32)            |
 
 ```
-using FastRationals, BenchmarkTools, UnicodePlots
+using FastRationals, BenchmarkTools, MacroTools, UnicodePlots
+
+walk(x, inner, outer) = outer(x)
+walk(x::Expr, inner, outer) = outer(Expr(x.head, map(inner, x.args)...))
+postwalk(f, x) = walk(x, x -> postwalk(f, x), f)
+
+function referred(expr::Expr)
+    if expr.head == :$
+        :($(Expr(:$, :(Ref($(expr.args...)))))[])
+    else
+        expr
+    end
+end
+referred(x)  = x
+
+"""
+    @noelide _bmacro_ expression
+where _bmacro_ is one of @btime, @belapsed, @benchmark
+Wraps all interpolated code in _expression_ in a __Ref()__ to
+stop the compiler from cheating at simple benchmarks. Works
+with any macro that accepts interpolation
+#Example
+    julia> @btime \$a + \$b
+      0.024 ns (0 allocations: 0 bytes)
+    3
+    julia> @noelide @btime \$a + \$b
+      1.277 ns (0 allocations: 0 bytes)
+    3
+"""
+macro noelide(expr)
+    out = postwalk(referred, expr) |> esc
+end
 
 BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
 BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
 BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 2.0e-8;
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 200;
+BenchmarkTools.DEFAULT_PARAMETERS.seconds = 2;
 
 nterms = 20;     # first 2 terms are (1//1), add one at the end 
 rational_terms = [1//factorial(i) for i=1:nterms]; 
@@ -46,4 +78,4 @@ for i in 1:nterms
      push!(fastq64_times, fastq64time)
 end;
 
-rational_to_fast64 = Float32.(rational_times ./ fast64_times);
+rational_to_fast64 = Float32.(rational_times ./ fastq64_times);
