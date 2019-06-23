@@ -72,10 +72,42 @@ for i in 1:nterms
      global rational_seqs, fastq64_seqs, rational_times, fastq64_times
      rseq = rational_seqs[i]
      fseq = fastq64_seqs[i]
-     rationaltime = @belapsed sum($rseq)
-     fastq64time  = @belapsed sum($fseq)
+     rationaltime = @noelide @belapsed sum($rseq)
+     fastq64time  = @noelide @belapsed sum($fseq)
      push!(rational_times, rationaltime)
      push!(fastq64_times, fastq64time)
 end;
 
 rational_to_fast64 = Float32.(rational_times ./ fastq64_times);
+
+
+
+
+
+nterms = 12;     # first 2 terms are (1//1), add one at the end 
+rational_terms = Rational{Int32}.([1//factorial(i) for i=1:nterms]); 
+fastq32_terms  = FastRational{Int32}.(rational_terms);
+
+# we want successively longer sequences so we can chart computational behavior
+rational_seqs = []
+fastq32_seqs  = []
+for i in 1:nterms
+     global rational_terms, fastq32_terms, rational_seqs, fastq32_seqs
+     push!(rational_seqs, rational_terms[1:nterms])
+     push!(fastq32_seqs, fastq32_terms[1:nterms])
+end;
+
+# we time the summations so we can chart relative performance
+rational_times = []
+fastq32_times  = []
+for i in 1:nterms
+     global rational_seqs, fastq32_seqs, rational_times, fastq32_times
+     rseq = rational_seqs[i]
+     fseq = fastq32_seqs[i]
+     rationaltime = @noelide @belapsed sum($rseq)
+     fastq32time  = @noelide @belapsed sum($fseq)
+     push!(rational_times, rationaltime)
+     push!(fastq32_times, fastq32time)
+end;
+
+rational_to_fast32 = Float32.(rational_times ./ fastq32_times);
