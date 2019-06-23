@@ -34,10 +34,11 @@ Managing the resolution of overflow is an expensive incursion into the overall p
   |             |             |                |                 |                |
   | ±4_095//1   |  ±1//4_095  |    testable    |  ±1_048_575//1  | ±1//1_048_575  |
 
-- The `sweet_spot` magnitude allows `magnitude^4 + 4*magnitude` without overflow.
-- The `preferable` magnitude is `nextpow2(sweet_spot) - 1`.
-- The `workable` magnitude is `prevpow2(mag) - 1` where `mag^3 + 4*mag` without overflow.
-- The `testable` magnitude is `4*(workable+1) - 1`
+
+- The `sweet_spot` mag allows `mag^4 + 5*mag` without overflow.
+- The `preferable` mag is `nextpow2(sweet_spot) - 1`.
+- The `workable` mag is `prevpow2(mag) - 1` where `mag^3 + 4*mag`, no overflow.
+- The `testable` mag is `4*(workable+1) - 1`
 
 
 ### quantifying the desireable
