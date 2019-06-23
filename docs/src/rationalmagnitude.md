@@ -48,9 +48,9 @@ end
 
 BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
 BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
-BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 2.0e-8;
+BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 2.0e-6;
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 200;
-BenchmarkTools.DEFAULT_PARAMETERS.seconds = 2;
+BenchmarkTools.DEFAULT_PARAMETERS.seconds = 3;
 
 nterms = 20;     # first 2 terms are (1//1), add one at the end 
 rational_terms = [1//factorial(i) for i=1:nterms]; 
