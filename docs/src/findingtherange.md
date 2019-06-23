@@ -26,7 +26,7 @@ We have quietly assumed both are nonnegative values.
 
 -----
 
-<sup><a name="usefulfiction">[𝓪](#annotation)</a></sup> Of course, real Int32 quantities do not use sign+magnitude encoding; two's complement is used.  This temporary fiction simplifies.
+<sup><a name="usefulfiction">[𝓪](#annotation)</a></sup> Actual Int32 quantities are kept as two's complement values, not sign+magnitude.
 
 
 -----
