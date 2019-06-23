@@ -96,9 +96,6 @@ len32 = length(rational_to_fast32);
 idxofmax_fastq64 = (1:len64)[maximum(rational_to_fast64) .== rational_to_fast64];
 idxofmax_fastq32 = (1:len32)[maximum(rational_to_fast32) .== rational_to_fast32];
 
-println("\nThe maximum relative advantage of FastQ32 occured at index $idxofmax_fastq32\n")
-println("\nThe maximum relative advantage of FastQ64 occured at index $idxofmax_fastq64\n")
-
 # plot
 
 plot(rational_to_fast64, size=(600,600))
@@ -111,4 +108,9 @@ log_rational_to_fast32 = [log.(rational_to_fast32)...,  log_rational_to_fast64[(
  
 plot(log_rational_to_fast64, size=(600,600))
 plot!(log_rational_to_fast32)
+
+
+println("\nThe maximum relative advantage of FastQ32 occured at index $idxofmax_fastq32\n")
+println("\nThe maximum relative advantage of FastQ64 occured at index $idxofmax_fastq64\n")
+
 ```
