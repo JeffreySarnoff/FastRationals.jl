@@ -3,6 +3,7 @@ using Documenter
 makedocs(
     sitename = "FastRationals.jl",
     authors = "Jeffrey Sarnoff",
+    modules = [FastRationals],
     pages = Any[
         "Finding the Range" => "findingtherange.md",        
         "The Stateless Way" => "thestatelessway.md",
