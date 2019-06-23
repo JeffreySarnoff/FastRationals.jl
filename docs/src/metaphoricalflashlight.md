@@ -2,7 +2,7 @@
 
 ### shines on the ponderousness of overflow
 
-The sequences and their indicies appearing in this section were obtained by running the program source text that follows.
+_The sequences and indicies appearing in this section were obtained by running the source text that follows._
 
 - `FastRational{Int32}` most outperforms `Rational{Int32}` at index __6__ (10x).
   - this is the largest index for which `mayoverflow(_,_) == false`.
