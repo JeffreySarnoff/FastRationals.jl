@@ -6,5 +6,5 @@ We use the leading terms of this series as an investigative tool, a metaphorical
 
 |      the series formulation         |                                                              |
 |:-----------------------------------:|:-------------------------------------------------------------|
-| ![e_series](assets/e_series.PNG)    |   the source code [here](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/metaphoricalflashlight.md) makes pictures.  |
+| ![e_series](assets/e_series.PNG)    |   the source code [here](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/metaphoricalflashlight.md) makes pictures and more.  |
 
