@@ -1,4 +1,4 @@
-# A metaphorical flashlight shines on overflow
+## A metaphorical flashlight shines on overflow
 
 It is demonstrated that `FastRationals` are designed for use with rational values where both numerator and denominator
 are of relatively small magnitude.  We find that their performance strengthens with additional use right up to the 
