@@ -1,3 +1,15 @@
+# A metaphorical flashlight
+
+> with regard to the series evaluation that follows
+> FastRational{Int32} most outperforms Rational{Int32} at index __6___ (10x). 
+> FastRational{Int64} most outperforms Rational{Int64} at index __8___ (12x).
+
+> Rational{Int64} overtakes FastRational{Int64} at index __15__ (0.9x).
+> Rational{Int64} outperforms FastRational{Int64} at index __16__ (1.25x).
+> Rational{Int64} outperforms FastRational{Int64} at index __18__ (1.5x).
+
+-----
+
 ```
 using FastRationals, BenchmarkTools, MacroTools, Plots
 
