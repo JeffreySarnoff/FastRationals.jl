@@ -50,6 +50,3 @@ Managing the resolution of overflow is an expensive incursion into the overall p
 
 ----
 
-<sup><a name="Int16">[𝓪](#annotation)</a></sup> While support for `Int16` would be easy to add, our guidelines suggest its range be  ±1//16..±16//1.    
-We have postponed its inclusion.
-
