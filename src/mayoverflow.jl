@@ -37,9 +37,18 @@ mayoverflow(q1::T, q2::T) where {T} = bitsof(T) <= msbitidx(q1, q2)
 mayoverflow(i1::T, i2::T) where {T<:Integer} =
     (leading_zeros(i1) + leading_zeros(i2)) <= bitsof(T)
 
+#=
+   this was used in deriving the faster version immediately below
+
+   mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T<:Integer} =
+        bitsof(T) >= leading_zeros_maxmag(q1) + leading_zeros_maxmag(q2)
+=#
+
 mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T<:Integer} =
-    bitsof(T) >= leading_zeros_maxmag(q1) + leading_zeros_maxmag(q2)
+    (bitsof(T)<<1) >= leading_zeros(q1.num) + leading_zeros(q1.den) +
+                      leading_zeros(q2.num) + leading_zeros(q2.den)
 
 mayoverflow(q1::FastRational{T}, q2::FastRational{T}) where {T<:FastInt} =
-    bitsof(T) >= leading_zeros_maxmag(q1) + leading_zeros_maxmag(q2)
+    (bitsof(T)<<1) >= leading_zeros(q1.num) + leading_zeros(q1.den) +
+                      leading_zeros(q2.num) + leading_zeros(q2.den)
 
