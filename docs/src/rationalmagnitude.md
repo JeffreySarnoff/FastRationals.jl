@@ -15,6 +15,15 @@ We use the leading terms of this series as an investigative tool, a metaphorical
 ```
 using FastRationals, BenchmarkTools, MacroTools, UnicodePlots
 
+
+
+BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
+BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
+BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 2.0e-6;
+BenchmarkTools.DEFAULT_PARAMETERS.samples = 200;
+BenchmarkTools.DEFAULT_PARAMETERS.seconds = 3;
+
+
 walk(x, inner, outer) = outer(x)
 walk(x::Expr, inner, outer) = outer(Expr(x.head, map(inner, x.args)...))
 postwalk(f, x) = walk(x, x -> postwalk(f, x), f)
@@ -26,31 +35,14 @@ function referred(expr::Expr)
         expr
     end
 end
-referred(x)  = x
+referred(x) = x
 
-"""
-    @noelide _bmacro_ expression
-where _bmacro_ is one of @btime, @belapsed, @benchmark
-Wraps all interpolated code in _expression_ in a __Ref()__ to
-stop the compiler from cheating at simple benchmarks. Works
-with any macro that accepts interpolation
-#Example
-    julia> @btime \$a + \$b
-      0.024 ns (0 allocations: 0 bytes)
-    3
-    julia> @noelide @btime \$a + \$b
-      1.277 ns (0 allocations: 0 bytes)
-    3
-"""
 macro noelide(expr)
     out = postwalk(referred, expr) |> esc
 end
 
-BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
-BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
-BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 2.0e-6;
-BenchmarkTools.DEFAULT_PARAMETERS.samples = 200;
-BenchmarkTools.DEFAULT_PARAMETERS.seconds = 3;
+
+# using the Int64 Rational types
 
 nterms = 20;     # first 2 terms are (1//1), add one at the end 
 rational_terms = [1//factorial(i) for i=1:nterms]; 
@@ -82,7 +74,7 @@ rational_to_fast64 = Float32.(rational_times ./ fastq64_times);
 
 
 
-
+# using the Int32 Rational types
 
 nterms = 12;     # first 2 terms are (1//1), add one at the end 
 rational_terms = Rational{Int32}.([1//factorial(i) for i=1:nterms]); 
@@ -111,3 +103,10 @@ for i in 1:nterms
 end;
 
 rational_to_fast32 = Float32.(rational_times ./ fastq32_times);
+
+
+# plot the results
+
+lineplot(rational_to_fast64, height=30, width = 60)
+
+lineplot(rational_to_fast32, height=30, width = 60)
