@@ -49,22 +49,26 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 |   FastQ32   |  range      | refinement  |
 |-------------|-------------|-------------|
 |             |             |             |
+| sweet spot  |    ±215//1  |  ±1//215    |
+|             |             |             |
 | preferable  |    ±255//1  |  ±1//255    |
 |             |             |             |
-| reasonable  |  ±1_023//1  |  ±1//1_023  |
+| workable    |  ±1_023//1  |  ±1//1_023  |
 |             |             |             |
-| admissible  | ±4_095//1   |  ±1//4_095  |
+| testable    | ±4_095//1   |  ±1//4_095  |
 
 ----
 
 |   FastQ64   |  range         | refinement     |
 |-------------|----------------|----------------|
 |             |                |                |
+| sweet spot  |    ±55_108//1  |  ±1//55_108    |
+|             |                |                |
 | preferable  |    ±65_535//1  |  ±1//65_535    |
 |             |                |                |
-| reasonable  |  ±262_143//1   |  ±1//262_143   |
+| workable    |  ±262_143//1   |  ±1//262_143   |
 |             |                |                |
-| admissible  | ±1_048_575//1  | ±1//1_048_575  |
+| testable    | ±1_048_575//1  | ±1//1_048_575  |
 
 
 ----
