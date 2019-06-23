@@ -85,8 +85,7 @@ The calculation of these magnitudes appears [here]( https://github.com/JeffreySa
 
 #### actual results
 
-The code that generates these results is available in the `benchmarks` directory, run this file:
-[relative_speedup.jl](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
+The code that generates these results is freely accessible [relative_speedup.jl](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
 
 
 |    computation          |  Relative Speedup |
