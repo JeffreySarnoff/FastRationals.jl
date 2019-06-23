@@ -29,19 +29,6 @@ __FastRationals__ are intended for use with _smaller_ rational values.  To compa
 
 Of the numerator and denominator, we really want whichever is the larger in magnitude from each value used in an arithmetic op. These values determine whether or not their product may be formed without overflow. That is important to know. It is alright to work as though there is a possiblity of overflow where in fact no overflow will occur.  It is not alright to work as though there is no possiblity of overflow where in fact overflow will occur.  In the first instance, some unnecessary yet unharmful effort is extended.  In the second instance, an overflow error stops the computation.  [`mayoverflow`](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/mayoverflow.md) is a predicate providing this guard.
 
-##### `mayoverflow(rational, rational)`
-
-```julia
-bitsof(::Type{T}) where {T} = sizeof(T) * 8
-
-maxmag(q::Rational{T}) where {T} = max(abs(q.num), abs(q.den))  # q.den != typemin(T)
-magzeros(q::Rational{T}) where {T} = leading_zeros(maxmag(q))
-maxbits(q::Rational{T}) where {T} = bitsof(T) - leading_zeros(maxmag(q))
-maxbits(q1::Rational{T}, q2::Rational{T}) where {T} = maxbits(q1) + maxbits(q2)
-
-mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) <= maxbits(q1, q2)
-mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) >= magzeros(q1) + magzeros(q2)
-```
 
 ### working with rational ranges
 
