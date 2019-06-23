@@ -34,4 +34,7 @@ mayoverflow(q1::T, q2::T) where {T} =
     (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) <= bitsof(T)
 
 mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T} = bitsof(T) >= magzeros(q1) + magzeros(q2)
+
+mayoverflow(q1::FastRational{T}, q2::FastRational{T}) where {T} = bitsof(T) >= magzeros(q1) + magzeros(q2)
+
 ```
