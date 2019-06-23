@@ -22,6 +22,8 @@ To allow computational advantage -- to procure performance that is absent from t
 Managing the resolution of overflow is an expensive incursion into the overall performance of the computational flow.  To the exent that we may proceed secure in the fact that our next calculation cannot overflow, we have at hand the opportunity to accelerate throughput.  By preferring a more coarse rational map, we lessen encounters with overflow and so augment performant paths.  In general terms, this is the technology that provides the greatly enhanced performance of this `FastRational`.
 
 
+### quantifying the desireable
+
   ###     ________  FastQ32  ______________________________  FastQ64  __________
   |  range      | refinement  |                | range           | refinement     |
   |:-----------:|:-----------:|:--------------:|:---------------:|:--------------:|
@@ -40,15 +42,6 @@ Managing the resolution of overflow is an expensive incursion into the overall p
 - The `preferable` mag is `nextpow2(sweet_spot) - 1`.
 - The `workable` mag is `prevpow2(mag) - 1` where `mag^3 + 4*mag`, no overflow.
 - The `testable` mag is `4*(workable+1) - 1`
-
-
-### quantifying the desireable
-
-```
-julia> floor(Int,cbrt(typemax(Int64)))>>1
-1_048_576
-```
-
 
 
 
