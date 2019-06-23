@@ -1,12 +1,25 @@
 # A metaphorical flashlight
 
-> with regard to the series evaluation that follows
-> FastRational{Int32} most outperforms Rational{Int32} at index __6___ (10x). 
-> FastRational{Int64} most outperforms Rational{Int64} at index __8___ (12x).
+### shines on the ponderousness of overflow
 
-> Rational{Int64} overtakes FastRational{Int64} at index __15__ (0.9x).
-> Rational{Int64} outperforms FastRational{Int64} at index __16__ (1.25x).
-> Rational{Int64} outperforms FastRational{Int64} at index __18__ (1.5x).
+The sequences and their indicies appearing in this section were obtained by running the program source text that follows.
+
+- FastRational{Int32} most outperforms Rational{Int32} at index __6__ (10x).
+  - this is the largest index for which `mayoverflow(_,_) == false`.
+  
+```
+!mayoverflow(sum(fastq32_seqs[5]), fastq32_seqs[6][end]) &&
+ mayoverflow(sum(fastq32_seqs[6]), fastq32_seqs[7][end])    === true
+```
+
+- FastRational{Int64} most outperforms Rational{Int64} at index __8__ (12x).
+  - this is the largest index for which `mayoverflow(_,_) == false`.
+
+```
+!mayoverflow(sum(fastq64_seqs[5]), fastq64_seqs[6][end]) &&
+ mayoverflow(sum(fastq64_seqs[6]), fastq64_seqs[7][end])    === true
+```
+
 
 -----
 
