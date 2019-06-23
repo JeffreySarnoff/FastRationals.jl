@@ -6,11 +6,7 @@ We use the leading terms of this series as an investigative tool, a metaphorical
 
 |      the series formulation         |                                                              |
 |:-----------------------------------:|:-------------------------------------------------------------|
-| ![e_series](assets/e_series.PNG)    |     nterms = 21;
-|                                     |     factorialseq64 = [1//factorial(i) for i=0:nterms-1]      |
-|                                     |     factorialseq32 = Rational{Int32}.(factorialseq64)        |
-|                                     |     factorialseq64fast = FastQ64.(factorialseq64)            |
-|                                     |     factorialseq32fast = FastQ32.(factorialseq32)            |
+| ![e_series](assets/e_series.PNG)    |                                                              |
 
 ```
 using FastRationals, BenchmarkTools, MacroTools, Plots
