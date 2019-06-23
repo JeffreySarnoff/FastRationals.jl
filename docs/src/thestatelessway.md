@@ -33,6 +33,7 @@ Managing the resolution of overflow is an expensive incursion into the overall p
   |  ±1_023//1  |  ±1//1_023  |    workable    |   ±262_143//1   |  ±1//262_143   |
   |             |             |                |                 |                |
   | ±4_095//1   |  ±1//4_095  |    testable    |  ±1_048_575//1  | ±1//1_048_575  |
+  |             |             |                |                 |                |
 
 
 - The `sweet_spot` mag allows `mag^4 + 5*mag` without overflow.
