@@ -4,11 +4,17 @@
 ```
 bitsof(::Type{T}) where {T} = sizeof(T) * 8
 
-maxmag(q::Rational{T}) where {T} = max(abs(q.num), abs(q.den))  # q.den != typemin(T)
+maxmag(q::Rational{T}) where {T} = max(abs(q.num), abs(q.den))  
+maxmag(q::FastRational{T}) where {T} = max(abs(q.num), abs(q.den))  # q.den != typemin(T)
+
 magzeros(q::Rational{T}) where {T} = leading_zeros(maxmag(q))
+magzeros(q::FastRational{T}) where {T} = leading_zeros(maxmag(q))
 
 maxbits(q::Rational{T}) where {T} = bitsof(T) - leading_zeros(maxmag(q))
 maxbits(q1::Rational{T}, q2::Rational{T}) where {T} = maxbits(q1) + maxbits(q2)
+
+maxbits(q::FastRational{T}) where {T} = bitsof(T) - leading_zeros(maxmag(q))
+maxbits(q1::FastRational{T}, q2::FastRational{T}) where {T} = maxbits(q1) + maxbits(q2)
 
 #=
 maxbits(q1::T) + maxbits(q2::T) 
