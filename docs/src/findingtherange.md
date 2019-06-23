@@ -25,10 +25,5 @@ Why does it matter?  Multiplication of two of these component values will overfl
 
 <sup><a name="usefulfiction">[𝓪](#annotation)</a></sup> Actual Int32 quantities are kept as two's complement values, not sign+magnitude.
 
-<sup><a name="assumption1">[𝒃](#assumption1)</a></sup> We have quietly assumed both are nonnegative values. There is little benfit to pulling in all the detail that becomes resolved in the source code, it would shade the key insights.
+<sup><a name="assumption1">[𝒃](#assumption1)</a></sup> We have quietly assumed both are nonnegative values.
 
------
-
-|      the series formulation         |
-|:-----------------------------------:|
-| ![e_series](assets/e_series.PNG)    |
