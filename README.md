@@ -56,6 +56,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 | workable    |  ±1_023//1  |  ±1//1_023  |
 |             |             |             |
 | testable    | ±4_095//1   |  ±1//4_095  |
+|             |             |             |
 
 ----
 
@@ -69,7 +70,11 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 | workable    |  ±262_143//1   |  ±1//262_143   |
 |             |                |                |
 | testable    | ±1_048_575//1  | ±1//1_048_575  |
+|             |                |                |
 
+----
+
+The derivation of these magnitudes appears [here]( https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/thestatelessway.md).
 
 ----
 
