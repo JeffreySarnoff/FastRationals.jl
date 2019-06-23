@@ -29,7 +29,7 @@ _The sequences and indicies appearing in this section were obtained by running t
 
 -----
 
-### the repeatable demonstration
+### demonstration
 
 ```
 using FastRationals, BenchmarkTools, MacroTools, Plots
