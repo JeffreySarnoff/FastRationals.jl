@@ -11,6 +11,7 @@ makedocs(
         "The Stateless Way" => "thestatelessway.md",
         "What cannot overflow?" => "mayoverflow.md",
         "Rational Magnitude In Action" => "rationalmagnitude.md",
+        "A metaphor that illuminates" => "metaphoricalflashlight.md",
         "Two States, Two Types" => "twostates_twotypes",
         "Parameterized Modality" => "parameterized_modality",
         "References" => "references.md"
