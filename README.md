@@ -72,8 +72,6 @@ The calculation of these magnitudes appears [here]( https://github.com/JeffreySa
 
 #### actual results
 
-The code that generates the figures of merit underlying these results is provided [relative_speedup.jl](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
-
 
 |    computation          |  Relative Speedup |
 |:------------------------|:-----------------:|
@@ -85,8 +83,11 @@ The code that generates the figures of merit underlying these results is provide
 |      mat lu             |        5          |
 |      mat inv            |        3          |
 
-- polynomial deg is 4
-- matrix size is 4x4
+- polynomial degree is 4, matrix size is 4x4
+----
+
+- This timing harness provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
+
 ----
 
 ### what is not carried over from system rationals 
