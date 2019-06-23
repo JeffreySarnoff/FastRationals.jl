@@ -36,7 +36,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 ----
 
 |   FastQ32   |  range      | refinement  | lead 0 bits |
-|-------------|-------------|-------------|-------------|
+|-------------|-------------|-------------|:-----------"|
 |             |             |             |             |
 | sweet spot  |    ±215//1  |  ±1//215    |    24       |
 |             |             |             |             |
@@ -50,7 +50,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 ----
 
 |   FastQ64   |  range         | refinement     | lead 0 bits |
-|-------------|----------------|----------------|-------------|
+|-------------|----------------|----------------|:-----------:|
 |             |                |                |             |
 | sweet spot  |    ±55_108//1  |  ±1//55_108    |     48      |
 |             |                |                |             |
