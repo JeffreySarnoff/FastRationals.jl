@@ -61,8 +61,8 @@ rational_seqs = []
 fastq64_seqs  = []
 for i in 1:nterms
      global rational_terms, fastq64terms, rational_seqs, fastq64_seqs
-     push!(rational_seqs, rational_terms[1:nterms])
-     push!(fastq64_seqs, fastq64_terms[1:nterms])
+     push!(rational_seqs, rational_terms[1:i])
+     push!(fastq64_seqs, fastq64_terms[1:i])
 end;
 
 # we time the summations so we can chart relative performance
@@ -93,8 +93,8 @@ rational_seqs = []
 fastq32_seqs  = []
 for i in 1:nterms
      global rational_terms, fastq32_terms, rational_seqs, fastq32_seqs
-     push!(rational_seqs, rational_terms[1:nterms])
-     push!(fastq32_seqs, fastq32_terms[1:nterms])
+     push!(rational_seqs, rational_terms[1:i])
+     push!(fastq32_seqs, fastq32_terms[1:i])
 end;
 
 # we time the summations so we can chart relative performance
