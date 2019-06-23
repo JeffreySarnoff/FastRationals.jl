@@ -8,7 +8,7 @@ struct FastRational{T} <: Real
   den::T
 end
 ```
-`T` is either `Int32` or it is `Int64`.<sup>[𝓪](#Int16)</sup>
+`T` is either `Int32` or it is `Int64`.
 
 Succesful use of ths type for `FastRational` requires finding some manner of effectiveness without the benefit of any reflective modality.  We have no state, flag, parameter or concommitant indication of whether or not the `num` and `den` as given have any common factors.  That is, there is no information about whether a given occurance of this type is already reduced, and so given in canonical form.  The other ways of realizing `FastRationals` each provides informed guidance as to the status, the reductive modality, of the value represented. 
     - insert page links to each of the other approaches <
