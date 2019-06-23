@@ -22,7 +22,7 @@ BenchmarkTools.DEFAULT_PARAMETERS.samples = 200;
 
 nterms = 20;     # first 2 terms are (1//1), add one at the end 
 rational_terms = [1//factorial(i) for i=1:nterms]; 
-fastq64_terms  = FastRational{Int64}.(leadterms);
+fastq64_terms  = FastRational{Int64}.(rational_terms);
 
 # we want successively longer sequences so we can chart computational behavior
 rational_seqs = []
@@ -41,7 +41,7 @@ for i in 1:nterms
      rseq = rational_seqs[i]
      fseq = fastq64_seqs[i]
      rationaltime = @belapsed sum($rseq)
-     fast64time   = @belapsed sum($fseq)
+     fastq64time  = @belapsed sum($fseq)
      push!(rational_times, rationaltime)
      push!(fastq64_times, fastq64time)
 end;
