@@ -7,15 +7,9 @@ Base.BigFloat(x::FastRational{T}) where {T<:FastInt} = BigFloat(x.num) / BigFloa
 Base.BigInt(x::FastRational{T}) where {T<:FastInt}   = isinteger(x) ? BigInt((x.num//x.den).num) :
                                                           throw(InexactError)
 
-
-
-# ------------------------- FastQ32
-
-
-
 function FastRational{T}(x::F) where {T<:FastInt, F<:AbstractFloat}
     !isfinite(x) && throw(DomainError("finite values only"))
-    return FastRational{T}(Rational{T}(x))
+    return FastRational{T}(rationalize(x))
 end
 
 # ------------------------- FastQ32
@@ -32,13 +26,6 @@ convert(::Type{Float16}, x::FastQ32) = FastQ32(Rational{Int32}(x))
 promote_rule(::Type{I}, ::Type{FastQ32}) where {I<:Integer} = FastQ32
 convert(::Type{FastQ32}, x::I) where {I<:Integer} = FastQ32(Int32(x), one(Int32))
 
-# ------------------------- FastQ64
-
-
-function FastQ64(x::F) where {F<:AbstractFloat}
-    !isfinite(x) && throw(DomainError("finite values only"))
-    return FastQ64(Rational{Int64}(x))
-end
 
 # ------------------------- FastQ64
 
