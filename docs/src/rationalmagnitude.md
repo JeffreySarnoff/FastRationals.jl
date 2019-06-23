@@ -13,7 +13,7 @@ We use the leading terms of this series as an investigative tool, a metaphorical
 |                                     |     factorialseq32fast = FastQ32.(factorialseq32)            |
 
 ```
-using FastRationals, BenchmarkTools, MacroTools, UnicodePlots
+using FastRationals, BenchmarkTools, MacroTools, UnicodePlots, GR
 
 
 
@@ -107,6 +107,5 @@ rational_to_fast32 = Float32.(rational_times ./ fastq32_times);
 
 # plot the results
 
-lineplot(rational_to_fast64, height=30, width = 60)
-
-lineplot(rational_to_fast32, height=30, width = 60)
+plot(rational_to_fast64, size=(500,500))
+plot!(rational_to_fast32, size=(500,500))
