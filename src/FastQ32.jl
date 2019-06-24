@@ -185,5 +185,3 @@ end
 //(x::Rational, y::FastQ32) = FastQ32(x) / y
 
 decompose(x::FastQ32) = x.num, zero(Int32), x.den
-
-hash(x::FastQ32) = xor(hash(x.num+x.den), (hash(x.num-x.den)))
