@@ -1,6 +1,6 @@
 module FastRationals
 
-export FastRational, FastQ32, FastQ64, FastQ128,
+export FastRational, FastQ32, FastQ64, FastQ128, FastQbig,
        basetype
 
 using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow
@@ -29,6 +29,7 @@ denominator(x::FastRational{T}) where {T<:Signed} = x.den
 const FastQ32 = FastRational{Int32}
 const FastQ64 = FastRational{Int64}
 const FastQ128 = FastRational{Int128}
+const FastQbig = FastRational{BigInt}
 
 
 @inline function FastRational(num::T, den::T) where {T<:Signed}
