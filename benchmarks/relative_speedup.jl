@@ -171,5 +171,5 @@ relspeeds = string(
 "matlu: \t $relspeed_matlu32 \t $relspeed_matlu64 \n",
 "matinv:\t $relspeed_matinv32 \t $relspeed_matinv64 \n");
 
-print(relspeeds)
+print(relspeeds);
 
