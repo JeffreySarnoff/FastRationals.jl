@@ -35,7 +35,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 |             |             |             |             |
 | workable    |  ±1_023//1  |  ±1//1_023  |    22       |
 |             |             |             |             |
-| testable    | ±4_095//1   |  ±1//4_095  |    20       |
+| admissible  | ±4_095//1   |  ±1//4_095  |    20       |
 |             |             |             |             |
 
 ----
@@ -49,7 +49,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 |             |                |                |             |
 | workable    |  ±262_143//1   |  ±1//262_143   |     46      |
 |             |                |                |             |
-| testable    | ±1_048_575//1  | ±1//1_048_575  |     44      |
+| admissable  | ±1_048_575//1  | ±1//1_048_575  |     44      |
 |             |                |                |             |
 
 ----
