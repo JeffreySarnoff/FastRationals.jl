@@ -34,14 +34,14 @@ Managing the resolution of overflow is an expensive incursion into the overall p
   |             |             |                |                 |                |
   |  ±1_023//1  |  ±1//1_023  |    workable    |   ±262_143//1   |  ±1//262_143   |
   |             |             |                |                 |                |
-  | ±4_095//1   |  ±1//4_095  |    testable    |  ±1_048_575//1  | ±1//1_048_575  |
+  | ±4_095//1   |  ±1//4_095  |    admissible  |  ±1_048_575//1  | ±1//1_048_575  |
   |             |             |                |                 |                |
 
 
 - The `sweet_spot` mag allows `mag^4 + 5*mag` without overflow.
 - The `preferable` mag is `nextpow2(sweet_spot) - 1`.
 - The `workable` mag is `prevpow2(mag) - 1` where `mag^3 + 4*mag`, no overflow.
-- The `testable` mag is `4*(workable+1) - 1`
+- The `admissible` mag is `4*(workable+1) - 1`
 
 
 
