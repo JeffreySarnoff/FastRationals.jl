@@ -5,6 +5,11 @@ are of relatively small magnitude.  We find that their performance strengthens w
 `swallow tail` wherewith the magnitudes of each operands numerator aor denominator, taken together, become large
 enough to engender overflow in performing arithmetic.
 
+| Swallow Tail                            |
+|-----------------------------------------|
+| ![swallowtail](assets/swallowtail1.jpg) |
+| courtesy of [Goo Ishikawa](https://www2.sci.hokudai.ac.jp/faculty/en/researcher/goo-ishikawa) |
+
 ----
 
 ### what is demonstrated
