@@ -59,10 +59,10 @@ julia> fastqtime = @belapsed bpp(FastRational{BigInt},40);
 julia> floor(Int,systemqtime/fastqtime)
 4
 
-julia> systemqtime = @belapsed bpp(Rational{BigInt},80);
-julia> fastqtime = @belapsed bpp(FastRational{BigInt},80);
+julia> systemqtime = @belapsed bpp(Rational{BigInt},200);
+julia> fastqtime = @belapsed bpp(FastRational{BigInt},200);
 julia> floor(Int,systemqtime/fastqtime)
-
+2
 
 ----
 
