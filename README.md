@@ -44,7 +44,7 @@ Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improveme
 
 ----
 
-## using FastRationals
+## FastRationals with system integers
 
 - __FastRationals__ exports types `FastRational{Int32} (FastQ32)` and `FastRational{Int64} (FastQ64)`.
 - Arithmetic is 12x..16x faster and matrix ops are 2x..6x faster when using appropriately ranged values.
@@ -53,6 +53,14 @@ Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improveme
 __FastRationals__ are intended for use with _smaller_ rational values.  To compare two rationals or to calculate the sum, difference, product, or ratio of two rationals requires pairwise multiplication of the constituents of one by the constituents of the other.  Whether or not it overflow depends on the number of leading zeros (`leading_zeros`) in the binary representation of the absolute value of the numerator and the denominator given with each rational.  
 
 Of the numerator and denominator, we really want whichever is the larger in magnitude from each value used in an arithmetic op. These values determine whether or not their product may be formed without overflow. That is important to know. It is alright to work as though there is a possiblity of overflow where in fact no overflow will occur.  It is not alright to work as though there is no possiblity of overflow where in fact overflow will occur.  In the first instance, some unnecessary yet unharmful effort is extended.  In the second instance, an overflow error stops the computation.
+
+## FastRationals with large numbers
+
+- __FastRationals__ exports types `FastRational{Int128} (FastQ128)` and `FastRational{BigInt} (FastQBig)`.
+- `FastQ128` is 1.25x..2x faster than `Rational{Int128}` when using appropriately ranged values.
+- `FastQBig` with large rationals speeds arithmetic by 25x..250x, and excels at `sum` and `prod`.
+- `FastQBig` is best with numerators and denominators that have no more than 25_000 decimal digits.
+
 
 ### working with rational ranges
 
