@@ -13,7 +13,7 @@ smallest numerator.
 function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:Real} 
     lo = float(midpoint - radius)
     hi = float(midpoint + radius)
-    flnum, flden = compactify_rational(lo, hi)
+    flnum, flden = compact_rational(lo, hi)
     num, den = trunc(Int64,flnum), trunc(Int64,flden)
     return Q(num, den)
 end
