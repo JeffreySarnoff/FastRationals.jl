@@ -10,15 +10,16 @@
 
 ----
 
-[`FastRational` Types](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#fastrational-types)
+### `FastRational` Types
+
 - [using fast integers](https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-fast-integers)
+   - [performance relative to system rationals](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#performance-relative-to-system-rationals)
+
 - [using large integers](https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-large-integers)
 
-[performance relative to system rationals](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#performance-relative-to-system-rationals)
-
-[`FastRational{BigInt}`](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#rationals-using-bigint)
-- [what works well](https://github.com/JeffreySarnoff/FastRationals.jl#what-works-well)
-- [what does not](https://github.com/JeffreySarnoff/FastRationals.jl#what-does-not-work-well)
+- [`FastRational{BigInt}`](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#rationals-using-bigint)
+    - [what works well](https://github.com/JeffreySarnoff/FastRationals.jl#what-works-well)
+    - [what does not](https://github.com/JeffreySarnoff/FastRationals.jl#what-does-not-work-well)
 
 
 [additional functionality](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#additional-functionality)
