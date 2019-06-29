@@ -58,4 +58,6 @@ include("generic.jl")
 include("conform_to_int.jl")
 include("promote_convert.jl")
 
+include("compact.jl")
+
 end # FastRationals
