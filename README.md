@@ -33,8 +33,7 @@ to generate the random `Rational{BigInt}` values that were processed.
 
 ##### what does not work well
 
-However, other matrix functions (`det`, `lu`, `inv`) take way too long at this size.
-- insight into the remedy is welcome
+Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welcome.
 
 ----
 
