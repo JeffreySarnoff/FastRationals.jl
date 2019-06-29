@@ -12,8 +12,8 @@ function FastRational{T}(x::F) where {T<:Signed, F<:AbstractFloat}
     return FastRational{T}(rationalize(x))
 end
 
-FastQbig(x::Rational{BigInt}) = FastQbig(x.num, x.den)
-FastQbig(x::Rational{T}) where {T<:Signed} = FastQbig(x.num, x.den)
+FastQBig(x::Rational{BigInt}) = FastQBig(x.num, x.den)
+FastQBig(x::Rational{T}) where {T<:Signed} = FastQBig(x.num, x.den)
 
 FastQ128(x::FastQ64) = FastQ128(Rational{Int128}(x.num//x.den))
 FastQ128(x::FastQ32) = FastQ128(Rational{Int128}(x.num//x.den))
@@ -21,18 +21,18 @@ FastQ64(x::FastQ32) = FastQ64(Rational{Int64}(x.num//x.den))
 FastQ32(x::FastQ64) = FastQ32(Rational{Int32}(x.num//x.den))
 FastQ64(x::FastQ128) = FastQ64(Rational{Int64}(x.num//x.den))
 FastQ32(x::FastQ128) = FastQ32(Rational{Int32}(x.num//x.den))
-FastQ64(x::FastQbig) = FastQ64(Rational{Int64}(x.num//x.den))
-FastQ32(x::FastQbig) = FastQ32(Rational{Int32}(x.num//x.den))
+FastQ64(x::FastQBig) = FastQ64(Rational{Int64}(x.num//x.den))
+FastQ32(x::FastQBig) = FastQ32(Rational{Int32}(x.num//x.den))
 
-promote_rule(::Type{FastQbig}, ::Type{FastQ128}) = FastQbig
-promote_rule(::Type{FastQbig}, ::Type{FastQ64}) = FastQbig
-promote_rule(::Type{FastQbig}, ::Type{FastQ32}) = FastQbig
+promote_rule(::Type{FastQBig}, ::Type{FastQ128}) = FastQBig
+promote_rule(::Type{FastQBig}, ::Type{FastQ64}) = FastQBig
+promote_rule(::Type{FastQBig}, ::Type{FastQ32}) = FastQBig
 promote_rule(::Type{FastQ128}, ::Type{FastQ64}) = FastQ128
 promote_rule(::Type{FastQ128}, ::Type{FastQ32}) = FastQ128
 promote_rule(::Type{FastQ64}, ::Type{FastQ32}) = FastQ64
-convert(::Type{FastQbig}, x::FastQ128) = FastQbig(x)
-convert(::Type{FastQbig}, x::FastQ64) = FastQbig(x)
-convert(::Type{FastQbig}, x::FastQ32) = FastQbig(x)
+convert(::Type{FastQBig}, x::FastQ128) = FastQBig(x)
+convert(::Type{FastQBig}, x::FastQ64) = FastQBig(x)
+convert(::Type{FastQBig}, x::FastQ32) = FastQBig(x)
 convert(::Type{FastQ128}, x::FastQ64) = FastQ128(x)
 convert(::Type{FastQ128}, x::FastQ32) = FastQ128(x)
 convert(::Type{FastQ64}, x::FastQ32) = FastQ64(x)
@@ -40,7 +40,7 @@ convert(::Type{FastQ64}, x::FastQ128) = FastQ64(x)
 convert(::Type{FastQ32}, x::FastQ128) = FastQ32(x)
 convert(::Type{FastQ32}, x::FastQ64) = FastQ32(x)
 
-for (Q,T) in ((:FastQ32, :Int32), (:FastQ64, :Int64), (:FastQ128, :Int128), (:FastQbig, :BigInt))
+for (Q,T) in ((:FastQ32, :Int32), (:FastQ64, :Int64), (:FastQ128, :Int128), (:FastQBig, :BigInt))
   @eval begin
     promote_rule(::Type{Rational{T}}, ::Type{$Q}) where {T} = $Q
     convert(::Type{$Q}, x::Rational{T}) where {T} = $Q($T(x.num), $T(x.den))
