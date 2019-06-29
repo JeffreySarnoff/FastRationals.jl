@@ -5,6 +5,7 @@ makedocs(
     authors = "Jeffrey Sarnoff",
     modules = [FastRationals],
     pages = Any[
+        "The BPP formula for PI" => "bpp.md",
         "Finding the Range" => "findingtherange.md",        
         "The Stateless Way" => "thestatelessway.md",
         "What cannot overflow?" => "mayoverflow.md",
