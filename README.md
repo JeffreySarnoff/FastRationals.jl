@@ -16,8 +16,8 @@
 
 | n Rational{Int128} | ~denom digits | sum relspeed | prod relspeed |
 |:------------------:|:-------------:|:------------:|:-------------:| 
-|200                 | 7_175         |  197         | 362           |
-|500                 | 17_735        | 342          | 598           |
+|200                 | 7_150         |  200         | 360           |
+|500                 | 17_700        |  340         | 600           |
 
 
 | n Rational{Int128} | ~denom digits | matmul relspeed | prod relspeed |
