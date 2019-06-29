@@ -11,16 +11,19 @@
 ----
 ## Rationals using BigInt
 
-### arithmetic
+#### arithmetic
+
+The first column holds the number of random Rational{Int128}s used
+to generate the random `Rational{BigInt}` values that were processed.
 
 
-| n Rational{Int128} | ~denom digits | sum relspeed | prod relspeed |
+| n rand Rationals   | ~denom digits | sum relspeed | prod relspeed |
 |:------------------:|:-------------:|:------------:|:-------------:| 
 |200                 | 7_150         |  200         | 360           |
 |500                 | 17_700        |  340         | 600           |
 
 
-| n Rational{Int128} | ~denom digits | matmul relspeed | prod relspeed |
+| n rand Rationals   | ~denom digits | matmul relspeed | prod relspeed |
 |:------------------:|:-------------:|:---------------:|:-------------:| 
 |64 (8x8)            |               |  40             |               |
 |                    |               |                 |               |
