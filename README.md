@@ -17,16 +17,16 @@ The first column holds the number of random Rational{Int128}s used
 to generate the random `Rational{BigInt}` values that were processed.
 
 
-| n rand Rationals   | ~denom digits | sum relspeed | prod relspeed |
+| n rand Rationals   | ~denom digits | `sum` relspeed | `prod` relspeed |
 |:------------------:|:-------------:|:------------:|:-------------:| 
 |200                 | 7_150         |  200         | 360           |
 |500                 | 17_700        |  340         | 600           |
 
 
-| n rand Rationals   | ~denom digits | matmul relspeed | prod relspeed |
-|:------------------:|:-------------:|:---------------:|:-------------:| 
-|64 (8x8)            |               |  40             |               |
-|                    |               |                 |               |
+| n rand Rationals   | matmul relspeed | `tr` relspeed |
+|:------------------:|:---------------:|:-------------:| 
+| 64 (8x8)           |  40             |      20       |
+| 225 (15x15)        |  50             |      45       |
 
 
 However, other matrix functions (`det`, `lu`, `inv`) are slower at this size.
