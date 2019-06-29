@@ -39,7 +39,7 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 ##### working with 25_000 digit Rational componants
 
-Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRational{BigInt}.
+Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
 
 
 ----
