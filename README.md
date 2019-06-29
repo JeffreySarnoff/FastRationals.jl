@@ -11,6 +11,24 @@
 ----
 ## Rationals using BigInt
 
+### accumulate
+
+- `sum`
+
+| n Rational{Int128} | d digits | n+d digits | relspeed |
+|:------------------:|:---------:|:----:|:--------:| 
+|200| 7_186 | 14_374    | 197   |
+|500| 17_775 | 35_553 | 342 |
+
+- `prod`
+
+| n Rational{Int128} | d digits | n+d digits | relspeed |
+|:------------------:|:---------:|:----:|:--------:| 
+|200| 7_169 | 14_3332    | 362   |
+|500| 17_706 | 35_413 | 598 |
+
+
+
 ```
 julia> using FastRationals
 julia> n=50;r128=rand(Int128,(n,2)); systemQbig=Rational{BigInt}.(r128[:,1] .// r128[:,2]);
