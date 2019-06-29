@@ -164,6 +164,8 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 This work stems from a [discussion](https://github.com/JuliaLang/julia/issues/11522) that began in 2015.
 
+The [rational compactifying algorithm](https://dl.acm.org/citation.cfm?id=2733711&dl=ACM&coll=DL) is in the ACM digital library. 
+
 ----
 
 <sup><a name="source">[𝓪](#attribution)</a></sup> Harmen Stoppels on 2019-06-14
