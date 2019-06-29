@@ -29,7 +29,8 @@ to generate the random `Rational{BigInt}` values that were processed.
 | 225 (15x15)        |  50             |      45       |
 
 
-However, other matrix functions (`det`, `lu`, `inv`) are slower at this size.
+However, other matrix functions (`det`, `lu`, `inv`) take way too long at this size.
+- insight into why and how to remedy this behavior is welcome
 
 ----
 
