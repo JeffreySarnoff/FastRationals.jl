@@ -73,9 +73,8 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 |      mat inv            |        3          |
 
 - polynomial degree is 4, matrix size is 4x4
-----
 
-- This timing harness provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
+- This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
 
 ----
 ## Rationals using BigInt
