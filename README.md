@@ -31,6 +31,39 @@ julia> floor(Int, qbigtime/qfastbigtime)
 ```
 However, other matrix functions (`det`, `lu`, `inv`) are slower at this size.
 
+The Bailey–Borwein–Plouffe formula (BBP formula) is a formula for π
+```
+function bpp(::Type{T}, n) where {T}
+    result = zero(T)
+    for k = 0:n
+       eightk = BigInt(8*k)
+       cur = T(BigInt(4),eightk+1) -
+             T(BigInt(2),eightk+4) -
+             T(BigInt(1),eightk+5) -
+             T(BigInt(1),eightk+6)
+       cur = T(BigInt(1),BigInt(16)^k) * cur
+       result = result + cur
+    end
+    return result
+end
+
+# err ~1e-28
+julia> systemqtime = @belapsed bpp(Rational{BigInt},20);
+julia> fastqtime = @belapsed bpp(FastRational{BigInt},20);
+julia> floor(Int,systemqtime/fastqtime)
+3
+
+# err ~1e-53
+julia> systemqtime = @belapsed bpp(Rational{BigInt},40);
+julia> fastqtime = @belapsed bpp(FastRational{BigInt},40);
+julia> floor(Int,systemqtime/fastqtime)
+4
+
+julia> systemqtime = @belapsed bpp(Rational{BigInt},80);
+julia> fastqtime = @belapsed bpp(FastRational{BigInt},80);
+julia> floor(Int,systemqtime/fastqtime)
+
+
 ----
 
 ## using FastRationals
