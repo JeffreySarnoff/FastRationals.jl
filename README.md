@@ -86,7 +86,7 @@ to generate the random `Rational{BigInt}` values that were processed.
 
 - `sum` and `prod`
 
-| n rand Rationals   | ~denom digits | `sum` relspeed | `prod` relspeed |
+| n rand Rationals   | digits in den | `sum` relspeed | `prod` relspeed |
 |:------------------:|:-------------:|:------------:|:-------------:| 
 |200                 | 7_150         |  200         | 360           |
 |500                 | 17_700        |  340         | 600           |
