@@ -46,7 +46,7 @@ Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improveme
 ## FastRational types
 
 
-### FastRationals with system integers
+### FastRationals using fast integers
 
 - __FastRationals__ exports types `FastRational{Int32} (FastQ32)` and `FastRational{Int64} (FastQ64)`.
 - Arithmetic is 12x..16x faster and matrix ops are 2x..6x faster when using appropriately ranged values.
@@ -56,7 +56,7 @@ __FastRationals__ are intended for use with _smaller_ rational values.  To compa
 
 Of the numerator and denominator, we really want whichever is the larger in magnitude from each value used in an arithmetic op. These values determine whether or not their product may be formed without overflow. That is important to know. It is alright to work as though there is a possiblity of overflow where in fact no overflow will occur.  It is not alright to work as though there is no possiblity of overflow where in fact overflow will occur.  In the first instance, some unnecessary yet unharmful effort is extended.  In the second instance, an overflow error stops the computation.
 
-### FastRationals with large numbers
+### FastRationals using large integers
 
 - __FastRationals__ exports types `FastRational{Int128} (FastQ128)` and `FastRational{BigInt} (FastQBig)`.
 - `FastQ128` is 1.25x..2x faster than `Rational{Int128}` when using appropriately ranged values.
@@ -64,7 +64,7 @@ Of the numerator and denominator, we really want whichever is the larger in magn
 - `FastQBig` is best with numerators and denominators that have no more than 25_000 decimal digits.
 
 
-### working with rational ranges
+### Most performant ranges using fast integers
 
 __FastRationals__ are at their most performant where overflow is absent or uncommon.  And vice versa: where overflow happens frequently, FastRationals have no intrinsic advantage.  How do we know what range of rational values are desireable?  We want to work with rational values that, for the most part, do not overflow when added, subtracted, multiplied or divided.  As rational calculation tends to grow numerator aor denominator magnitudes, it makes sense to further constrain the working range.  These tables are of some guidance. 
 
