@@ -49,6 +49,7 @@ wider(x::Int16) = x%Int32
 wider(x::Int32) = x%Int64
 wider(x::Int64) = x%Int128
 wider(x::Int128) = x%BigInt
+wider(x::BigInt) = x
 
 ==(x::FastRational{T}, y::FastRational{T}) where {T<:Signed} = wider(x.num) * wider(y.den) === wider(x.den) * wider(y.num)
 !=(x::FastRational{T}, y::FastRational{T}) where {T<:Signed} = wider(x.num) * wider(y.den) !== wider(x.den) * wider(y.num)
