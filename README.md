@@ -11,11 +11,12 @@
 ----
 ## Rationals using BigInt
 
-#### arithmetic
+##### what works well
 
 The first column holds the number of random Rational{Int128}s used    
 to generate the random `Rational{BigInt}` values that were processed.
 
+----
 
 | n rand Rationals   | ~denom digits | `sum` relspeed | `prod` relspeed |
 |:------------------:|:-------------:|:------------:|:-------------:| 
@@ -29,6 +30,8 @@ to generate the random `Rational{BigInt}` values that were processed.
 | 225 (15x15)        |  50             |      45       |
 
 ----
+
+##### what does not work well
 
 However, other matrix functions (`det`, `lu`, `inv`) take way too long at this size.
 - insight into the remedy is welcome
