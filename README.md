@@ -116,7 +116,7 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 ----
 
-## provided in addition to the system rational ops
+## additional functionality
 
 ### enhanced rounding
 
