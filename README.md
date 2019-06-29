@@ -98,17 +98,14 @@ to generate the random `Rational{BigInt}` values that were processed.
 | 64 (8x8)           |  40             |      20       |
 | 225 (15x15)        |  50             |      45       |
 
-----
+
+- 25_000 decimal digits
+
+Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
 
 ##### what does not work well
 
 Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welcome.
-
-----
-
-##### working with 25_000 digit Rational componants
-
-Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
 
 
 ----
