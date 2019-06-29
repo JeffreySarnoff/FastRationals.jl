@@ -7,7 +7,7 @@ right up to the cusp of a `swallow tail` where the magnitudes engender overflow 
 | Swallow Tail                            |
 |-----------------------------------------|
 | ![swallowtail](assets/swallowtail1.jpg) |
-| courtesy of [Goo Ishikawa](https://www2.sci.hokudai.ac.jp/faculty/en/researcher/goo-ishikawa) |
+| this image appears courtesy of [Goo Ishikawa](https://www2.sci.hokudai.ac.jp/faculty/en/researcher/goo-ishikawa) |
 
 ----
 
