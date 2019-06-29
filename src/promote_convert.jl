@@ -12,6 +12,8 @@ function FastRational{T}(x::F) where {T<:Signed, F<:AbstractFloat}
     return FastRational{T}(rationalize(x))
 end
 
+FastRational{BigInt}(x::Rational{BigInt}) = FastRational{BigInt}(x.num, x.den)
+FastRational{BigInt}(x::Rational{T}) where {T<:Signed} = FastRational{BigInt}(x.num, x.den)
 
 FastQ128(x::FastQ64) = FastQ128(Rational{Int128}(x.num//x.den))
 FastQ128(x::FastQ32) = FastQ128(Rational{Int128}(x.num//x.den))
