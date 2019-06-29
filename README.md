@@ -12,6 +12,9 @@
 
 [performance relative to system rationals](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#performance-relative-to-system-rationals)
 
+[additional functionality](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#additional-functionality)
+- [rational compactification](https://github.com/JeffreySarnoff/FastRationals.jl#rational-compactification)
+- [enhanced rounding](https://github.com/JeffreySarnoff/FastRationals.jl#enhanced-rounding)
 
 ----
 ## FastRational types
@@ -118,6 +121,20 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 ## additional functionality
 
+
+### rational compactification
+
+- `compactify_rational`(rational_to_compactify, rational_radius_of_indifference)
+
+From all rationals that exist in the immediate neighborhood<sup>[𝒃](#def)</sup>
+of the rational_to_compactify, obtains the unique rational with the smallest denominator.
+And, if there be more than one, obtains that rational having the smallest numerator.
+
+
+<sup><a name="neighborhood">[𝒃](#def)</a></sup> This `neighborhood` is given by 
+ ±_the radius of indifference_, centered at the rational to compactify. 
+
+
 ### enhanced rounding
 
 `FastRationals` support two kinds of directed rounding, one maintains type, the other yields an integer.
@@ -143,18 +160,6 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 > round(Int16, -q, RoundUp), typeof(round(Int16, -q, RoundUp))
 -3, Int16
 ```
-
-### rational compactification
-
-- `compactify_rational`(rational_to_compactify, rational_radius_of_indifference)
-
-From all rationals that exist in the immediate neighborhood<sup>[𝒃](#def)</sup>
-of the rational_to_compactify, obtains the unique rational with the smallest denominator.
-And, if there be more than one, obtains that rational having the smallest numerator.
-
-
-<sup><a name="neighborhood">[𝒃](#def)</a></sup> This `neighborhood` is given by 
- ±_the radius of indifference_, centered at the rational to compactify. 
 
 ----
 
