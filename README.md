@@ -10,6 +10,10 @@
 
 ----
 
+[performance relative to system rationals](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#performance-relative-to-system-rationals)
+
+
+----
 ## FastRational types
 
 
