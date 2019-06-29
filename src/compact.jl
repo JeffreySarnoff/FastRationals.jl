@@ -1,6 +1,15 @@
 const FieldQ = Union{Rational{T}, FastRational{T}} where {T}
 const FieldQBig = Union{Rational{BigInt}, Rational{Int128}, FastRational{BigInt}, FastRational{Int128}}
 
+"""
+    compactify_rational(rational_to_compactify, rational_radius_of_indifference)
+
+Uncovers that unique rational value which lies nearby the rational_to_compactify
+within  ±rational_radius_of_indifference of the source rational and has the
+smallest denominator of all rationals to which we are indifferent and also
+of all rationals with that denominator to which we are indifferent, has the
+smallest numerator.   
+"""
 function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:FieldQ} 
     lo = float(midpoint - radius)
     hi = float(midpoint + radius)
