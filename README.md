@@ -20,8 +20,6 @@ julia> qfastbigtime = @belapsed sum(fastQbig);
 julia> floor(Int, qbigtime/qfastbigtime)
 121
 
-```
-```
 julia> n=64;r128=rand(Int128,(n,2)); systemQbig=Rational{BigInt}.(r128[:,1] .// r128[:,2]);
 julia> fastQbig = FastRational{BigInt}.(systemQbig);
 julia> systemQbig_matrix = reshape(systemQbig, 8,8);
@@ -31,6 +29,7 @@ julia> qfastbigtime = @belapsed (fastQbig_matrix*fastQbig_matrix);
 julia> floor(Int, qbigtime/qfastbigtime)
 40
 ```
+However, other matrix functions (`det`, `lu`, `inv`) are slower at this size.
 
 ----
 
