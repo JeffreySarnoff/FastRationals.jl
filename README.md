@@ -65,9 +65,8 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 | admissable  | ±1_048_575//1  | ±1//1_048_575  |     44      |
 |             |                |                |             |
 
-----
 
-The calculation of these magnitudes appears [here]( https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/thestatelessway.md#quantifying-the-desireable).
+> The calculation of these magnitudes appears [here]( https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/thestatelessway.md#quantifying-the-desireable).
 
 ----
 
