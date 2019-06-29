@@ -51,7 +51,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 | admissible  | ±4_095//1   |  ±1//4_095  |    20       |
 |             |             |             |             |
 
-----
+~~~~~
 
 |   FastQ64   |  range         | refinement     | lead 0 bits |
 |-------------|----------------|----------------|:-----------:|
