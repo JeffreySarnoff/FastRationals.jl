@@ -54,3 +54,28 @@ function compact_rational_unchecked(lo::T, hi::T) where {T<:Real}
     end
     return num, den
 end
+
+
+#=
+from the paper (section 1)
+
+For a given positive real interval I = [α,β] (0 < α < β), 
+    we ﬁnd a rational number P/Q in I
+        whose positive denominator Q is the smallest.
+
+We may change the problem to: 
+    “For the interval I, ﬁnd (all) rational numbers in I whose positive denominator is the smallest”.
+We may also change the problem to: 
+    “For the interval I, from all rational numbers in I whose positive denominator is the smallest,
+        ﬁnd the one whose numerator is the smallest”,
+
+        because when we ﬁnd Q the smallest positive denominator,
+        the numerator P of the original problem is any integer in
+        ceil(Qα),···,ﬂoor(Qβ) contained in [Qα, Qβ]. 
+
+The rational number P/Q is uniquely determined from the real positive closed interval I [α,β] (0<α<β)
+   can be found by the CF expansion method[1]. This algorithm is an analogy of the 
+   regular continued fraction expansion of a real number, and gives a solution very quickly
+   even when the denominator of the solution is a huge integer. The count of arithmetic operations
+   is linear to the bit length of the denominator of the solution.
+=#
