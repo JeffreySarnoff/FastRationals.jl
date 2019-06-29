@@ -28,6 +28,7 @@
 
 However, other matrix functions (`det`, `lu`, `inv`) are slower at this size.
 
+----
 
 The Bailey–Borwein–Plouffe formula (BBP formula) is a formula for π
 ```
@@ -94,6 +95,7 @@ julia> systemqtime = @belapsed bpp(Rational{BigInt},500);
 julia> fastqtime = @belapsed bpp(FastRational{BigInt},500);
 julia> floor(Int,systemqtime/fastqtime)
 0.5
+```
 
 ----
 
