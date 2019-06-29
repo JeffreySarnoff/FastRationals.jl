@@ -49,9 +49,8 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 | workable    |  ±1_023//1  |  ±1//1_023  |    22       |
 |             |             |             |             |
 | admissible  | ±4_095//1   |  ±1//4_095  |    20       |
-|             |             |             |             |
 
-.....
+>
 
 |   FastQ64   |  range         | refinement     | lead 0 bits |
 |-------------|----------------|----------------|:-----------:|
@@ -63,7 +62,6 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 | workable    |  ±262_143//1   |  ±1//262_143   |     46      |
 |             |                |                |             |
 | admissable  | ±1_048_575//1  | ±1//1_048_575  |     44      |
-|             |                |                |             |
 
 
 > The calculation of these magnitudes appears [here]( https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/thestatelessway.md#quantifying-the-desireable).
