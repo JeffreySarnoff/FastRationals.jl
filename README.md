@@ -6,9 +6,13 @@
 
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
-[![Build Status](https://travis-ci.org/JeffreySarnoff/FastRationals.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/FastRationals.jl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl)
+[![Build Status](https://travis-ci.org/JeffreySarnoff/FastRationals.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/FastRationals.jl)&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl/branch/master/graph/badge.svg)]https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-fast-integers(https://codecov.io/gh/JeffreySarnoff/FastRationals.jl)
 
 ----
+
+[`FastRational` Types](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#fastrational-types)
+- [using fast integers](https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-fast-integers)
+- [using large integers](https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-large-integers)
 
 [performance relative to system rationals](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#performance-relative-to-system-rationals)
 
