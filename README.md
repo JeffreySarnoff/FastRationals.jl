@@ -12,7 +12,7 @@
 
 [performance relative to system rationals](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#performance-relative-to-system-rationals)
 
-[FastRational{BigInt}](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#rationals-using-bigint)
+[`FastRational{BigInt}`](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#rationals-using-bigint)
 - [what works well](https://github.com/JeffreySarnoff/FastRationals.jl#what-works-well)
 - [what does not](https://github.com/JeffreySarnoff/FastRationals.jl#what-does-not-work-well)
 
