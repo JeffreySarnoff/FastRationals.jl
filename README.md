@@ -10,7 +10,7 @@
 
 ----
 
-#### `FastRational` Types
+#### kinds of `FastRational`
 
 - [using fast integers](https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-fast-integers)
    - [performance relative to system rationals](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#performance-relative-to-system-rationals)
@@ -24,6 +24,7 @@
 - [enhanced rounding](https://github.com/JeffreySarnoff/FastRationals.jl#enhanced-rounding)
 
 ----
+
 ## FastRational types
 
 
