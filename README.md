@@ -147,6 +147,18 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 -3, Int16
 ```
 
+#### rational compactification
+
+- compactify_rational(rational_to_compactify, rational_radius_of_indifference)
+
+From all rationals that exist in the neighborhood of rational_to_compactify,<sup>[𝓫](#def)</sup>
+obtains the unique rational with the smallest denominator of all rationals in the neighborhood
+and, of all rationals in the neighborhood that may share that denominator, has the smallest numerator.
+
+
+<sup><a name="neighborhood">[𝓫](#def)</a></sup> This `neighborhood` is given by 
+ ±_the radius of indifference_, centered at the rational to compactify. 
+
 ----
 
 
