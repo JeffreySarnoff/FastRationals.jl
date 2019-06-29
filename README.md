@@ -79,6 +79,18 @@ julia> fastqtime = @belapsed bpp(FastRational{BigInt},200);
 julia> floor(Int,systemqtime/fastqtime)
 2.5
 
+# err ~1e368, 57_914 digits in num, den
+julia> systemqtime = @belapsed bpp(Rational{BigInt},300);
+julia> fastqtime = @belapsed bpp(FastRational{BigInt},300);
+julia> floor(Int,systemqtime/fastqtime)
+1.25
+
+# err ~1e402, 68_889 digits in num, den
+julia> systemqtime = @belapsed bpp(Rational{BigInt},328);
+julia> fastqtime = @belapsed bpp(FastRational{BigInt},328);
+julia> floor(Int,systemqtime/fastqtime)
+0.99
+
 # err ~1e610, 157_166 digits in num, den
 julia> systemqtime = @belapsed bpp(Rational{BigInt},500);
 julia> fastqtime = @belapsed bpp(FastRational{BigInt},500);
