@@ -2,7 +2,7 @@
 
 It is demonstrated that `FastRationals` are designed for use with rational values where both numerator and denominator
 are of relatively small magnitude.  We find that their performance strengthens with additional use and more terms ..
-right up to the cusp of a `swallow tail` where the magnitudes engender overflow with some regularity.
+right up to reaching the critical region of a `swallow tail` where the magnitudes engender unreduced overflow too often.
 
 | Swallow Tail                            |
 |-----------------------------------------|
