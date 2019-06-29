@@ -2,7 +2,7 @@
 
 ----
 
-### rationals with unreal performance <sup>[𝓪](#source)</sup>
+### rationals with unreal performance <sup>[𝟣](#source)</sup>
 
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
@@ -151,12 +151,12 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 - compactify_rational(rational_to_compactify, rational_radius_of_indifference)
 
-From all rationals that exist in the neighborhood of rational_to_compactify,<sup>[𝓫](#def)</sup>
-obtains the unique rational with the smallest denominator of all rationals in the neighborhood
-and, of all rationals in the neighborhood that may share that denominator, has the smallest numerator.
+From all rationals that exist in the neighborhood of rational_to_compactify,<sup>[𝟤](#def)</sup>
+obtains the unique rational with the smallest denominator. And, if it be that more than one
+neighborhood rational shares that denominator, obtains that one with the smallest numerator.
 
 
-<sup><a name="neighborhood">[𝓫](#def)</a></sup> This `neighborhood` is given by 
+<sup><a name="neighborhood">[𝟤](#def)</a></sup> This `neighborhood` is given by 
  ±_the radius of indifference_, centered at the rational to compactify. 
 
 ----
@@ -180,4 +180,4 @@ The [rational compactifying algorithm](https://dl.acm.org/citation.cfm?id=273371
 
 ----
 
-<sup><a name="source">[𝓪](#attribution)</a></sup> Harmen Stoppels on 2019-06-14
+<sup><a name="source">[𝟣](#attribution)</a></sup> Harmen Stoppels on 2019-06-14
