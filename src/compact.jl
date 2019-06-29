@@ -1,15 +1,15 @@
 const FieldQ = Union{Rational{T}, FastRational{T}} where {T}
 const FieldQBig = Union{Rational{BigInt}, Rational{Int128}, FastRational{BigInt}, FastRational{Int128}}
 
-function more_compact_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:FieldQ} 
+function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:FieldQ} 
     lo = float(midpoint - radius)
     hi = float(midpoint + radius)
-    flnum, flden = compact_rational(lo, hi)
+    flnum, flden = compactify_rational(lo, hi)
     num, den = trunc(Int64,flnum), trunc(Int64,flden)
     return Q(num, den)
 end
 
-function more_compact_rational(midpoint::Q, radius::R) where {Q<:FieldQBig, R<:FieldQ} 
+function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQBig, R<:FieldQ} 
     lo = Float64(BigFloat(midpoint - radius))
     hi = Float64(BigFloat(midpoint + radius))
     flnum, flden = compact_rational(lo, hi)
