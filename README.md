@@ -9,6 +9,19 @@
 [![Build Status](https://travis-ci.org/JeffreySarnoff/FastRationals.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/FastRationals.jl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl)
 
 ----
+## Rationals using BigInt
+
+```
+julia> using FastRationals
+julia> n=50;r128=rand(Int128,(n,2)); systemQbig=Rational{BigInt}.(r128[:,1] .// r128[:,2]);
+julia> fastQbig = FastRational{BigInt}.(systemQbig);
+julia> qbigtime = @belapsed sum(qbig);
+julia> qfastbigtime = @belapsed sum(qfastbig);
+julia> floor(Int, qbigtime/qfastbigtime)
+109
+```
+
+----
 
 ## using FastRationals
 
