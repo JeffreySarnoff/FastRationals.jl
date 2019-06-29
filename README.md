@@ -6,7 +6,7 @@
 
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
 ----
-[![Build Status](https://travis-ci.org/JeffreySarnoff/FastRationals.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/FastRationals.jl)&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl/branch/master/graph/badge.svg)]https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-fast-integers(https://codecov.io/gh/JeffreySarnoff/FastRationals.jl)
+[![Build Status](https://travis-ci.org/JeffreySarnoff/FastRationals.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/FastRationals.jl)&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl/branch/master/graph/badge.svg)
 
 ----
 
