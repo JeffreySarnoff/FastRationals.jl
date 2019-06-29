@@ -10,7 +10,7 @@ smallest denominator of all rationals to which we are indifferent and also
 of all rationals with that denominator to which we are indifferent, has the
 smallest numerator.   
 """
-function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:Real} 
+function compactify_rational(midpoint::Q, radius::Q) where {T, Q<:FieldQ{T}} 
     lo = float(midpoint - radius)
     hi = float(midpoint + radius)
     flnum, flden = compact_rational(lo, hi)
@@ -18,7 +18,7 @@ function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:Real}
     return Q(num, den)
 end
 
-function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQBig, R<:Real} 
+function compactify_rational(midpoint::Q, radius::Q) where {Q<:FieldQBig} 
     lo = Float64(BigFloat(midpoint - radius))
     hi = Float64(BigFloat(midpoint + radius))
     flnum, flden = compact_rational(lo, hi)
@@ -26,6 +26,17 @@ function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQBig, R<:Rea
     return Q(num, den)
 end
 
+function compactify_rational(midpoint::FieldQ{T}, radius::F) where {T, F<:AbstractFloat}
+    indifference = rationalize(radius)
+    qradius = T(indifference.num) // T(indifference.den)
+    return compactify_rational(midpoint, qradius)
+end
+
+function compactify_rational(midpoint::FieldQBig, radius::F) where {F<:AbstractFloat}
+    indifference = rationalize(radius)
+    qradius = BigInt(indifference.num) // BigInt(indifference.den)
+    return compactify_rational(midpoint, qradius)
+end
 
 #=
     The algorithm for `compact_rational` is from Hiroshi Murakami's paper
