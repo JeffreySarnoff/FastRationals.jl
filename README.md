@@ -112,16 +112,9 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 ----
 
-### what is not carried over from system rationals 
+## provided in addition to the system rational ops
 
-- There is no `FastRational` representation for Infinity
-- There is no support for comparing a `FastRational` with NaN
-
-- _reserved for unintentional omissions_
-
-### what is provided beyond the system rational ops
-
-#### enhanced rounding
+### enhanced rounding
 
 `FastRationals` support two kinds of directed rounding, one maintains type, the other yields an integer.
 - all rounding modes are available
@@ -147,7 +140,7 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 -3, Int16
 ```
 
-#### rational compactification
+### rational compactification
 
 - `compactify_rational`(rational_to_compactify, rational_radius_of_indifference)
 
@@ -161,6 +154,12 @@ And, if there be more than one, obtains that rational having the smallest numera
 
 ----
 
+### what is not carried over from system rationals 
+
+- There is no `FastRational` representation for Infinity
+- There is no support for comparing a `FastRational` with NaN
+
+----
 
 ## more about it
 
