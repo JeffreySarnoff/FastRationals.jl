@@ -34,32 +34,31 @@ end
     
     Hiroshi Murakami, Department of Mathematics and Information Sciences,
     Tokyo Metropolitan University, Tokyo, 192-0397, Japan
-    mrkmhrsh@tmu.ac.jp, https://www.rs.tus.ac.jp/hide-murakami/index.html
+    mrkmhrsh@tmu.ac.jp, https://www.rs.tus.ac.jp/hide-murakami/index.html   
 =#
 
 function compact_rational(lo::T, hi::T) where {T<:Real}
     lo, hi = compact_rational_constraints(lo, hi)
     
-    if ceil(lo) <= floor(hi)                          # [lo,hi] contains some integer
-      num, den = ceil(lo), one(T)                    # the CF expansion terminates here.
-    else                                             # [lo,hi] contains no integer 
-      m = floor(lo)                                  #
-      lo, hi = inv(hi-m), inv(lo-m)                  # the CF expansion continues. 
-      num, den = compact_rational_unchecked(lo, hi)  # Recursive call is made here.
-      num, den = num*m + den, num 
+    if ceil(lo) <= floor(hi)                           # [lo,hi] contains some integer
+        num, den = ceil(lo), one(T)                    # the CF expansion terminates here.
+        else                                           # [lo,hi] contains no integer 
+        m = floor(lo)                                  #
+        lo, hi = inv(hi-m), inv(lo-m)                  # the CF expansion continues. 
+        num, den = compact_rational_unchecked(lo, hi)  # Recursive call is made here.
+        num, den = num*m + den, num 
     end
-
     return num, den
 end
 
 function compact_rational_unchecked(lo::T, hi::T) where {T<:Real}    
-    if ceil(lo) <= floor(hi)                          # [lo,hi] contains some integer
-      num, den = ceil(lo), one(T)                    # the CF expansion terminates here.
-    else                                             # [lo,hi] contains no integer 
-      m = floor(lo)                                  #
-      lo, hi = inv(hi-m), inv(lo-m)                  # the CF expansion continues. 
-      num, den = compact_rational_unchecked(lo, hi)  # Recursive call is made here.
-      num, den = num*m + den, num 
+    if ceil(lo) <= floor(hi)                           # [lo,hi] contains some integer
+        num, den = ceil(lo), one(T)                    # the CF expansion terminates here.
+        else                                           # [lo,hi] contains no integer 
+        m = floor(lo)                                  #
+        lo, hi = inv(hi-m), inv(lo-m)                  # the CF expansion continues. 
+        num, den = compact_rational_unchecked(lo, hi)  # Recursive call is made here.
+        num, den = num*m + den, num 
     end
     return num, den
 end
@@ -68,7 +67,13 @@ function compact_rational_constraints(lo::T, hi::T) where {T<:Real}
     lo, hi = abs(lo), abs(hi)
     lo, hi = lo < hi ? (lo, hi) : (hi, lo)
     !iszero(lo) || throw(ErrorException("lo == 0"))
-    return lo, hi
+    if T<:Rational
+        flo = lo.num / lo.den
+        fhi = hi.num / hi.den
+    else
+        flo, fhi = lo, hi
+    end
+    return flo, fhi
 end
 
 
