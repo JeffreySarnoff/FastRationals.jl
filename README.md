@@ -39,29 +39,18 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 
 ----
 
-|   FastQ32   |  range      | refinement  | lead 0 bits |
-|-------------|-------------|-------------|:-----------:|
-|             |             |             |             |
-| sweet spot  |    ±215//1  |  ±1//215    |    24       |
-|             |             |             |             |
-| preferable  |    ±255//1  |  ±1//255    |    24       |
-|             |             |             |             |
-| workable    |  ±1_023//1  |  ±1//1_023  |    22       |
-|             |             |             |             |
-| admissible  | ±4_095//1   |  ±1//4_095  |    20       |
-
->
-
-|   FastQ64   |  range         | refinement     | lead 0 bits |
-|-------------|----------------|----------------|:-----------:|
-|             |                |                |             |
-| sweet spot  |    ±55_108//1  |  ±1//55_108    |     48      |
-|             |                |                |             |
-| preferable  |    ±65_535//1  |  ±1//65_535    |     48      |
-|             |                |                |             |
-| workable    |  ±262_143//1   |  ±1//262_143   |     46      |
-|             |                |                |             |
-| admissable  | ±1_048_575//1  | ±1//1_048_575  |     44      |
+  ###     ________  FastQ32  ______________________________  FastQ64  __________
+  |  range      | refinement  |                | range           | refinement     |
+  |:-----------:|:-----------:|:--------------:|:---------------:|:--------------:|
+  |             |             |                |                 |                |
+  |    ±215//1  |  ±1//215    |    sweet spot  |     ±55_108//1  |  ±1//55_108    |
+  |             |             |                |                 |                |
+  |    ±255//1  |  ±1//255    |    preferable  |     ±65_535//1  |  ±1//65_535    |
+  |             |             |                |                 |                |
+  |  ±1_023//1  |  ±1//1_023  |    workable    |   ±262_143//1   |  ±1//262_143   |
+  |             |             |                |                 |                |
+  | ±4_095//1   |  ±1//4_095  |    admissible  |  ±1_048_575//1  | ±1//1_048_575  |
+  |             |             |                |                 |                |
 
 
 > The calculation of these magnitudes appears [here]( https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/thestatelessway.md#quantifying-the-desireable).
