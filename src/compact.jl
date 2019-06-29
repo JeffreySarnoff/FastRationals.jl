@@ -10,7 +10,7 @@ smallest denominator of all rationals to which we are indifferent and also
 of all rationals with that denominator to which we are indifferent, has the
 smallest numerator.   
 """
-function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:FieldQ} 
+function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:Real} 
     lo = float(midpoint - radius)
     hi = float(midpoint + radius)
     flnum, flden = compactify_rational(lo, hi)
@@ -18,7 +18,7 @@ function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQ, R<:FieldQ
     return Q(num, den)
 end
 
-function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQBig, R<:FieldQ} 
+function compactify_rational(midpoint::Q, radius::R) where {Q<:FieldQBig, R<:Real} 
     lo = Float64(BigFloat(midpoint - radius))
     hi = Float64(BigFloat(midpoint + radius))
     flnum, flden = compact_rational(lo, hi)
@@ -64,6 +64,12 @@ function compact_rational_unchecked(lo::T, hi::T) where {T<:Real}
     return num, den
 end
 
+function compact_rational_constraints(lo::T, hi::T) where {T<:Real}
+    lo, hi = abs(lo), abs(hi)
+    lo, hi = lo < hi ? (lo, hi) : (hi, lo)
+    !iszero(lo) || throw(ErrorException("lo == 0"))
+    return lo, hi
+end
 
 #=
 from the paper (section 1)
