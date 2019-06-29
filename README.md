@@ -20,27 +20,14 @@
 |500                 | 17_735        | 342          | 598           |
 
 
+| n Rational{Int128} | ~denom digits | matmul relspeed | prod relspeed |
+|:------------------:|:-------------:|:---------------:|:-------------:| 
+|64 (8x8)            |               |  40             |               |
+|                    |               |                 |               |
 
 
-```
-julia> using FastRationals
-julia> n=50;r128=rand(Int128,(n,2)); systemQbig=Rational{BigInt}.(r128[:,1] .// r128[:,2]);
-julia> fastQbig = FastRational{BigInt}.(systemQbig);
-julia> qbigtime = @belapsed sum(systemQbig);
-julia> qfastbigtime = @belapsed sum(fastQbig);
-julia> floor(Int, qbigtime/qfastbigtime)
-121
-
-julia> n=64;r128=rand(Int128,(n,2)); systemQbig=Rational{BigInt}.(r128[:,1] .// r128[:,2]);
-julia> fastQbig = FastRational{BigInt}.(systemQbig);
-julia> systemQbig_matrix = reshape(systemQbig, 8,8);
-julia> fastQbig_matrix = reshape(fastQbig, 8,8);
-julia> qbigtime = @belapsed (systemQbig_matrix*systemQbig_matrix);
-julia> qfastbigtime = @belapsed (fastQbig_matrix*fastQbig_matrix);
-julia> floor(Int, qbigtime/qfastbigtime)
-40
-```
 However, other matrix functions (`det`, `lu`, `inv`) are slower at this size.
+
 
 The Bailey–Borwein–Plouffe formula (BBP formula) is a formula for π
 ```
