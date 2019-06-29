@@ -9,40 +9,7 @@
 [![Build Status](https://travis-ci.org/JeffreySarnoff/FastRationals.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/FastRationals.jl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JeffreySarnoff/FastRationals.jl)
 
 ----
-## Rationals using BigInt
 
-##### what works well
-
-The first column holds the number of random Rational{Int128}s used    
-to generate the random `Rational{BigInt}` values that were processed.
-
-----
-
-| n rand Rationals   | ~denom digits | `sum` relspeed | `prod` relspeed |
-|:------------------:|:-------------:|:------------:|:-------------:| 
-|200                 | 7_150         |  200         | 360           |
-|500                 | 17_700        |  340         | 600           |
-
-
-| n rand Rationals   | matmul relspeed | `tr` relspeed |
-|:------------------:|:---------------:|:-------------:| 
-| 64 (8x8)           |  40             |      20       |
-| 225 (15x15)        |  50             |      45       |
-
-----
-
-##### what does not work well
-
-Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welcome.
-
-----
-
-##### working with 25_000 digit Rational componants
-
-Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
-
-
-----
 ## FastRational types
 
 
@@ -59,9 +26,11 @@ Of the numerator and denominator, we really want whichever is the larger in magn
 ### FastRationals using large integers
 
 - __FastRationals__ exports types `FastRational{Int128} (FastQ128)` and `FastRational{BigInt} (FastQBig)`.
-- `FastQ128` is 1.25x..2x faster than `Rational{Int128}` when using appropriately ranged values.
-- `FastQBig` with large rationals speeds arithmetic by 25x..250x, and excels at `sum` and `prod`.
-- `FastQBig` is best with numerators and denominators that have no more than 25_000 decimal digits.
+
+    - `FastQ128` is 1.25x..2x faster than `Rational{Int128}` when using appropriately ranged values.
+
+    - `FastQBig` with large rationals speeds arithmetic by 25x..250x, and excels at `sum` and `prod`.
+    - `FastQBig` is best with numerators and denominators that have no more than 25_000 decimal digits.
 
 
 ### Most performant ranges using fast integers
@@ -121,6 +90,40 @@ The calculation of these magnitudes appears [here]( https://github.com/JeffreySa
 ----
 
 - This timing harness provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
+
+----
+## Rationals using BigInt
+
+##### what works well
+
+The first column holds the number of random Rational{Int128}s used    
+to generate the random `Rational{BigInt}` values that were processed.
+
+----
+
+| n rand Rationals   | ~denom digits | `sum` relspeed | `prod` relspeed |
+|:------------------:|:-------------:|:------------:|:-------------:| 
+|200                 | 7_150         |  200         | 360           |
+|500                 | 17_700        |  340         | 600           |
+
+
+| n rand Rationals   | matmul relspeed | `tr` relspeed |
+|:------------------:|:---------------:|:-------------:| 
+| 64 (8x8)           |  40             |      20       |
+| 225 (15x15)        |  50             |      45       |
+
+----
+
+##### what does not work well
+
+Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welcome.
+
+----
+
+##### working with 25_000 digit Rational componants
+
+Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
+
 
 ----
 
