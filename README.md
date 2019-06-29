@@ -149,7 +149,7 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 #### rational compactification
 
-- compactify_rational(rational_to_compactify, rational_radius_of_indifference)
+- `compactify_rational`(rational_to_compactify, rational_radius_of_indifference)
 
 From all rationals that exist in the immediate neighborhood<sup>[𝒃](#def)</sup>
 of the rational_to_compactify, obtains the unique rational with the smallest denominator.
