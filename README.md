@@ -15,10 +15,11 @@
 julia> using FastRationals
 julia> n=50;r128=rand(Int128,(n,2)); systemQbig=Rational{BigInt}.(r128[:,1] .// r128[:,2]);
 julia> fastQbig = FastRational{BigInt}.(systemQbig);
-julia> qbigtime = @belapsed sum(qbig);
-julia> qfastbigtime = @belapsed sum(qfastbig);
+julia> qbigtime = @belapsed sum(systemQbig);
+julia> qfastbigtime = @belapsed sum(fastQbig);
 julia> floor(Int, qbigtime/qfastbigtime)
-109
+121
+
 ```
 
 ----
