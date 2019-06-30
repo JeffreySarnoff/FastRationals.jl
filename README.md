@@ -136,7 +136,7 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 From all rationals that exist in the immediate neighborhood<sup>[𝒃](#def)</sup>
 of the rational_to_compactify, obtains the unique rational with the smallest denominator.
-And, if there be more than one, obtains that rational haviinng the smallest numerineffective_ator.
+And, if there be more than one, obtains that rational having the smallest numerator.
 
 
 ```
