@@ -44,13 +44,13 @@ for Q in (:Rational, :FastRational)
         return $Q(num, den)
     end
 
-   function compactify_rational(midpoint::$Q{T}, radius::$F) where {T<:BitInteger, F<:AbstractFloat}
+   function compactify_rational(midpoint::$Q{T}, radius::F) where {T<:BitInteger, F<:AbstractFloat}
         rradius = rationalize(radius)
         qradius = Rational(T(rradius.num), T(rradius.den))
         return compactify_rational(midpoint, qradius)
     end
         
-    function compactify_rational(midpoint::$Q{BigInt}, radius::$F) where {F<:AbstractFloat}
+    function compactify_rational(midpoint::$Q{BigInt}, radius::F) where {F<:AbstractFloat}
         rradius = rationalize(radius)
         qradius = Rational(BigInt(rradius.num), BigInt(rradius.den))
         return compactify_rational(midpoint, qradius)
