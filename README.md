@@ -136,28 +136,31 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 From all rationals that exist in the immediate neighborhood<sup>[𝒃](#def)</sup>
 of the rational_to_compactify, obtains the unique rational with the smallest denominator.
-And, if there be more than one, obtains that rational having the smallest numerator.
+And, if there be more than one, obtains that rational haviinng the smallest numerineffective_ator.
+
 
 ```
 using FastRationals
 
-midpoint = 76_963 // 100_003;
+midpoint = 76_963 // 100_003
 
-ineffective_radius = 1//7896121034;
-effective_radius = 1//7890323589;
-coarse_radius  = 1//64;
+passthru_radius  = 1//7896121034
+initial_radius   = 1//7890323589
+fine_radius      = 1//2^15
+coarse_radius    = 1//64
 
-ineffective_radius = 1//7896121034;
-effective_radius   = 1//7890323589;
 
-ineffective_compact = compactify_rational(midpoint, ineffective_radius)
-76963//100003
+passthru_compact = compactify_rational(midpoint, passthru_radius)   # 76963//100003
+initial_compact = compactify_rational(midpoint, initial_radius)     # 60752//78939
+fine_compact    = compactify_rational(midpoint, fine_radius)        #  147//191
+coarse_compact  = compactify_rational(midpoint, coarse_radius)      #    7//9
 
-effective_compact = compactify_rational(midpoint, effective_radius)
-60752//78939
 
-coarse_compact = compactify_rational(midpoint, coarse_radius)
-7//9
+abs(midpoint - passthru_compact) < passthru_radius     # true
+abs(midpoint - initial_compact)  < initial_radius      # true
+abs(midpoint - fine_compact)     < fine_radius         # true
+abs(midpoint - coarse_compact)   < coarse_radius       # true
+
 ```
 
 <sup><a name="neighborhood">[𝒃](#def)</a></sup> This `neighborhood` is given by 
