@@ -14,7 +14,7 @@ is less likely, probably, with the next arithmetic operation.
 for Q in (:Rational, :FastRational)
   @eval begin
 
-    function compactify_rational(midpoint::$Q{T}, radius::$Q{T}) where {T<:BitInteger}
+    function compactify_rational(midpoint::$Q{T}, radius::$Q{T}) where {T<:BitSigned}
         numlo, denlo, ovflo = subovf(midpoint, radius)
         numhi, denhi, ovfhi = addovf(midpoint, radius)
         if ovfhi || ovflo
@@ -44,7 +44,7 @@ for Q in (:Rational, :FastRational)
         return $Q(num, den)
     end
 
-   function compactify_rational(midpoint::$Q{T}, radius::F) where {T<:BitInteger, F<:AbstractFloat}
+   function compactify_rational(midpoint::$Q{T}, radius::F) where {T<:BitSigned, F<:AbstractFloat}
         rradius = rationalize(radius)
         qradius = Rational(T(rradius.num), T(rradius.den))
         return compactify_rational(midpoint, qradius)
