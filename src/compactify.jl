@@ -1,41 +1,68 @@
 const FieldQ = Union{Rational{T}, FastRational{T}} where {T}
 const FieldQBig = Union{Rational{BigInt}, Rational{Int128}, FastRational{BigInt}, FastRational{Int128}}
 
+Rational{BigInt}(x::Q) where {T, Q<:FieldQ{T}} = Rational(BigInt(x.num), BigInt(x.den))
+FastRational{BigInt}(x::Q) where {T, Q<:FieldQ{T}} = FastRational(BigInt(x.num), BigInt(x.den))
+
 """
-    compactify_rational(rational_to_compactify, rational_radius_of_indifference)
+    compactify_rational(rational_to_compactify, radius_of_indifference)
 
-Uncovers that unique rational value which lies nearby the rational_to_compactify
-within  ±rational_radius_of_indifference of the source rational and has the
-smallest denominator of all rationals to which we are indifferent and also
-of all rationals with that denominator to which we are indifferent, has the
-smallest numerator.   
-"""
-function compactify_rational(midpoint::Q, radius::Q) where {T, Q<:FieldQ{T}} 
-    lo = float(midpoint - radius)
-    hi = float(midpoint + radius)
-    flnum, flden = compact_rational(lo, hi)
-    num, den = trunc(Int64,flnum), trunc(Int64,flden)
-    return Q(num, den)
-end
+From all of the rational values that exist within ±_`radius_of_indifference`_
+of the _`rational_to_compactify`_ this function obtains this uniquely determined
+rational: the denominator is that of least magnitude and the numerator is either
+uniquely given or, of those given, that of least magnitude.
 
-function compactify_rational(midpoint::Q, radius::Q) where {Q<:FieldQBig} 
-    lo = Float64(BigFloat(midpoint - radius))
-    hi = Float64(BigFloat(midpoint + radius))
-    flnum, flden = compact_rational(lo, hi)
-    num, den = trunc(Int64,flnum), trunc(Int64,flden)
-    return Q(num, den)
-end
+We are indifferent to the two rational values, source and result, as magnitudes.
+We prefer to use the compactified value in calculations, as with it, overflow
+is less likely, probably, with the next arithmetic operation.
+""" compactify_rational
 
-function compactify_rational(midpoint::FieldQ{T}, radius::F) where {T, F<:AbstractFloat}
-    indifference = rationalize(radius)
-    qradius = T(indifference.num) // T(indifference.den)
-    return compactify_rational(midpoint, qradius)
-end
+for Q in (:Rational, :FastRational)
+  @eval begin
 
-function compactify_rational(midpoint::FieldQBig, radius::F) where {F<:AbstractFloat}
-    indifference = rationalize(radius)
-    qradius = BigInt(indifference.num) // BigInt(indifference.den)
-    return compactify_rational(midpoint, qradius)
+    function compactify_rational(midpoint::$Q{T}, radius::$Q{T}) where {T<:BitInteger}
+        numlo, denlo, ovflo = subovf(midpoint, radius)
+        numhi, denhi, ovfhi = addovf(midpoint, radius)
+        if ovfhi || ovflo
+            mid = BigInt(midpoint.num)//BigInt(midpoint.den)
+            rad = BigInt(radius.num)//BigInt(radius.den)
+            qlo = mid - rad
+            qhi = mid + rad
+        else
+            qlo = Rational(numlo, denlo)
+            qhi = Rational(numhi, denhi)
+        end
+
+        lo  = qlo.num / qlo.den
+        hi  = qhi.num / qhi.den
+            
+        num, den = T.(compact_rational(lo, hi))
+        return $Q(num, den)
+    end
+        
+    function compactify_rational(midpoint::$Q{BigInt}, radius::$Q{BigInt})
+        qlo = midpoint - radius
+        qhi = midpoint + radius
+        lo  = qlo.num / qlo.den
+        hi  = qhi.num / qhi.den
+
+        num, den = BigInt.(compact_rational(lo, hi))
+        return $Q(num, den)
+    end
+
+   function compactify_rational(midpoint::$Q{T}, radius::$F) where {T<:BitInteger, F<:AbstractFloat}
+        rradius = rationalize(radius)
+        qradius = Rational(T(rradius.num), T(rradius.den))
+        return compactify_rational(midpoint, qradius)
+    end
+        
+    function compactify_rational(midpoint::$Q{BigInt}, radius::$F) where {F<:AbstractFloat}
+        rradius = rationalize(radius)
+        qradius = Rational(BigInt(rradius.num), BigInt(rradius.den))
+        return compactify_rational(midpoint, qradius)
+    end
+        
+  end
 end
 
 #=
