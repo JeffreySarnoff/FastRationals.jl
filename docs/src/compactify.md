@@ -1,8 +1,38 @@
 
+
 |   **     |  neighborhood of indifference          |     **       |
-|:--------:|:------:|:-----------:|:---------------:|:------------:|
-|          | ![midrad](assets/midpointradius2.png)  |              |
-|          |                                        |              |
+
+-----
+
+
+### ---
+
+----
+
+ <img src="assets/midpointradius2.png" alt="drawing" width="300" align="center" />  
+
+----
+
+ <img src="assets/midpointradius2.png" alt="drawing" width="300" align="right" />  
+
+----
+
+ <img src="assets/midpointradius2.png" alt="drawing" width="300" align="left" />  
+
+----
+
+### ---
+
+
+
+-----
+
+
+<img src="assets/midpointradius2.png" alt="drawing" width="300" />
+
+
+
+
 
 |          |        |             |                 |              |
 |:--------:|:------:|:-----------:|:---------------:|:------------:|
@@ -12,7 +42,6 @@
 |          |        |             |                 |              |
 
 
-|                              |                             |
 |                 a             |                 b            |
 |:----------------------------:|:---------------------------:|
 |                              |                             |
@@ -24,3 +53,15 @@
 
 
 |          |        |             |                 |              |
+
+
+
+<table>
+  <tr>
+    <td>One</td>
+    <td>Two</td>
+  </tr>
+  <tr>
+    <td colspan="2">Three</td>
+  </tr>
+</table>
