@@ -20,8 +20,6 @@ FastQ128(x::Rational{T}) where {T<:Signed} =
 
 FastRational{T}(x::NTuple{2,T}) where {T<:Signed} = FastRational{T}(x[1]//x[2])
 
-Rational(x::FastRational{T}) where {T<:Signed} = x.num//x.den
-Rational{T}(x::FastRational{T1}) where {T, T<:T1<:Signed} = T(x.num)//T(x.den)
 
 string(x::FastRational{T}) where {T<:Signed} = string(Rational{T}(x))
 show(io::IO, x::FastRational{T}) where {T<:Signed} = show(io, Rational{T}(x))
