@@ -14,46 +14,11 @@ is less likely, probably, with the next arithmetic operation.
 for Q in (:Rational, :FastRational)
   @eval begin
 
-    function compactify_rational(midpoint::$Q{T}, radius::$Q{T}) where {T<:BitSigned}
-        numlo, denlo, ovflo = subovf(midpoint, radius)
-        numhi, denhi, ovfhi = addovf(midpoint, radius)
-        if ovfhi || ovflo
-            mid = BigInt(midpoint.num)//BigInt(midpoint.den)
-            rad = BigInt(radius.num)//BigInt(radius.den)
-            qlo = mid - rad
-            qhi = mid + rad
-        else
-            qlo = Rational(numlo, denlo)
-            qhi = Rational(numhi, denhi)
-        end
-
-        lo  = qlo.num / qlo.den
-        hi  = qhi.num / qhi.den
-            
+    function compactify_rational(midpoint::$Q{T}, radius::$Q{T)) where {T<:Integer}
+        mid, rad = float(midpoint), float(radius)
+        lo, hi = mid-rad, mid+rad
         num, den = T.(compact_rational(lo, hi))
-        return $Q(num, den)
-    end
-        
-    function compactify_rational(midpoint::$Q{BigInt}, radius::$Q{BigInt})
-        qlo = midpoint - radius
-        qhi = midpoint + radius
-        lo  = qlo.num / qlo.den
-        hi  = qhi.num / qhi.den
-
-        num, den = BigInt.(compact_rational(lo, hi))
-        return $Q(num, den)
-    end
-
-   function compactify_rational(midpoint::$Q{T}, radius::F) where {T<:BitSigned, F<:AbstractFloat}
-        rradius = rationalize(radius)
-        qradius = Rational(T(rradius.num), T(rradius.den))
-        return compactify_rational(midpoint, qradius)
-    end
-        
-    function compactify_rational(midpoint::$Q{BigInt}, radius::F) where {F<:AbstractFloat}
-        rradius = rationalize(radius)
-        qradius = Rational(BigInt(rradius.num), BigInt(rradius.den))
-        return compactify_rational(midpoint, qradius)
+        return $Q{T}(num, den)
     end
         
   end
