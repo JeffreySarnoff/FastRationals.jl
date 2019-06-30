@@ -39,7 +39,7 @@ function compact_rational(lo::T, hi::T) where {T<:Real}
     
     if ceil(lo) <= floor(hi)                           # [lo,hi] contains some integer
         num, den = ceil(lo), one(T)                    # the CF expansion terminates here.
-        else                                           # [lo,hi] contains no integer 
+    else                                               # [lo,hi] contains no integer 
         m = floor(lo)                                  #
         lo, hi = inv(hi-m), inv(lo-m)                  # the CF expansion continues. 
         num, den = compact_rational_unchecked(lo, hi)  # Recursive call is made here.
@@ -51,7 +51,7 @@ end
 function compact_rational_unchecked(lo::T, hi::T) where {T<:Real}    
     if ceil(lo) <= floor(hi)                           # [lo,hi] contains some integer
         num, den = ceil(lo), one(T)                    # the CF expansion terminates here.
-        else                                           # [lo,hi] contains no integer 
+    else                                               # [lo,hi] contains no integer 
         m = floor(lo)                                  #
         lo, hi = inv(hi-m), inv(lo-m)                  # the CF expansion continues. 
         num, den = compact_rational_unchecked(lo, hi)  # Recursive call is made here.
