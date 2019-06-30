@@ -139,8 +139,6 @@ of the rational_to_compactify, obtains the unique rational with the smallest den
 And, if there be more than one, obtains that rational having the smallest numerator.
 
 ```
-
-```
 using FastRationals
 
 midpoint = 76_963 // 100_003;
