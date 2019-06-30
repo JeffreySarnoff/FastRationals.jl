@@ -1,9 +1,3 @@
-const FieldQ = Union{Rational{T}, FastRational{T}} where {T}
-const FieldQBig = Union{Rational{BigInt}, Rational{Int128}, FastRational{BigInt}, FastRational{Int128}}
-
-Rational{BigInt}(x::Q) where {T, Q<:FieldQ{T}} = Rational(BigInt(x.num), BigInt(x.den))
-FastRational{BigInt}(x::Q) where {T, Q<:FieldQ{T}} = FastRational(BigInt(x.num), BigInt(x.den))
-
 """
     compactify_rational(rational_to_compactify, radius_of_indifference)
 
