@@ -5,7 +5,7 @@ export FastRational, FastQ32, FastQ64, FastQ128, FastQBig,
 
 using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow
 
-import Base: Signed, BitSigned, hash, show, repr, string, tryparse,
+import Base: BitInteger, BitSigned, hash, show, repr, string, tryparse,
     zero, one, iszero, isone, isinteger,
     numerator, denominator, eltype, convert, promote_rule, decompose,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
