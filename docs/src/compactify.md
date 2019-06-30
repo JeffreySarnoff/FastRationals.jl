@@ -7,15 +7,24 @@
 
 ### ---
 
-----
+- center
 
  <img src="assets/midpointradius2.png" alt="drawing" width="300" align="center" />  
 
+```
+
 ----
+````
+
+- right
 
  <img src="assets/midpointradius2.png" alt="drawing" width="300" align="right" />  
 
-----
+```
+--------
+````
+
+- left
 
  <img src="assets/midpointradius2.png" alt="drawing" width="300" align="left" />  
 
