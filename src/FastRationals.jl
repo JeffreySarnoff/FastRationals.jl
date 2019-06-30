@@ -48,12 +48,6 @@ end
 
 canonical(num::T, den::T) where {T<:Integer} = Base.divgcd(num,den)
 
-FastRational(x::FastRational{T}) where {T<:Signed} = x
-FastRational{T}(x::FastRational{T}) where {T<:Signed} = x
-FastRational{T}(x::FastRational{T1}) where {T,T<:T1<:Signed} = FastRational{T}(x.num, x.den)
-FastRational{T}(num::T1, den::T1) where {T,T<:T1<:Signed} = FastRational{T}(T(num), T(den))
-FastRational{T}(numden::Tuple{T1,T1}) where {T,T<:T1<:Signed} = FastRational{T}(T.(canonical(numden[1], numden[2])))
-
 include("generic.jl")
 include("conform_to_int.jl")
 include("promote_convert.jl")
