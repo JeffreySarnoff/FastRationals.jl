@@ -138,6 +138,9 @@ From all rationals that exist in the immediate neighborhood<sup>[𝒃](#def)</su
 of the rational_to_compactify, obtains the unique rational with the smallest denominator.
 And, if there be more than one, obtains that rational having the smallest numerator.
 
+```
+<example of use>
+```
 
 <sup><a name="neighborhood">[𝒃](#def)</a></sup> This `neighborhood` is given by 
  ±_the radius of indifference_, centered at the rational to compactify. 
