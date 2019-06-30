@@ -14,7 +14,7 @@ is less likely, probably, with the next arithmetic operation.
 for Q in (:Rational, :FastRational)
   @eval begin
 
-    function compactify_rational(midpoint::$Q{T}, radius::$Q{T)) where {T<:Integer}
+    function compactify_rational(midpoint::$Q{T}, radius::$Q{T}) where {T<:Integer}
         mid, rad = float(midpoint), float(radius)
         lo, hi = mid-rad, mid+rad
         num, den = T.(compact_rational(lo, hi))
