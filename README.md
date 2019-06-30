@@ -144,20 +144,20 @@ using FastRationals
 
 midpoint = 76_963 // 100_003
 
-passthru_radius  = 1//7896121034
-initial_radius   = 1//7890323589
-fine_radius      = 1//2^15
 coarse_radius    = 1//64
+fine_radius      = 1//2^15
+maximin_radius   = 1//7890323589
+passthru_radius  = 1//7896121034
 
 
-passthru_compact = compactify_rational(midpoint, passthru_radius)   # 76963//100003
-initial_compact = compactify_rational(midpoint, initial_radius)     # 60752//78939
-fine_compact    = compactify_rational(midpoint, fine_radius)        #  147//191
-coarse_compact  = compactify_rational(midpoint, coarse_radius)      #    7//9
+coarse_compact   = compactify_rational(midpoint, coarse_radius)      #         7//9
+fine_compact     = compactify_rational(midpoint, fine_radius)        #       147//191
+maximin_compact  = compactify_rational(midpoint, initial_radius)     #    60_752//78_939
+passthru_compact = compactify_rational(midpoint, passthru_radius)    #    76_963//100_003
 
 
 abs(midpoint - passthru_compact) < passthru_radius     # true
-abs(midpoint - initial_compact)  < initial_radius      # true
+abs(midpoint - maximin_compact)  < maximin_radius      # true
 abs(midpoint - fine_compact)     < fine_radius         # true
 abs(midpoint - coarse_compact)   < coarse_radius       # true
 
