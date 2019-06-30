@@ -139,7 +139,27 @@ of the rational_to_compactify, obtains the unique rational with the smallest den
 And, if there be more than one, obtains that rational having the smallest numerator.
 
 ```
-<example of use>
+
+```
+using FastRationals
+
+midpoint = 76_963 // 100_003;
+
+ineffective_radius = 1//7896121034;
+effective_radius = 1//7890323589;
+coarse_radius  = 1//64;
+
+ineffective_radius = 1//7896121034;
+effective_radius   = 1//7890323589;
+
+ineffective_compact = compactify_rational(midpoint, ineffective_radius)
+76963//100003
+
+effective_compact = compactify_rational(midpoint, effective_radius)
+60752//78939
+
+coarse_compact = compactify_rational(midpoint, coarse_radius)
+7//9
 ```
 
 <sup><a name="neighborhood">[𝒃](#def)</a></sup> This `neighborhood` is given by 
