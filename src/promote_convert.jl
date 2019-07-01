@@ -2,7 +2,6 @@ Base.Rational{BQ}(x::FastRational{FQ}) where {BQ<:Integer, FQ<:Integer} = Ration
 FastRational{FQ}(x::Rational{BQ}) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num), FQ(x.den))
 FastRational{I1}(x::FastRational{I2}) where {I1<:Integer, I2<:Integer} = Rational(I1(x.num), I1(x.den))
 FastRational{FQ}(x::BQ) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num), one(FQ))
-FastRational{FQ}(x::F; tol=eps(float(x)/2)) where {FQ<:Integer, F<:AbstractFloat} = FastRational(rationalize(x), tol=tol)
 
 FastRational{I1}(num::I2, den::I2) where {I1<:Integer, I2<:Integer} = FastRational{I1}(I1(num), I1(den))
 FastRational{I1}(numden::Tuple{I2,I2}) where {I1<:Integer, I2<:Integer} = FastRational{I1}(numden[1]//numden[2])
@@ -16,9 +15,9 @@ Base.BigFloat(x::FastRational{T}) where {T<:Integer} = BigFloat(x.num) / BigFloa
 Base.BigInt(x::FastRational{T}) where {T<:Integer}   = isinteger(x) ? BigInt((x.num//x.den).num) :
                                                                          throw(InexactError)
 
-function FastRational{T}(x::F) where {T<:Integer, F<:AbstractFloat}
+function FastRational{T}(x::F; tol=eps(x/2)) where {T<:Integer, F<:AbstractFloat}
     !isfinite(x) && throw(DomainError("finite values only"))
-    return FastRational{T}(rationalize(x))
+    return FastRational{T}(rationalize(x), tol=tol)
 end
 
 FastQBig(x::Rational{BigInt}) = FastQBig(x.num, x.den)
