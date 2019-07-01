@@ -41,7 +41,7 @@ FastQ128(x::FastQ32) = FastQ128(Rational{Int128}(x.num//x.den))
 FastQ64(x::FastQ32) = FastQ64(Rational{Int64}(x.num//x.den))
 #FastQ32(x::FastQ64) = FastQ32(Rational{Int32}(x.num//x.den))
 #FastQ64(x::FastQ128) = FastQ64(Rational{Int64}(x.num//x.den))
-FastQ32(x::FastQ128) = FastQ32(Rational{Int32}(x.num//x.den))
+#FastQ32(x::FastQ128) = FastQ32(Rational{Int32}(x.num//x.den))
 FastQ64(x::FastQBig) = FastQ64(Rational{Int64}(x.num//x.den))
 FastQ32(x::FastQBig) = FastQ32(Rational{Int32}(x.num//x.den))
 
