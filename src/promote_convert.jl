@@ -6,7 +6,7 @@ FastRational{FQ}(x::BQ) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num
 FastRational{I1}(numden::Tuple{I2,I2}) where {I1<:Signed, I2<:Signed} = FastRational{I1}(numden[1]//numden[2])
 FastRational{I1}(num::I2, den::I2) where {I1,I1<:I2<:Integer} = FastRational{I1}(I1(num), I1(den))
 
-#=
+
 for (Q,T) in ((:Rational, :FastRational), (:FastRational, :FastRational))
   for (A,B) in ((:Int32, :Int32), (:Int64, :Int64), (:Int128, :Int128), (:Int32, :Int64), (:Int32, :Int128), (:Int64, :Int128))
     @eval begin
@@ -18,7 +18,7 @@ for (Q,T) in ((:Rational, :FastRational), (:FastRational, :FastRational))
     end  
   end
 end
-=#
+
 
 float(x::FastRational{T}) where {T<:Integer} = x.num / x.den
 
@@ -37,6 +37,7 @@ end
 FastQBig(x::Rational{BigInt}) = FastQBig(x.num, x.den)
 FastQBig(x::Rational{T}) where {T<:Signed} = FastQBig(x.num, x.den)
 
+#=
 FastQ128(x::FastQ64) = FastQ128(Rational{Int128}(x.num//x.den))
 FastQ128(x::FastQ32) = FastQ128(Rational{Int128}(x.num//x.den))
 FastQ64(x::FastQ32) = FastQ64(Rational{Int64}(x.num//x.den))
@@ -45,6 +46,7 @@ FastQ64(x::FastQ128) = FastQ64(Rational{Int64}(x.num//x.den))
 FastQ32(x::FastQ128) = FastQ32(Rational{Int32}(x.num//x.den))
 FastQ64(x::FastQBig) = FastQ64(Rational{Int64}(x.num//x.den))
 FastQ32(x::FastQBig) = FastQ32(Rational{Int32}(x.num//x.den))
+=#
 
 promote_rule(::Type{FastQBig}, ::Type{FastQ128}) = FastQBig
 promote_rule(::Type{FastQBig}, ::Type{FastQ64}) = FastQBig
