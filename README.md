@@ -12,7 +12,7 @@
 
 #### `FastRationals`
 
-- [`FastRational{<fast_integer>}`](https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-fast-integers)
+- [`FastRational{Int64}`](https://github.com/JeffreySarnoff/FastRationals.jl#fastrationals-using-fast-integers)
    - [performance relative to system rationals](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#performance-relative-to-system-rationals)
 
 - [`FastRational{BigInt}`](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/README.md#rationals-using-bigint)
