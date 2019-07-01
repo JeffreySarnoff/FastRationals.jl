@@ -7,16 +7,16 @@ FastRational{FQ}(x::F; tol=eps(float(x)/2)) where {FQ<:Integer, F<:AbstractFloat
 FastRational{I1}(num::I2, den::I2) where {I1<:Integer, I2<:Integer} = FastRational{I1}(I1(num), I1(den))
 FastRational{I1}(numden::Tuple{I2,I2}) where {I1<:Integer, I2<:Integer} = FastRational{I1}(numden[1]//numden[2])
 
-float(x::FastRational{T}) where {T<:Signed} = x.num / x.den
+float(x::FastRational{T}) where {T<:Integer} = x.num / x.den
 
-Base.Float64(x::FastRational{T}) where {T<:Signed}  = float(x)
-Base.Float32(x::FastRational{T}) where {T<:Signed}  = Float32(float(x))I
-Base.Float16(x::FastRational{T}) where {T<:Signed}  = Float16(float(x))
-Base.BigFloat(x::FastRational{T}) where {T<:Signed} = BigFloat(x.num) / BigFloat(x.den)
-Base.BigInt(x::FastRational{T}) where {T<:Signed}   = isinteger(x) ? BigInt((x.num//x.den).num) :
+Base.Float64(x::FastRational{T}) where {T<:Integer}  = float(x)
+Base.Float32(x::FastRational{T}) where {T<:Integer}  = Float32(float(x))I
+Base.Float16(x::FastRational{T}) where {T<:Integer}  = Float16(float(x))
+Base.BigFloat(x::FastRational{T}) where {T<:Integer} = BigFloat(x.num) / BigFloat(x.den)
+Base.BigInt(x::FastRational{T}) where {T<:Integer}   = isinteger(x) ? BigInt((x.num//x.den).num) :
                                                                          throw(InexactError)
 
-function FastRational{T}(x::F) where {T<:Signed, F<:AbstractFloat}
+function FastRational{T}(x::F) where {T<:Integer, F<:AbstractFloat}
     !isfinite(x) && throw(DomainError("finite values only"))
     return FastRational{T}(rationalize(x))
 end
