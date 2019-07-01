@@ -4,7 +4,6 @@ FastRational{I1}(x::FastRational{I2}) where {I1<:Integer, I2<:Integer} = Rationa
 FastRational{FQ}(x::BQ) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num), one(FQ))
 
 FastRational{I1}(numden::Tuple{I2,I2}) where {I1<:Signed, I2<:Signed} = FastRational{I1}(numden[1]//numden[2])
-FastRational{I1}(q::Rational{I2}; tol=eps(q)/2) where {I1<:Integer, I2<:Integer} = FastRational{I1}(rationalize(q.num/q.den,tol=tol))
 FastRational{I1}(num::I2, den::I2) where {I1,I1<:I2<:Integer} = FastRational{I1}(I1(num), I1(den))
 
 float(x::FastRational{T}) where {T<:Integer} = x.num / x.den
