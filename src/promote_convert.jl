@@ -14,6 +14,7 @@ for (Q,T) in ((:Rational, :FastRational), (:FastRational, :FastRational))
           num, den = $A(qfp.num), $A(qfp.den)
           return FastRational{$A}(num, den)
       end
+    end  
   end
 end
 
