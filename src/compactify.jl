@@ -48,7 +48,7 @@ function compact_rational(lo::T, hi::T) where {T<:Real}
 end
 
 function compact_rational_constraints(mid::T, rad::T, lo::T, hi::T) where {T<:Real}
-    rad < eps(mid) && throw(ErrorException("radius is too small (< eps(midpoint))"))
+    rad < eps(mid) && throw(ErrorException("radius is less than eps(float(midpoint)))"))
     lo, hi = abs(lo), abs(hi)
     lo, hi = lo < hi ? (lo, hi) : (hi, lo)
     !iszero(lo) || throw(ErrorException("lo == 0"))
