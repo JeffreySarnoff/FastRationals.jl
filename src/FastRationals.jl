@@ -20,7 +20,11 @@ struct FastRational{T} <: Real
     num::T
     den::T
        
-    FastRational(num::T, den::T) where {T<:Integer} = new{T}(num, den)
+    FastRational{T}(num::T, den::T) where {T<:Integer} = new{T}(num, den)
+    function FastRational(num::T, den::T) where {T<:Integer}
+        iszero(den) && throw(DivideError)
+        return new{T}(num, den)
+    end
 end
 
 numerator(x::FastRational{T}) where {T<:Integer} = x.num
@@ -30,12 +34,6 @@ const FastQ32 = FastRational{Int32}
 const FastQ64 = FastRational{Int64}
 const FastQ128 = FastRational{Int128}
 const FastQBig = FastRational{BigInt}
-
-
-@inline function FastRational(num::T, den::T) where {T<:Integer}
-    iszero(den) && throw(DivideError)
-    return FastRational{T}(num, den)
-end
 
 function canonical(num::T, den::T) where {T<:Signed}
     num, den = flipsign(num, den), abs(den)
