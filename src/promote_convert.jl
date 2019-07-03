@@ -1,3 +1,7 @@
+FastRational(num::Integer, den::Integer) = FastRational(promote(num,den)...)
+FastRational{T}(num::Integer, den::Integer) where {T<:Integer} = FastRational{T}(promote(num,den)...)
+FastRational(x::Rational{T}) where {T<:Integer} = FastRational{T}(x.num, x.den)
+
 Base.Rational{BQ}(x::FastRational{FQ}) where {BQ<:Integer, FQ<:Integer} = Rational(BQ(x.num), BQ(x.den))
 FastRational{FQ}(x::Rational{BQ}) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num), FQ(x.den))
 FastRational{I1}(x::FastRational{I2}) where {I1<:Integer, I2<:Integer} = Rational(I1(x.num), I1(x.den))

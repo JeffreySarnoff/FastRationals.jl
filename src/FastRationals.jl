@@ -13,14 +13,18 @@ import Base: BitInteger, BitSigned, hash, show, repr, string, tryparse,
     +, -, *, /, ^, //,
     inv, div, fld, cld, rem, mod, trunc, floor, ceil, round
 
-const FastInt = Union{Int8, Int16, Int32, Int64}
-
+const SUN = Union{Signed, Unsigned}
+const FastSUN = Union{Int8, Int16, Int32, Int64, UInt8, UInt16, UInt32, UInt64}
 
 struct FastRational{T} <: Real
     num::T
     den::T
        
-    FastRational{T}(num::T, den::T) where {T<:Integer} = new{T}(num, den)
+    FastRational{T}(num::T, den::T) where {T<:Union{Signed,Unsigned}} = new{T}(num, den)
+    function FastRational(num::T, den::T) where {T<:Union{Signed,Unsigned}}
+        iszero(den) && throw(DivideError)
+        return new{T}(num, den)
+    end
 end
 
 numerator(x::FastRational{T}) where {T<:Integer} = x.num
@@ -30,12 +34,6 @@ const FastQ32 = FastRational{Int32}
 const FastQ64 = FastRational{Int64}
 const FastQ128 = FastRational{Int128}
 const FastQBig = FastRational{BigInt}
-
-
-@inline function FastRational(num::T, den::T) where {T<:Integer}
-    iszero(den) && throw(DivideError)
-    return FastRational{T}(num, den)
-end
 
 function canonical(num::T, den::T) where {T<:Signed}
     num, den = flipsign(num, den), abs(den)
