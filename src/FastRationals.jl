@@ -20,8 +20,8 @@ struct FastRational{T} <: Real
     num::T
     den::T
        
-    FastRational{T}(num::T, den::T) where {T<:Integer} = new{T}(num, den)
-    function FastRational(num::T, den::T) where {T<:Integer}
+    FastRational{T}(num::T, den::T) where {T<:Signed} = new{T}(num, den)
+    function FastRational(num::T, den::T) where {T<:Signed}
         iszero(den) && throw(DivideError)
         return new{T}(num, den)
     end
