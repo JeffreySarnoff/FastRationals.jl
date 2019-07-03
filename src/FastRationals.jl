@@ -13,8 +13,8 @@ import Base: BitInteger, BitSigned, hash, show, repr, string, tryparse,
     +, -, *, /, ^, //,
     inv, div, fld, cld, rem, mod, trunc, floor, ceil, round
 
-const FastInt = Union{Int8, Int16, Int32, Int64}
-
+const SUN = Union{Signed, Unsigned}
+const FastSUN = Union{Int8, Int16, Int32, Int64, UInt8, UInt16, UInt32, UInt64}
 
 struct FastRational{T} <: Real
     num::T
