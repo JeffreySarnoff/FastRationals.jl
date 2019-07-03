@@ -20,7 +20,7 @@ struct FastRational{T} <: Real
     num::T
     den::T
        
-    FastRational{T}(num::T, den::T) where {T<:Integer} = new{T}(num, den)
+    FastRational(num::T, den::T) where {T<:Integer} = new{T}(num, den)
 end
 
 numerator(x::FastRational{T}) where {T<:Integer} = x.num
