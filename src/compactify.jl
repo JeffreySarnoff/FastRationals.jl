@@ -15,8 +15,9 @@ for Q in (:Rational, :FastRational)
   @eval begin
 
     function compactify_rational(midpoint::$Q{T}, radius::$Q{T}) where {T<:Integer}
-        mid, rad = float(midpoint), float(radius)
+        mid, rad = float(midpoint), float(abs(radius))
         lo, hi = mid-rad, mid+rad
+        lo, hi = compact_rational_constraints(mid, rad, lo, hi)
         num, den = T.(compact_rational(lo, hi))
         return $Q{T}(num, den)
     end
@@ -34,33 +35,20 @@ end
     mrkmhrsh@tmu.ac.jp, https://www.rs.tus.ac.jp/hide-murakami/index.html   
 =#
 
-function compact_rational(lo::T, hi::T) where {T<:Real}
-    lo, hi = compact_rational_constraints(lo, hi)
-    
+function compact_rational(lo::T, hi::T) where {T<:Real}    
     if ceil(lo) <= floor(hi)                           # [lo,hi] contains some integer
         num, den = ceil(lo), one(T)                    # the CF expansion terminates here.
     else                                               # [lo,hi] contains no integer 
         m = floor(lo)                                  #
         lo, hi = inv(hi-m), inv(lo-m)                  # the CF expansion continues. 
-        num, den = compact_rational_unchecked(lo, hi)  # Recursive call is made here.
+        num, den = compact_rational(lo, hi)  # Recursive call is made here.
         num, den = num*m + den, num 
     end
     return num, den
 end
 
-function compact_rational_unchecked(lo::T, hi::T) where {T<:Real}    
-    if ceil(lo) <= floor(hi)                           # [lo,hi] contains some integer
-        num, den = ceil(lo), one(T)                    # the CF expansion terminates here.
-    else                                               # [lo,hi] contains no integer 
-        m = floor(lo)                                  #
-        lo, hi = inv(hi-m), inv(lo-m)                  # the CF expansion continues. 
-        num, den = compact_rational_unchecked(lo, hi)  # Recursive call is made here.
-        num, den = num*m + den, num 
-    end
-    return num, den
-end
-
-function compact_rational_constraints(lo::T, hi::T) where {T<:Real}
+function compact_rational_constraints(mid::T, rad::T, lo::T, hi::T) where {T<:Real}
+    rad < eps(mid) && throw(ErrorException("radius is too small (< eps(midpoint))"))
     lo, hi = abs(lo), abs(hi)
     lo, hi = lo < hi ? (lo, hi) : (hi, lo)
     !iszero(lo) || throw(ErrorException("lo == 0"))
