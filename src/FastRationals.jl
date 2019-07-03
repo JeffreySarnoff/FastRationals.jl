@@ -49,9 +49,8 @@ end
 canonical(num::T, den::T) where {T<:Integer} = Base.divgcd(num,den)
 
 include("generic.jl")
-include("conform_to_int.jl")
 include("promote_convert.jl")
-
+include("conform_to_int.jl")
 include("compactify.jl")
 
 end # FastRationals
