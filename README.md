@@ -1,7 +1,5 @@
 # FastRationals.jl
 
-Use #master pending latest merge
-
 ----
 
 ### rationals with unreal performance <sup>[𝓪](#source)</sup>
