@@ -1,7 +1,7 @@
 module FastRationals
 
 export FastRational, FastQ32, FastQ64, FastQ128, FastQBig,
-       compactify_rational, basetype
+       compactify, basetype
 
 using Base.Checked: add_with_overflow, sub_with_overflow, mul_with_overflow
 
