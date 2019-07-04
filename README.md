@@ -1,7 +1,5 @@
 # FastRationals.jl
 
-----
-
 ### rationals with unreal performance <sup>[𝓪](#source)</sup>
 
 ##### Copyright © 2017-2019 by Jeffrey Sarnoff. This work is released under The MIT License.
