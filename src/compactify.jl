@@ -11,7 +11,7 @@ We prefer to use the compactified value in calculations, as with it, overflow
 is less likely, probably, with the next arithmetic operation.
 """ compactify
 
-for (Q1, Q2) in ((:FastRational, :FastRational), (:FastRational, :Rational), , (:Rational, :Rational))
+for (Q1, Q2) in ((:FastRational, :FastRational), (:FastRational, :Rational), (:Rational, :Rational))
   @eval begin
     function compactify(midpoint::$Q1{T}, radius::$Q2{T}) where {T<:Integer}
         mid, rad = float(midpoint), float(abs(radius))
