@@ -1,5 +1,5 @@
 """
-    compactify_rational(rational_to_compactify, radius_of_indifference)
+    compactify(rational_to_compactify, radius_of_indifference)
 
 From all of the rational values that exist within ±_`radius_of_indifference`_
 of the _`rational_to_compactify`_ this function obtains this uniquely determined
@@ -9,12 +9,12 @@ uniquely given or, of those given, that of least magnitude.
 We are indifferent to the two rational values, source and result, as magnitudes.
 We prefer to use the compactified value in calculations, as with it, overflow
 is less likely, probably, with the next arithmetic operation.
-""" compactify_rational
+""" compactify
 
 for (Q1, Q2) in ((:FastRational, :FastRational), (:FastRational, :Rational), (:Rational, :Rational))
   @eval begin
 
-    function compactify_rational(midpoint::$Q1{T}, radius::$Q2{T}) where {T<:Integer}
+    function compactify(midpoint::$Q1{T}, radius::$Q2{T}) where {T<:Integer}
         mid, rad = float(midpoint), float(abs(radius))
         lo, hi = mid-rad, mid+rad
         lo, hi = compact_rational_constraints(mid, rad, lo, hi)
