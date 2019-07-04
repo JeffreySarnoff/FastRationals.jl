@@ -130,7 +130,7 @@ Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welco
 
 ### rational compactification
 
-- `compactify_rational`(rational_to_compactify, rational_radius_of_indifference)
+- `compactify`(rational_to_compactify, rational_radius_of_indifference)
 
 From all rationals that exist in the immediate neighborhood<sup>[𝒃](#def)</sup>
 of the rational_to_compactify, obtains the unique rational with the smallest denominator.
@@ -148,10 +148,10 @@ maximin_radius   = 1//7890323589
 passthru_radius  = 1//7896121034
 
 
-coarse_compact   = compactify_rational(midpoint, coarse_radius)      #         7//9
-fine_compact     = compactify_rational(midpoint, fine_radius)        #       147//191
-maximin_compact  = compactify_rational(midpoint, initial_radius)     #    60_752//78_939
-passthru_compact = compactify_rational(midpoint, passthru_radius)    #    76_963//100_003
+coarse_compact   = compactify(midpoint, coarse_radius)      #         7//9
+fine_compact     = compactify(midpoint, fine_radius)        #       147//191
+maximin_compact  = compactify(midpoint, initial_radius)     #    60_752//78_939
+passthru_compact = compactify(midpoint, passthru_radius)    #    76_963//100_003
 
 
 abs(midpoint - passthru_compact) < passthru_radius     # true
