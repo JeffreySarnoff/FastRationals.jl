@@ -21,7 +21,15 @@ for (Q1, Q2) in ((:FastRational, :FastRational), (:FastRational, :Rational), (:R
         num, den = T.(compact_rational(lo, hi))
         return $Q1{T}(num, den)
     end
-        
+
+    function compactify(midpoint::$Q1{T}, radius::Float64) where {T<:Integer}
+        mid = float(midpoint)
+        lo, hi = mid-radius, mid+radius
+        lo, hi = compact_rational_constraints(mid, rad, lo, hi)
+        num, den = T.(compact_rational(lo, hi))
+        return $Q1{T}(num, den)
+    end
+
   end
 end
 
