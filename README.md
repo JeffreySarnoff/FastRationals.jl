@@ -142,23 +142,18 @@ using FastRationals
 
 midpoint = 76_963 // 100_003
 
-coarse_radius    = 1//64
-fine_radius      = 1//2^15
-maximin_radius   = 1//7890323589
-passthru_radius  = 1//7896121034
+coarse_radius  = 1//64
+fine_radius    = 1//32_768
+tiny_radius    = 1//7_896_121_034
 
 
-coarse_compact   = compactify(midpoint, coarse_radius)      #         7//9
-fine_compact     = compactify(midpoint, fine_radius)        #       147//191
-maximin_compact  = compactify(midpoint, initial_radius)     #    60_752//78_939
-passthru_compact = compactify(midpoint, passthru_radius)    #    76_963//100_003
+coarse_compact = compactify(midpoint, coarse_radius)      #         7//9
+fine_compact   = compactify(midpoint, fine_radius)        #       147//191
+tiny_compact   = compactify(midpoint, passthru_radius)    #    76_963//100_003
 
-
-abs(midpoint - passthru_compact) < passthru_radius     # true
-abs(midpoint - maximin_compact)  < maximin_radius      # true
-abs(midpoint - fine_compact)     < fine_radius         # true
-abs(midpoint - coarse_compact)   < coarse_radius       # true
-
+abs(midpoint - tiny_compact)   < tiny_radius              # true
+abs(midpoint - fine_compact)   < fine_radius              # true
+abs(midpoint - coarse_compact) < coarse_radius            # true
 ```
 
 <sup><a name="neighborhood">[𝒃](#def)</a></sup> This `neighborhood` is given by 
