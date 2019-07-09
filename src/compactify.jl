@@ -1,8 +1,8 @@
 """
     compactify(rational_to_compactify, radius_of_indifference)
 
-From all of the rational values that exist within ±_`radius\_of\_indifference`_
-of the _`rational\_to\_compactify`_ this function obtains this uniquely determined
+From all of the rational values that exist within ±`radius_of_indifference`
+of the `rational_to_compactify` this function obtains this uniquely determined
 rational: the denominator is that of least magnitude and the numerator is either
 uniquely given or, of those given, that of least magnitude.
 
