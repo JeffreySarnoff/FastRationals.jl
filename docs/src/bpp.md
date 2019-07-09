@@ -3,6 +3,8 @@
 The Bailey–Borwein–Plouffe formula (BBP formula) is a formula for π
 
 ```
+using FastRationals
+
 const big1 = BigInt(1)
 const big2 = BigInt(2)
 const big4 = BigInt(4)
