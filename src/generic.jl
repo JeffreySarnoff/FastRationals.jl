@@ -168,4 +168,4 @@ end
 //(x::FastRational{T}, y::Rational) where {T<:SUN} = x / FastRational{T}(y)
 //(x::Rational, y::FastRational{T}) where {T<:SUN} = FastRational{T}(x) / y
 
-decompose(x::FastRational{T}) where {T<:SUN} = x.num, zero(T), x.den
+Base.decompose(x::FastRational{T}) where T<:Union{Signed,Unsigned} = Base.decompose(x.num // x.den)
