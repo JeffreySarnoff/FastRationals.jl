@@ -208,7 +208,7 @@ abs(midpoint - coarse_compact) < coarse_radius            #  true
 
 Klaus Crusius has contributed to this effort.
 
-### references
+## references
 
 This work stems from a [discussion](https://github.com/JuliaLang/julia/issues/11522) that began in 2015.
 
