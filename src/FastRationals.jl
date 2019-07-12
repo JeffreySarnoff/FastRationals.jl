@@ -11,7 +11,7 @@ import Base: BitInteger, BitSigned, hash, show, repr, string, tryparse,
     isinteger, typemax, typemin, sign, signbit, copysign, flipsign, abs, float,
     ==, !=, <, <=, >=, >,
     +, -, *, /, ^, //,
-    inv, div, fld, cld, rem, mod, trunc, floor, ceil, round
+    inv, div, fld, cld, rem, mod, trunc, floor, ceil, round, widen
 
 const SUN = Union{Signed, Unsigned}
 const FastSUN = Union{Int8, Int16, Int32, Int64, UInt8, UInt16, UInt32, UInt64}
@@ -26,6 +26,7 @@ struct FastRational{T} <: Real
         return new{T}(num, den)
     end
 end
+const RationalUnion = Union{FastRational,Rational}
 
 numerator(x::FastRational{T}) where {T<:Integer} = x.num
 denominator(x::FastRational{T}) where {T<:Integer} = x.den
