@@ -1,11 +1,16 @@
-basetype(::Type{FastRational{T}}) where {T<:SUN} = T
-basetype(x::FastRational{T}) where {T<:SUN} = T
+basetype(::Type{FastRational{T}}) where T = T
+basetype(::Type{Rational{T}}) where T = T
+basetype(x) = basetype(typeof(x))
 
 typemax(::Type{FastRational{T}}) where {T<:SUN} = FastRational{T}(typemax(T), one(T))
 typemin(::Type{FastRational{T}}) where {T<:SUN} = FastRational{T}(typemin(T), one(T))
 
+widen(::Type{FastRational{T}}) where T = FastRational{widen(T)}
+
 FastRational{T}(x::Bool) where {T<:SUN} = x ? one(FastRational{T}) : zero(FastRational{T})
 FastRational{T}(x::SUN) where {T<:SUN} = FastRational{T}(T(x), one(T))
+FastRational(x::T) where {T<:SUN} = FastRational{T}(T(x), one(T))
+Rational(x::FastRational) = Rational(x.num, x.den)
 
 FastQ32(x::Rational{T}) where {T<:Union{Int8, Int16, Int32}} =
     FastQ32(x.num%Int32, x.den%Int32)
@@ -16,8 +21,7 @@ FastQ64(x::Rational{T}) where {T<:Union{Int8, Int16, Int32, Int64}} =
 FastQ64(x::Rational{T}) where {T<:Int128} =
     FastQ64(Int64(x.num), Int64(x.den))
 FastQ128(x::Rational{T}) where {T<:SUN} =
-    FastQ128(x.num%Int128, x.den%Int128)
-
+    FastQ128(Int128(x.num), Int128(x.den))
 
 string(x::FastRational{T}) where {T<:SUN} = string(Rational{T}(x))
 show(io::IO, x::FastRational{T}) where {T<:SUN} = show(io, Rational{T}(x))
