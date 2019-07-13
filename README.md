@@ -101,8 +101,8 @@ to generate the random `Rational{BigInt}` values that were processed.
 
 | n rand Rationals   | digits in den | `sum` relspeed | `prod` relspeed |
 |:------------------:|:-------------:|:------------:|:-------------:| 
-|200                 | 7_150         |  200         | 360           |
-|500                 | 17_700        |  340         | 600           |
+|200                 | 7_150         |  100         | 200           |
+|500                 | 17_700        |  200         | 400           |
 
 - matrix multiply and trace
 
