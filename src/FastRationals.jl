@@ -19,8 +19,10 @@ const FastSUN = Union{Int8, Int16, Int32, Int64, UInt8, UInt16, UInt32, UInt64}
 struct FastRational{T} <: Real
     num::T
     den::T
-       
+     
+    # this constructor is used when it is known that den>0   
     FastRational{T}(num::T, den::T) where {T<:Union{Signed,Unsigned}} = new{T}(num, den)
+    
     function FastRational(num::T, den::T) where {T<:Union{Signed,Unsigned}}
         iszero(den) && throw(DivideError)
         num, den = flipsign(num, den), abs(den)
