@@ -14,7 +14,7 @@ We are indifferent to the two rational values, source and result, as magnitudes.
 We prefer to use the compactified value in calculations, as with it, overflow
 is less likely, probably, with the next arithmetic operation.
 """
-function compactify(;low::Q, high::Q) where Q<:RationalUnion
+function compactify(;low::Q, high::Q) where {Q<:Rationals}
     if low < high <= 0 || 0 <= high < low
         low, high = high, low
     end
@@ -32,7 +32,7 @@ end
 
 # compute Q(midpoint - rad) and Q(midpoint + rad) approximately
 # preserving integer type
-function compact_reduce(midpoint::Q, radius::Q) where Q<:RationalUnion
+function compact_reduce(midpoint::Q, radius::Q) where {Q<:Rationals}
     midnum, midden = midpoint.num, midpoint.den
     radnum, radden = radius.num, radius.den
     u = midpoint ÷ max(midden, midnum)
@@ -105,7 +105,7 @@ function compact_integer(a::T, b::T, c::T, d::T) where T<:Integer
     end
 end
 
-function compact_rational(x::R, y::R) where R<:RationalUnion
+function compact_rational(x::Q, y::Q) where {Q<:Rationals}
    compact_integer(x.num, x.den, y.num, y.den)
 end
 
