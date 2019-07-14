@@ -86,3 +86,4 @@ relspeeds = string(
 "mat tr: \t $relspeed_8x8tr \t $relspeed_15x15tr \n");
 
 print(relspeeds);
+;
