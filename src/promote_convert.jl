@@ -17,8 +17,10 @@ Base.Float64(x::FastRational{T}) where {T<:Signed}  = float(x)
 Base.Float32(x::FastRational{T}) where {T<:Signed}  = Float32(float(x))I
 Base.Float16(x::FastRational{T}) where {T<:Signed}  = Float16(float(x))
 Base.BigFloat(x::FastRational{T}) where {T<:Signed} = BigFloat(x.num) / BigFloat(x.den)
-Base.BigInt(x::FastRational{T}) where {T<:Signed}   = isinteger(x) ? BigInt((x.num//x.den).num) :
-                                                                         throw(InexactError)
+function Base.BigInt(x::FastRational)
+    num, den = canonical(x.num, x.den)
+    den == 1 ? BigInt(num) : throw(InexactError)
+end
 
 function FastRational(x::F) where F<:AbstractFloat
     !isfinite(x) && throw(DomainError("finite values only"))
