@@ -1,7 +1,7 @@
 FastRational(num::SUN, den::SUN) = FastRational(promote(num,den)...)
-FastRational{T}(num::SUN, den::SUN) where T = FastRational{T}(promote(num,den)...)
+#FastRational{T}(num::SUN, den::SUN) where T = FastRational{T}(promote(num,den)...)
 #FastRational(num::Integer, den::Integer) = FastRational(promote(num,den)...)
-#FastRational{T}(num::Integer, den::Integer) where {T<:Integer} = FastRational{T}(promote(num,den)...)
+FastRational{T}(num::Integer, den::Integer) where {T<:Integer} = FastRational{T}(promote(num,den)...)
 
 #FastRational(x::Rational{T}) where {T<:SUN} = FastRational{T}(x.num, x.den)
 FastRational(x::Rational{T}) where {T<:Integer} = FastRational{T}(x.num, x.den)
