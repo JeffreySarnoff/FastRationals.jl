@@ -1,4 +1,3 @@
-
 """
     compactify(rational_to_compactify, radius_of_indifference)
     compactify(low=one_inteval_bound, high=other_interval_bound)
