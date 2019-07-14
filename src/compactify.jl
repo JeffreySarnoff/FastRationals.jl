@@ -17,27 +17,27 @@ function compactify(;low::Q, high::Q) where Q<:RationalUnion
     if low < high <= 0 || 0 <= high < low
         low, high = high, low
     end
-    lon, lod, hin, hid = low.num, low.den, high.num, high.den
-    if lon == 0 || hin == 0 || lon < 0 == hin > 0
-        return Q(0)
+    lonum, loden, hinum, hiden = low.num, low.den, high.num, high.den
+    if lonum == 0 || hinum == 0 || lonum < 0 == hinum > 0
+        return zero(Q)
     end
-    sig = signbit(lon)
-    if sig
-        lon, hin = -lon, -hin
+    lonumsbit = signbit(lonum)
+    if lonumsbit
+        lonum, hinum = -lonum, -hinum
     end
-    num, den = compact_integer(lon, lod, hin, hid)
-    return Q(sig ? -num : num, den)
+    num, den = compact_integer(lonum, loden, hinum, hiden)
+    return Q(lonumsbit ? -num : num, den)
 end
 
 # compute Q(midpoint - rad) and Q(midpoint + rad) approximately
 # preserving integer type
-function compact_reduce(m::Q, r::Q) where Q<:RationalUnion
-    a, b = m.num, m.den
-    c, d = r.num, r.den
-    u = tm ÷ max(b, a)
-    au = a * u
-    bu = b * u
-    v = (bu ÷ d) * c
+function compact_reduce(midpoint::Q, radius::Q) where Q<:RationalUnion
+    midnum, midden = midpoint.num, midpoint.den
+    radnum, radden = radius.num, radius.den
+    u = midpoint ÷ max(midden, midnum)
+    au = midnum * u
+    bu = midden * u
+    v = (bu ÷ radden) * radnum
     lo3 = compact_integer(au - v, bu, au - v + 1, bu)
     hi3 = compact_integer(au + v - 1, bu, au + v, bu)
     tuple(lo3..., hi3...)
@@ -88,15 +88,15 @@ function compact_rational(lo::T, hi::T) where {T<:Real}
     return num, den
 end
 
-# implementation of previous algotrithm using integer arithmetic
+# implementation of previous algorithm using integer arithmetic
 function compact_integer(a::T, b::T, c::T, d::T) where T<:Integer
     m, r = divrem(a, b)
     if r == 0
-        m, T(1)
+        m, one(T)
     else
         s = c - d * m
         if s >= d
-            m+1, T(1)
+            m+one(T), one(T)
         else
             num, den = compact_integer(d, s, b, r)
             num * m + den, num
