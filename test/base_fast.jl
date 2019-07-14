@@ -20,7 +20,7 @@
     @test_throws InexactError FR(typemax(TI)//3) + 1
     @test_throws InexactError FR(typemax(TI)//3) * 2
     @test_throws InexactError FR(1//2)^63
-    
+
     # FIXME!!!
     # @test FR(typemax(TI)//one(TI)) * FR(one(TI)//typemax(TI)) == 1
     # @test FR(typemax(TI)//one(TI)) / FR(typemax(TI)//one(TI)) == 1
@@ -33,7 +33,7 @@
         end
         if ispow2(b)
             @test FR(a//b) == FR(a/b)
-            @test convert(FR,a/b) == FR(a//b) 
+            @test convert(FR,a/b) == FR(a//b)
         end
         # @test rationalize(a/b) == a//b
         @test FR(a//b) == a//b
