@@ -27,7 +27,7 @@ function FastRational{T}(x::F) where {T<:SUN, F<:AbstractFloat}
     return FastRational{T}(rationalize(x))
 end
 
-FastQBig(x::RationalUnion) = FastQBig(x.num, x.den)
+FastQBig(x::Rationals) = FastQBig(x.num, x.den)
 
 FastQ128(x::FastQ64) = FastQ128(Rational{Int128}(x.num//x.den))
 FastQ128(x::FastQ32) = FastQ128(Rational{Int128}(x.num//x.den))
