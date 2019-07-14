@@ -3,8 +3,8 @@ FastRational(num::SUN, den::SUN) = FastRational(promote(num,den)...)
 #FastRational(num::Integer, den::Integer) = FastRational(promote(num,den)...)
 FastRational{T}(num::Integer, den::Integer) where {T<:Integer} = FastRational{T}(promote(num,den)...)
 
-#FastRational(x::Rational{T}) where {T<:SUN} = FastRational{T}(x.num, x.den)
-FastRational(x::Rational{T}) where {T<:Integer} = FastRational{T}(x.num, x.den)
+FastRational(x::Rational{T}) where {T<:SUN} = FastRational{T}(x.num, x.den)
+#FastRational(x::Rational{T}) where {T<:Integer} = FastRational{T}(x.num, x.den)
 
 Base.Rational{BQ}(x::FastRational{FQ}) where {BQ<:Integer, FQ<:Integer} = Rational(BQ(x.num), BQ(x.den))
 FastRational{FQ}(x::Rational{BQ}) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num), FQ(x.den))
