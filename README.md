@@ -111,6 +111,7 @@ to generate the random `Rational{BigInt}` values that were processed.
 | 64 (8x8)           |  40             |      20       |
 | 225 (15x15)        |  50             |      45       |
 
+This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/bigint_relative_speedup.jl).
 
 - 25_000 decimal digits
 
