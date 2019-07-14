@@ -11,17 +11,9 @@ FastRational{T}(x::Bool) where {T<:SUN} = x ? one(FastRational{T}) : zero(FastRa
 FastRational{T}(x::SUN) where {T<:SUN} = FastRational{T}(T(x), one(T))
 FastRational(x::T) where {T<:SUN} = FastRational{T}(T(x), one(T))
 Rational(x::FastRational) = Rational(x.num, x.den)
-
-FastQ32(x::Rational{T}) where {T<:Union{Int8, Int16, Int32}} =
-    FastQ32(x.num%Int32, x.den%Int32)
-FastQ32(x::Rational{T}) where {T<:Union{Int64, Int128}} =
-    FastQ32(Int32(x.num), Int32(x.den))
-FastQ64(x::Rational{T}) where {T<:Union{Int8, Int16, Int32, Int64}} =
-    FastQ64(x.num%Int64, x.den%Int64)
-FastQ64(x::Rational{T}) where {T<:Int128} =
-    FastQ64(Int64(x.num), Int64(x.den))
-FastQ128(x::Rational{T}) where {T<:SUN} =
-    FastQ128(Int128(x.num), Int128(x.den))
+Rational{S}(x::FastRational) where S = Rational(S(x.num), S(x.den))
+FastRational(x::Rational) = FastRational(x.num, x.den)
+FastRational{S}(x::Rational) where S = FastRational(S(x.num), S(x.den))
 
 string(x::FastRational{T}) where {T<:SUN} = string(Rational{T}(x))
 show(io::IO, x::FastRational{T}) where {T<:SUN} = show(io, Rational{T}(x))
