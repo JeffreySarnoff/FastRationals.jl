@@ -1,33 +1,32 @@
-FastRational(num::SUN, den::SUN) = FastRational(promote(num,den)...)
-FastRational{T}(num::SUN, den::SUN) where T = FastRational{T}(promote(num,den)...)
+FastRational(num::Integer, den::Integer) = FastRational(promote(num,den)...)
+FastRational{T}(num::Integer, den::Integer) where {T<:Integer} = FastRational{T}(promote(num,den)...)
+FastRational(x::Rational{T}) where {T<:Integer} = FastRational{T}(x.num, x.den)
 
+Base.Rational{BQ}(x::FastRational{FQ}) where {BQ<:Integer, FQ<:Integer} = Rational(BQ(x.num), BQ(x.den))
+FastRational{FQ}(x::Rational{BQ}) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num), FQ(x.den))
+FastRational{I1}(x::FastRational{I2}) where {I1<:Integer, I2<:Integer} = Rational(I1(x.num), I1(x.den))
 FastRational{FQ}(x::BQ) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num), one(FQ))
 FastRational{FQ}(x::F; tol=eps(float(x)/2)) where {FQ<:Integer, F<:AbstractFloat} = FastRational(rationalize(x), tol=tol)
 
-FastRational{I1}(num::I2, den::I2) where {I1<:Integer, I2<:Integer} = FastRational(I1(num), I1(den))
+FastRational{I1}(num::I2, den::I2) where {I1<:Integer, I2<:Integer} = FastRational{I1}(I1(num), I1(den))
 FastRational{I1}(numden::Tuple{I2,I2}) where {I1<:Integer, I2<:Integer} = FastRational{I1}(numden[1]//numden[2])
 
-float(x::FastRational) = x.num / x.den
+float(x::FastRational{T}) where {T<:Signed} = x.num / x.den
 
-Base.Float64(x::FastRational) = float(x)
-Base.Float32(x::FastRational) = Float32(float(x))
-Base.Float16(x::FastRational) = Float16(float(x))
-Base.BigFloat(x::FastRational) = BigFloat(x.num) / BigFloat(x.den)
-function Base.BigInt(x::FastRational)
-    num, den = canonical(x.num, x.den)
-    den == 1 ? BigInt(num) : throw(InexactError)
-end
+Base.Float64(x::FastRational{T}) where {T<:Signed}  = float(x)
+Base.Float32(x::FastRational{T}) where {T<:Signed}  = Float32(float(x))I
+Base.Float16(x::FastRational{T}) where {T<:Signed}  = Float16(float(x))
+Base.BigFloat(x::FastRational{T}) where {T<:Signed} = BigFloat(x.num) / BigFloat(x.den)
+Base.BigInt(x::FastRational{T}) where {T<:Signed}   = isinteger(x) ? BigInt((x.num//x.den).num) :
+                                                                         throw(InexactError)
 
-function FastRational(x::F) where F<:AbstractFloat
-    !isfinite(x) && throw(DomainError("finite values only"))
-    return FastRational(rationalize(x))
-end
-function FastRational{T}(x::F) where {T<:SUN, F<:AbstractFloat}
+function FastRational{T}(x::F) where {T<:Signed, F<:AbstractFloat}
     !isfinite(x) && throw(DomainError("finite values only"))
     return FastRational{T}(rationalize(x))
 end
 
-FastQBig(x::RationalUnion) = FastQBig(x.num, x.den)
+FastQBig(x::Rational{BigInt}) = FastQBig(x.num, x.den)
+FastQBig(x::Rational{T}) where {T<:Signed} = FastQBig(x.num, x.den)
 
 FastQ128(x::FastQ64) = FastQ128(Rational{Int128}(x.num//x.den))
 FastQ128(x::FastQ32) = FastQ128(Rational{Int128}(x.num//x.den))
