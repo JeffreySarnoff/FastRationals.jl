@@ -20,13 +20,13 @@ struct FastRational{T} <: Real
     num::T
     den::T
        
-    function FastRational(num::T, den::T) where T<:SUN
-        iszero(den) && throw(ArgumentError("invalid FastRational: denominator is zero"))
+    FastRational{T}(num::T, den::T) where {T<:Union{Signed,Unsigned}} = new{T}(num, den)
+    function FastRational(num::T, den::T) where {T<:Union{Signed,Unsigned}}
+        iszero(den) && throw(DivideError)
+		num, den = flipsign(num, den), abs(den)
         return new{T}(num, den)
     end
 end
-FastRational{S}(num::T, den::T) where {T<:SUN,S<:SUN} = FastRational(S(num), S(den))
-
 const RationalUnion = Union{FastRational,Rational}
 
 numerator(x::FastRational{T}) where {T<:Integer} = x.num
