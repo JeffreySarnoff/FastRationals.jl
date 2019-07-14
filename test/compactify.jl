@@ -1,4 +1,4 @@
-@testset "compactify $Q" for Q in (Rational{Int32}, Rational{Int64}, FastRational{Int32}, FastRational{Int64})
+@testset "compactify $Q" for Q in (FastQ16, FastQ32, FastQ64)
     mid = Q(100, 111)
     tol = Q(1, 11)
     res = Q(5, 6)
