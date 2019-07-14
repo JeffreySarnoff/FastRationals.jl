@@ -72,8 +72,6 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 
 ## performance relative to system rationals
 
-#### actual results
-
 
 |    computation          | avg rel speedup |
 |:------------------------|:-----------------:|
