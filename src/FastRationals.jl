@@ -22,7 +22,6 @@ struct FastRational{T} <: Real
        
     function FastRational(num::T, den::T) where T<:SUN
         iszero(den) && throw(ArgumentError("invalid FastRational: denominator is zero"))
-        num, den = flipsign(num, den), abs(den)
         return new{T}(num, den)
     end
 end
