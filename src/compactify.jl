@@ -1,20 +1,17 @@
 """
     compactify(rational_to_compactify, radius_of_indifference)
     compactify(low=one_inteval_bound, high=other_interval_bound)
-
 From all of the rational values that exist within ±`radius_of_indifference`
 of the `rational_to_compactify` respectively the interval
 this function obtains this uniquely determined
-
 rational: the denominator is that of least magnitude and the numerator is either
 uniquely given or, of those given, that of least magnitude.
 The first form suffers from inaccuracies due to rounding errors.
-
 We are indifferent to the two rational values, source and result, as magnitudes.
 We prefer to use the compactified value in calculations, as with it, overflow
 is less likely, probably, with the next arithmetic operation.
 """
-function compactify(;low::Q, high::Q) where {T, Q<:Rationals{T}}
+function compactify(;low::Q, high::Q) where {Q<:Rationals}
     if low < high <= 0 || 0 <= high < low
         low, high = high, low
     end
@@ -32,7 +29,7 @@ end
 
 # compute Q(midpoint - rad) and Q(midpoint + rad) approximately
 # preserving integer type
-function compact_reduce(midpoint::Q, radius::Q) where {T, Q<:Rationals{T}}
+function compact_reduce(midpoint::Q, radius::Q) where {Q<:Rationals}
     midnum, midden = midpoint.num, midpoint.den
     radnum, radden = radius.num, radius.den
     u = midpoint ÷ max(midden, midnum)
@@ -72,7 +69,6 @@ end
     The algorithm for `compact_rational` is from Hiroshi Murakami's paper
     Calculation of rational numbers in an interval whose denominator is the smallest
     ACM Communications in Computer Algebra, Vol 48, No. 3, Issue 189, September 2014
-
     Hiroshi Murakami, Department of Mathematics and Information Sciences,
     Tokyo Metropolitan University, Tokyo, 192-0397, Japan
     mrkmhrsh@tmu.ac.jp, https://www.rs.tus.ac.jp/hide-murakami/index.html
@@ -105,7 +101,7 @@ function compact_integer(a::T, b::T, c::T, d::T) where T<:Integer
     end
 end
 
-function compact_rational(x::Q, y::Q) where {T, Q<:Rationals{T}}
+function compact_rational(x::Q, y::Q) where {Q<:Rationals}
    compact_integer(x.num, x.den, y.num, y.den)
 end
 
