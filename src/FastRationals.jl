@@ -27,7 +27,8 @@ struct FastRational{T} <: Real
         return new{T}(num, den)
     end
 end
-const RationalUnion = Union{FastRational,Rational}
+
+const Rationals = Union{FastRational,Rational}
 
 numerator(x::FastRational{T}) where {T<:Integer} = x.num
 denominator(x::FastRational{T}) where {T<:Integer} = x.den
