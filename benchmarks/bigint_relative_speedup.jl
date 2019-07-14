@@ -83,7 +83,7 @@ relspeeds = string(
 "\n\n\trelative speeds",
 "\n\t (8x8)\t (15x15)\n\n",
 "matmul:\t $relspeed_8x8mul \t $relspeed_15x15mul\n",
-"mat tr: \t $relspeed_8x8tr \t $relspeed_15x15tr \n");
+"mat tr:\t $relspeed_8x8tr \t $relspeed_15x15tr \n");
 
 print(relspeeds);
 ;
