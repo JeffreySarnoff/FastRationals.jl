@@ -23,7 +23,7 @@ struct FastRational{T} <: Real
     FastRational{T}(num::T, den::T) where {T<:Union{Signed,Unsigned}} = new{T}(num, den)
     function FastRational(num::T, den::T) where {T<:Union{Signed,Unsigned}}
         iszero(den) && throw(DivideError)
-        num, den = flipsign(num, den), abs(den)
+       # num, den = flipsign(num, den), abs(den)
         return new{T}(num, den)
     end
 end
