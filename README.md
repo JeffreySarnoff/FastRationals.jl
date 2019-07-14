@@ -75,7 +75,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 #### actual results
 
 
-|    computation          |  Relative Speedup |
+|    computation          | avg rel speedup |
 |:------------------------|:-----------------:|
 |      mul/div            |       20          |
 |      polyval            |       18          |
@@ -85,6 +85,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 |      mat lu             |        5          |
 |      mat inv            |        3          |
 
+- avg is of FastQ32 and FastQ64
 - polynomial degree is 4, matrix size is 4x4
 
 - This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
