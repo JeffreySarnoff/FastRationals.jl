@@ -25,11 +25,11 @@ end
 
 for Q in (:FastRational, :Rational)
   @eval begin
-    function compactify(midpoint::$Q{T}, radius::F) where {T<:Integer, F<:Union{Float32, Float64}}
+    function compactify1(midpoint::$Q{T}, radius::F) where {T<:Integer, F<:Union{Float32, Float64}}
         mid = F(midpoint)
         lo, hi = mid-radius, mid+radius
         lo, hi = compact_rational_constraints1(mid, radius, lo, hi)
-        num, den = T.(compact_rational(lo, hi))
+        num, den = T.(compact_rational1(lo, hi))
         return $Q{T}(num, den)
     end
   end
