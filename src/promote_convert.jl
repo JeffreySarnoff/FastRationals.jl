@@ -4,7 +4,6 @@ FastRational{T}(num::SUN, den::SUN) where T = FastRational{T}(promote(num,den)..
 FastRational{FQ}(x::BQ) where {FQ<:Integer, BQ<:Integer} = FastRational(FQ(x.num), one(FQ))
 FastRational{FQ}(x::F; tol=eps(float(x)/2)) where {FQ<:Integer, F<:AbstractFloat} = FastRational(rationalize(x), tol=tol)
 
-FastRational{I1}(num::I2, den::I2) where {I1<:Integer, I2<:Integer} = FastRational(I1(num), I1(den))
 FastRational{I1}(numden::Tuple{I2,I2}) where {I1<:Integer, I2<:Integer} = FastRational{I1}(numden[1]//numden[2])
 
 float(x::FastRational) = x.num / x.den
