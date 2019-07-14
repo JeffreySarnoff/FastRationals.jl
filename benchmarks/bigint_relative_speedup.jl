@@ -1,8 +1,8 @@
 using FastRationals, BenchmarkTools
 
 BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
-BenchmarkTools.DEFAULT_PARAMETERS.samples = 200;
-BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 2.0e-9;
+BenchmarkTools.DEFAULT_PARAMETERS.samples = 50;
+BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 1.0e-7;
 BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
 
 function Base.rand(::Type{Rational{I}}, n::Int=1) where {I<:Base.BitInteger}
