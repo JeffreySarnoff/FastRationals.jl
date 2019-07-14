@@ -100,15 +100,15 @@ to generate the random `Rational{BigInt}` values that were processed.
 
 | n rand Rationals   | digits in den | `sum` relspeed | `prod` relspeed |
 |:------------------:|:-------------:|:------------:|:-------------:| 
-|200                 | 7_150         |  100         | 200           |
-|500                 | 17_700        |  200         | 400           |
+|200                 | 7_150         |  150         | 300           |
+|500                 | 17_700        |  300         | 500           |
 
 - matrix multiply and trace
 
 | n rand Rationals   | matmul relspeed | `tr` relspeed |
 |:------------------:|:---------------:|:-------------:| 
-| 64 (8x8)           |  17             |      8       |
-| 225 (15x15)        |  23             |      13       |
+| 64 (8x8)           |  30             |      10       |
+| 225 (15x15)        |  20             |      30       |
 
 This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/bigint_relative_speedup.jl).
 
