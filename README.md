@@ -113,7 +113,7 @@ to generate the random `Rational{BigInt}` values that were processed.
 
 This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/bigint_relative_speedup.jl).
 
-- 25_000 decimal digits
+##### 25_000 decimal digits
 
 Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
 
