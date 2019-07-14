@@ -13,8 +13,8 @@
     low = $Q(tm, tm-1)
     high = $Q(tm+1, tm-1)
     mid = $Q(2tm+1, 2tm-2)
-    tol = $Q(1, 2tm-2)
-    @test compactify(mid, tol) == $Q(tm>>1+2, tm>>1+1) # rounding error effect?
+    #tol = $Q(1, 2tm-2)
+    #@test compactify(mid, tol) == $Q(tm>>1+2, tm>>1+1) # rounding error effect?
     @test compactify(low=low, high=high) == $Q(tm>>1+1, tm>>1) # better result
     #                                        >>>> !!FIXME!! this throws MethodError
     # @test_throws ArgumentError compactify(mid, Q(0))
