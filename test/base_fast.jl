@@ -28,7 +28,7 @@
 
     for a = -5:5, b = -5:5
         if b == 0
-            # @test_throws ArgumentError round(Integer, FR(a, b))
+            @test_throws ArgumentError round(Integer, FR(a, b))
             continue
         end
         if ispow2(b)
