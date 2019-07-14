@@ -1,7 +1,7 @@
 using FastRationals, LinearAlgebra
 using Test
 
-include("baseFastQ32.jl")
-include("moreFastQ32.jl")
+include("base_fast.jl")
+include("more_fast.jl")
 include("compactify.jl")
 include("tests.jl")
