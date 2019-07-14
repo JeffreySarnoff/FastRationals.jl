@@ -1,4 +1,3 @@
-
 @testset "compactify $Q" for Q in (Rational, FastRational)
     mid = Q(100, 111)
     tol = Q(1, 11)
