@@ -108,8 +108,8 @@ to generate the random `Rational{BigInt}` values that were processed.
 
 | n rand Rationals   | matmul relspeed | `tr` relspeed |
 |:------------------:|:---------------:|:-------------:| 
-| 64 (8x8)           |  40             |      20       |
-| 225 (15x15)        |  50             |      45       |
+| 64 (8x8)           |  17             |      8       |
+| 225 (15x15)        |  23             |      13       |
 
 This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/bigint_relative_speedup.jl).
 
