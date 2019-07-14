@@ -20,7 +20,11 @@ Base.BigFloat(x::FastRational{T}) where {T<:Signed} = BigFloat(x.num) / BigFloat
 Base.BigInt(x::FastRational{T}) where {T<:Signed}   = isinteger(x) ? BigInt((x.num//x.den).num) :
                                                                          throw(InexactError)
 
-function FastRational{T}(x::F) where {T<:Signed, F<:AbstractFloat}
+function FastRational(x::F) where F<:AbstractFloat
+    !isfinite(x) && throw(DomainError("finite values only"))
+    return FastRational(rationalize(x))
+end
+function FastRational{T}(x::F) where {T<:SUN, F<:AbstractFloat}
     !isfinite(x) && throw(DomainError("finite values only"))
     return FastRational{T}(rationalize(x))
 end
