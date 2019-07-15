@@ -28,9 +28,11 @@ matinv:  3.5     2.7     1.1
 
 
 
-#= 
-older results, the revisions benchmarked
-     above do speedup FastQ4
+``` 
+older results, the revisions benchmarked above
+speedup FastQ4 and slowdown sum, prod
+on a relative usability basis the revisions are accepted
+
 
 |         | FastQ32 | FastQ64 |
 |:--------|:-------:|:-------:|
