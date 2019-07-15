@@ -19,17 +19,42 @@ const FastSUN = Union{Int8, Int16, Int32, Int64, UInt8, UInt16, UInt32, UInt64}
 struct FastRational{T} <: Real
     num::T
     den::T
-     
-    # this constructor is used when it is known that den>0   
-    FastRational(numden::Tuple{T, T}) where {T<:SUN} =
-        new{T}(numden[1], numden[2])
     
-    function FastRational{T}(num::T, den::T) where {T<:SUN}
+    # this constructor is used when den might be <= 0 excluding typemin(T)
+    function FastRational(num::T, den::T) where {T<:SUN}
         iszero(den) && throw(DivideError)
         num, den = flipsign(num, den), abs(den)
         return new{T}(num, den)
     end
+     
+    # this constructor is used when it is known that den>0   
+    FastRational{T}(num::T, den::T) where {T<:SUN} =
+        new{T}(num, den)
 end
+
+function FastRationalDenomOfT(num::T, den::T) where T<:SUN
+    iszero(den) && throw(DivideError)
+    num, den = flipsign(num, den), abs(den)
+    signbit(den) && throw(DomainError("denominator is typemin($T)"))
+    return FastRational{T}(num, den)
+end
+
+function FastRationalDenomNonneg(num::T, den::T) where T<:SUN
+    iszero(den) && throw(DivideError)
+    return FastRational{T}(num, den)
+end
+
+function FastRationalDenomNonzero(num::T, den::T) where T<:SUN
+    num, den = flipsign(num, den), abs(den)
+    signbit(den) && throw(DomainError("denominator is typemin($T)"))
+    return FastRational{T}(num, den)
+end
+
+       
+       # this constructor is used when it is known that den>0   
+    FastRational(numden::Tuple{T, T}) where {T<:SUN} =
+        new{T}(numden[1], numden[2])
+   
 
 const Rationals = Union{FastRational,Rational}
 
