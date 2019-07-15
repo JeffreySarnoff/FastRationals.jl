@@ -1,3 +1,26 @@
+#=
+    when it is known of num::T, den::T 
+    or given by construction that
+       den > 0
+       use FastRational{T}(num, den)
+           - skip checking for zero or negative denominator
+
+    when it is known of num::T, den::T 
+    or given by construction that
+    or may be the case that
+       den < 0 && den != typemin(T)
+       use FastRationalChecked(num, den)
+           - check for zero or negative denominator
+   
+    when it is known of num::T, den::T 
+    or given by construction that
+    or may be the case that
+       den == typemin(T)
+       use FastRationalGuarded(num, den)
+           - check for typemin(T) in denominator
+           - check for zero or negative denominator
+=#
+
 basetype(::Type{FastRational{T}}) where T = T
 basetype(::Type{Rational{T}}) where T = T
 basetype(x) = basetype(typeof(x))
