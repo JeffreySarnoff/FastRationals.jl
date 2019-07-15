@@ -1,4 +1,18 @@
+(Intel Xeon, 6 cores, 1 thread; Julia v1.2.0-rc2) 2019-07-15
 
+
+```
+   FastRational{BigInt} speedup relative to Rational{BigInt} 
+
+        relative speeds                   relative speeds
+         (200)   (500)                    (8x8)   (15x15)
+
+sum:     105.5   210.8           matmul:  18.2     22.7   
+prod:    191.2   376.4           mat tr:  10.9     16.8
+
+```
+
+julia>
 |               |                  |
 |---------------|------------------|
 | contributor   | Jeffrey Sarnoff  |
