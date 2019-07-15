@@ -23,13 +23,15 @@ struct FastRational{T} <: Real
     # this constructor is used when it is known that den>0   
     FastRational(numden::Tuple{T, T}) where {T<:SUN} =
         new{T}(numden[1], numden[2])
-    
+   
     function FastRational{T}(num::T, den::T) where {T<:SUN}
         iszero(den) && throw(DivideError)
         num, den = flipsign(num, den), abs(den)
         return new{T}(num, den)
     end
 end
+
+FastRational(num::T, den::T) where {T<:SUN} = FastRational{T}(num, den)
 
 const Rationals = Union{FastRational,Rational}
 
