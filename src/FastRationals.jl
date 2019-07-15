@@ -24,6 +24,9 @@ struct FastRational{T} <: Real
     FastRational(numden::Tuple{T, T}) where {T<:SUN} =
         new{T}(numden[1], numden[2])
    
+    FastRational(num::T, den::T) where {T<:SUN} =
+        new{T}(num, den)
+     
     function FastRational{T}(num::T, den::T) where {T<:SUN}
         iszero(den) && throw(DivideError)
         num, den = flipsign(num, den), abs(den)
@@ -31,7 +34,6 @@ struct FastRational{T} <: Real
     end
 end
 
-FastRational(num::T, den::T) where {T<:SUN} = FastRational{T}(num, den)
 
 const Rationals = Union{FastRational,Rational}
 
