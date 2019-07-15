@@ -26,19 +26,10 @@ matinv:  3.5     2.7     1.1
 
 ```
 
-julia>
-|               |                  |
-|---------------|------------------|
-| contributor   | Jeffrey Sarnoff  |
-| platform      | Intel Xeon CPU   |
-| cores         | 6                |
-| threads       | 1                |
-| os            | Windows 10       |
-| Julia         | v1.1.1           |
-| FastRationals | prerelease       |
 
 
-
+#= 
+older
 |         | FastQ32 | FastQ64 |
 |:--------|:-------:|:-------:|
 |mul      | 24.0    | 15.2    |
@@ -48,3 +39,4 @@ julia>
 |mat mul  | 11.7    | 14.0    |
 |mat lu   | 3.7     | 5.4     |
 |mat inv  | 3.3     | 2.8     |
+=#
