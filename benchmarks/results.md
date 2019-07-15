@@ -29,7 +29,9 @@ matinv:  3.5     2.7     1.1
 
 
 #= 
-older
+older results, the revisions benchmarked
+     above do speedup FastQ4
+
 |         | FastQ32 | FastQ64 |
 |:--------|:-------:|:-------:|
 |mul      | 24.0    | 15.2    |
