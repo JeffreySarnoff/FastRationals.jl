@@ -66,3 +66,4 @@ bpp200 = round(systemqtime/fastqtime, digits=1)
 
 
 relspeed = (bpp10=bpp10, bpp25=bpp25, bpp50=bpp50, bpp100=bpp100, bpp150=bpp150, bpp200=bpp200)
+
