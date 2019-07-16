@@ -102,18 +102,18 @@ __thirty__ 8x8 FastRational{BigInt} matrices may be squared.
 
 - `sum` and `prod` 
 
-| n rand Rationals   | `sum` relspeed | `prod` relspeed |
+|  n rationals       | `sum` relspeed | `prod` relspeed |
 |:------------------:|:--------------:|:---------------:| 
-|  200               |    105         | 191             |
-|  500               |    210         | 376             |
+|  200               |    100         | 175             |
+|  500               |    200         | 350             |
 
 
 - matrix multiply and trace
 
-| n rand Rationals   | matmul relspeed | `tr` relspeed |
+| n rationals        | matmul relspeed | `tr` relspeed |
 |:------------------:|:---------------:|:-------------:| 
-| 64 (8x8)           |  30             |      10       |
-| 225 (15x15)        |  20             |      30       |
+| 64 (8x8)           |  15             |      10       |
+| 225 (15x15)        |  20             |      20       |
 
 This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relspeed_QBigInt.jl).
 
