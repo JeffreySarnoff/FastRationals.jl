@@ -67,6 +67,13 @@ Of the numerator and denominator, we really want whichever is the larger in magn
 ----
 ## Rationals using BigInt
 
+
+#### 25_000 decimal digits
+
+Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
+
+----
+
 #### what works well
 
 The first column holds the number of random Rational{Int128}s used    
@@ -127,13 +134,6 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 > The calculation of these magnitudes appears [here]( https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/thestatelessway.md#quantifying-the-desireable).
 
 ----
-
-#### 25_000 decimal digits
-
-Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
-
-----
-
 
 ## additional functionality
 
