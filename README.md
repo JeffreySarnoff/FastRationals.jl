@@ -97,7 +97,10 @@ This script provided the [relative speedups](https://github.com/JeffreySarnoff/F
 
 #### what does not work well
 
-Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welcome.
+Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  >> Fixes welcome <<.
+
+Meanwhile, some matrix functions convert first convert FastRationals to system rationals,    
+compute the result, and reconvert to FastRationals.
 
 ----
 
