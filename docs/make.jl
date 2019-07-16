@@ -1,4 +1,5 @@
 using Documenter
+using FastRationals
 
 makedocs(
     sitename = "FastRationals.jl",
