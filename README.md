@@ -96,7 +96,7 @@ __thirty__ 8x8 FastRational{BigInt} matrices may be squared.
 
 - matrix multiply and trace
 
-| n rationals        | matmul relspeed | `tr` relspeed |
+| n rationals        | `mul` relspeed  | `tr` relspeed |
 |:------------------:|:---------------:|:-------------:| 
 | 64 (8x8)           |  15             |      10       |
 | 225 (15x15)        |  20             |      20       |
