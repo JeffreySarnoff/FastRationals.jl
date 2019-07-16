@@ -4,13 +4,10 @@
 
 using FastRationals
 using BenchmarkTools
-using BenchmarkTools
 
 const BT=BenchmarkTools.DEFAULT_PARAMETERS;
 BT.overhead=BenchmarkTools.estimate_overhead();
 BT.evals=1; ; BT.time_tolerance = 5.0e-7; BT.samples = 15;
-
-
 
 const big1 = BigInt(1)
 const big2 = BigInt(2)
