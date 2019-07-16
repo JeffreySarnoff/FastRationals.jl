@@ -40,19 +40,19 @@ relative to Rational{BigInt} by BPP iterations
 # err ~1e-54, 1_328 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   15);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 15);
-bpp15 = round(fasttime/systemqqtime, digits=1)
+bpp15 = round(fastqtime/systemqtime, digits=1)
 
 # err ~1e368, 57_914 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   125);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 125);
-bpp125 = round(fastqtime/systemqqtime, digits=1)
-
-# relspeeds meet at n=328
+bpp125 = round(fastqtime/systemqtime, digits=1)
 
 # err ~1e368, 57_914 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   250);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 250);
 bpp250 = round(fastqtime/systemqtime, digits=1)
+
+# relspeeds meet at n=328
 
 systemqtime = @belapsed bpp(Rational{BigInt},   500);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 500);
@@ -74,5 +74,12 @@ bpp3000 = round(fastqtime/systemqtime, digits=1)
 
 relspeeds = (bpp15=bpp15, bpp125=bpp125, bpp250=bpp250, 
              bpp500=bpp500, bpp1000=bpp1000, bpp2000=bpp2000,
-             bpp5000=bpp5000)
+             bpp3000=bpp3000)
 
+relspeeds = (bpp15 = 0.3, bpp125 = 0.3, bpp250 = 0.7, bpp500 = 2.4, bpp1000 = 8.1, bpp2000 = 20.9, bpp3000 = 36.0)
+
+xs = [15,125,250,500,1000,2000,3000];
+ys = [relspeeds...,];
+
+using GR
+plot(xs, ys, size=(500,500))
