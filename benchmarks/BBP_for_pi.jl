@@ -2,6 +2,22 @@
 #
 # The Bailey–Borwein–Plouffe formula (BBP formula) is a formula for π
 
+
+#=
+Computing Bailey–Borwein–Plouffe formula for Pi
+to ascertain the performance of FastRational{BigInt}
+relative to Rational{BigInt} by BPP iterations
+
+FastRational{BigInt}s perform better below n=328
+Rational{BigInt}s     perform better above n=330
+
+As BPP iterations increase, numerator and denominator grow.
+After some digit count in numerator aor denominator, ~10_000,
+The extra time spent in divgcd reductions becomes less than
+the time spent performing arithmetic on very large integers;
+so reducing the numerator and denominator begins to win.
+=#
+
 using FastRationals
 using BenchmarkTools
 
@@ -31,11 +47,6 @@ function bpp(::Type{T}, n) where {T}
     return result
 end
 
-#=
-Computing Bailey–Borwein–Plouffe formula for Pi
-to ascertain the performance of FastRational{BigInt}
-relative to Rational{BigInt} by BPP iterations
-=#
 
 # err ~1e-54, 1_328 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   15);
