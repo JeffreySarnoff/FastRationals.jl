@@ -40,35 +40,35 @@ relative to Rational{BigInt} by BPP iterations
 # err ~1e-54, 1_328 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   15);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 15);
-bpp15 = round(fastqtime/systemqtime, digits=1)
+bpp15 = round(systemqtime/fastqtime, digits=1)
 
 # err ~1e368, 57_914 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   125);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 125);
-bpp125 = round(fastqtime/systemqtime, digits=1)
+bpp125 = round(systemqtime/fastqtime, digits=1)
 
 # err ~1e368, 57_914 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   250);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 250);
-bpp250 = round(fastqtime/systemqtime, digits=1)
+bpp250 = round(systemqtime/fastqtime, digits=1)
 
 # relspeeds meet at n=328
 
 systemqtime = @belapsed bpp(Rational{BigInt},   500);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 500);
-bpp500 = round(fastqtime/systemqtime, digits=1)
+bpp500 = round(systemqtime/fastqtime, digits=1)
 
 systemqtime = @belapsed bpp(Rational{BigInt},   1000);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 1000);
-bpp1000 = round(fastqtime/systemqtime, digits=1)
+bpp1000 = round(systemqtime/fastqtime, digits=1)
 
 systemqtime = @belapsed bpp(Rational{BigInt},   2000);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 2000);
-bpp2000 = round(fastqtime/systemqtime, digits=1)
+bpp2000 = round(systemqtime/fastqtime, digits=1)
 
 systemqtime = @belapsed bpp(Rational{BigInt},   3000);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 3000);
-bpp3000 = round(fastqtime/systemqtime, digits=1)
+bpp3000 = round(systemqtime/fastqtime, digits=1)
 
 
 
