@@ -28,44 +28,40 @@ function bpp(::Type{T}, n) where {T}
 end
 
 # err ~1e-28, 403 digits in num, den
-julia> systemqtime = @belapsed bpp(Rational{BigInt},20);
-julia> fastqtime = @belapsed bpp(FastRational{BigInt},20);
-julia> floor(Int,systemqtime/fastqtime)
-3.9
+systemqtime = @belapsed bpp(Rational{BigInt},   20);
+fastqtime = @belapsed bpp(FastRational{BigInt}, 20);
+bpp20 = round(systemqtime/fastqtime, digits=1)
 
 # err ~1e-54, 1_328 digits in num, den
-julia> systemqtime = @belapsed bpp(Rational{BigInt},40);
-julia> fastqtime = @belapsed bpp(FastRational{BigInt},40);
-julia> floor(Int,systemqtime/fastqtime)
-4.5
+systemqtime = @belapsed bpp(Rational{BigInt},   40);
+fastqtime = @belapsed bpp(FastRational{BigInt}, 40);
+bpp40 = round(systemqtime/fastqtime, digits=1)
 
 # err ~1e-102, 4_671 digits in num, den
-julia> systemqtime = @belapsed bpp(Rational{BigInt},80);
-julia> fastqtime = @belapsed bpp(FastRational{BigInt},80);
-julia> round(systemqtime/fastqtime, digits=2)
-4.8
+systemqtime = @belapsed bpp(Rational{BigInt},   80);
+fastqtime = @belapsed bpp(FastRational{BigInt}, 80);
+bpp80 = round(systemqtime/fastqtime, digits=1)
 
 # err ~1e247, 26_431 digits in num, den
-julia> systemqtime = @belapsed bpp(Rational{BigInt},200);
-julia> fastqtime = @belapsed bpp(FastRational{BigInt},200);
-julia> floor(Int,systemqtime/fastqtime)
-2.5
+systemqtime = @belapsed bpp(Rational{BigInt},   200);
+fastqtime = @belapsed bpp(FastRational{BigInt}, 200);
+bpp200 = round(systemqtime/fastqtime, digits=1)
 
 # err ~1e368, 57_914 digits in num, den
-julia> systemqtime = @belapsed bpp(Rational{BigInt},300);
-julia> fastqtime = @belapsed bpp(FastRational{BigInt},300);
-julia> floor(Int,systemqtime/fastqtime)
-1.25
+systemqtime = @belapsed bpp(Rational{BigInt},   300);
+fastqtime = @belapsed bpp(FastRational{BigInt}, 300);
+bpp300 = round(systemqtime/fastqtime, digits=1)
 
-# err ~1e402, 68_889 digits in num, den
-julia> systemqtime = @belapsed bpp(Rational{BigInt},328);
-julia> fastqtime = @belapsed bpp(FastRational{BigInt},328);
-julia> floor(Int,systemqtime/fastqtime)
-0.99
+# relspeeds meet at n=328
 
-# err ~1e610, 157_166 digits in num, den
-julia> systemqtime = @belapsed bpp(Rational{BigInt},500);
-julia> fastqtime = @belapsed bpp(FastRational{BigInt},500);
-julia> floor(Int,systemqtime/fastqtime)
-0.5
+# err ~1e368, 57_914 digits in num, den
+systemqtime = @belapsed bpp(Rational{BigInt},   400);
+fastqtime = @belapsed bpp(FastRational{BigInt}, 400);
+bpp400 = round(systemqtime/fastqtime, digits=1)
+
+# err ~1e368, 57_914 digits in num, den
+systemqtime = @belapsed bpp(Rational{BigInt},   500);
+fastqtime = @belapsed bpp(FastRational{BigInt}, 500);
+bpp500 = round(systemqtime/fastqtime, digits=1)
+
 ```
