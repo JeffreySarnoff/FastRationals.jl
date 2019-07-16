@@ -86,7 +86,7 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 - avg is of FastQ32 and FastQ64
 - polynomial degree is 4, matrix size is 4x4
 
-- This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relative_speedup.jl).
+- This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relspeed_Q32_Q64.jl).
 
 ----
 ## Rationals using BigInt
@@ -110,7 +110,7 @@ to generate the random `Rational{BigInt}` values that were processed.
 | 64 (8x8)           |  30             |      10       |
 | 225 (15x15)        |  20             |      30       |
 
-This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/bigint_relative_speedup.jl).
+This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relspeed_QBigInt.jl).
 
 #### 25_000 decimal digits
 
