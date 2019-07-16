@@ -46,30 +46,6 @@ Of the numerator and denominator, we really want whichever is the larger in magn
     - `FastQBig` is best with numerators and denominators that have no more than 25_000 decimal digits.
 
 
-### Most performant ranges using fast integers
-
-__FastRationals__ are at their most performant where overflow is absent or uncommon.  And vice versa: where overflow happens frequently, FastRationals have no intrinsic advantage.  How do we know what range of rational values are desireable?  We want to work with rational values that, for the most part, do not overflow when added, subtracted, multiplied or divided.  As rational calculation tends to grow numerator aor denominator magnitudes, it makes sense to further constrain the working range.  These tables are of some guidance. 
-
-----
-
-  ###     ________  FastQ32  ______________________________  FastQ64  __________
-  |  range      | refinement  |                | range           | refinement     |
-  |:-----------:|:-----------:|:--------------:|:---------------:|:--------------:|
-  |             |             |                |                 |                |
-  |    ±215//1  |  ±1//215    |    sweet spot  |     ±55_108//1  |  ±1//55_108    |
-  |             |             |                |                 |                |
-  |    ±255//1  |  ±1//255    |    preferable  |     ±65_535//1  |  ±1//65_535    |
-  |             |             |                |                 |                |
-  |  ±1_023//1  |  ±1//1_023  |    workable    |   ±262_143//1   |  ±1//262_143   |
-  |             |             |                |                 |                |
-  | ±4_095//1   |  ±1//4_095  |    admissible  |  ±1_048_575//1  | ±1//1_048_575  |
-  |             |             |                |                 |                |
-
-
-> The calculation of these magnitudes appears [here]( https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/thestatelessway.md#quantifying-the-desireable).
-
-----
-
 ## performance relative to system rationals
 
 
@@ -117,18 +93,44 @@ __thirty__ 8x8 FastRational{BigInt} matrices may be squared.
 
 This script provided the [relative speedups](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/relspeed_QBigInt.jl).
 
-#### 25_000 decimal digits
-
-Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
-
 ----
 
 #### what does not work well
 
 Other matrix functions (`det`, `lu`, `inv`) take much, much longer.  Fixes welcome.
 
+----
+
+### Most performant ranges using fast integers
+
+__FastRationals__ are at their most performant where overflow is absent or uncommon.  And vice versa: where overflow happens frequently, FastRationals have no intrinsic advantage.  How do we know what range of rational values are desireable?  We want to work with rational values that, for the most part, do not overflow when added, subtracted, multiplied or divided.  As rational calculation tends to grow numerator aor denominator magnitudes, it makes sense to further constrain the working range.  These tables are of some guidance. 
 
 ----
+
+  ###     ________  FastQ32  ______________________________  FastQ64  __________
+  |  range      | refinement  |                | range           | refinement     |
+  |:-----------:|:-----------:|:--------------:|:---------------:|:--------------:|
+  |             |             |                |                 |                |
+  |    ±215//1  |  ±1//215    |    sweet spot  |     ±55_108//1  |  ±1//55_108    |
+  |             |             |                |                 |                |
+  |    ±255//1  |  ±1//255    |    preferable  |     ±65_535//1  |  ±1//65_535    |
+  |             |             |                |                 |                |
+  |  ±1_023//1  |  ±1//1_023  |    workable    |   ±262_143//1   |  ±1//262_143   |
+  |             |             |                |                 |                |
+  | ±4_095//1   |  ±1//4_095  |    admissible  |  ±1_048_575//1  | ±1//1_048_575  |
+  |             |             |                |                 |                |
+
+
+> The calculation of these magnitudes appears [here]( https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/thestatelessway.md#quantifying-the-desireable).
+
+----
+
+#### 25_000 decimal digits
+
+Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
+
+----
+
 
 ## additional functionality
 
