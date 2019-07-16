@@ -48,17 +48,14 @@ function bpp(::Type{T}, n) where {T}
 end
 
 
-# err ~1e-54, 1_328 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   15);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 15);
 bpp15 = round(systemqtime/fastqtime, digits=1)
 
-# err ~1e368, 57_914 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   125);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 125);
 bpp125 = round(systemqtime/fastqtime, digits=1)
 
-# err ~1e368, 57_914 digits in num, den
 systemqtime = @belapsed bpp(Rational{BigInt},   250);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 250);
 bpp250 = round(systemqtime/fastqtime, digits=1)
