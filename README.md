@@ -70,7 +70,10 @@ Of the numerator and denominator, we really want whichever is the larger in magn
 
 #### 25_000 decimal digits
 
-Up to 25_000 digit Rationals can be used with the expectation of 2x-5x improvement in throughput when applied to an appropriate computation. Here is alook at evaluating [The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/bpp.md) with FastRationals.
+Up to 25_000 digits, FastRational{BigInt}s `FastQBigInt` handily outperform `Rational{BigInt}`s in arithmetic calculation.
+When applied to appropriate computations, `FastQBigInt`s often run 2x-5x faster. These speedups were obtained evaluating
+[The Bailey–Borwein–Plouffe formula for π](https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/benchmarks/BBP_for_pi.jl)
+at various depths (number of iterations) using `Rational{BigInt}` and `FastRational{BigInt}`. 
 
 ----
 
