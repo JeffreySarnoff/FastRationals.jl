@@ -96,12 +96,17 @@ __FastRationals__ are at their most performant where overflow is absent or uncom
 The first column holds the number of random Rational{Int128}s used    
 to generate the random `Rational{BigInt}` values that were processed.
 
-- `sum` and `prod`
+These relative performance numbers are throughput multipliers.    
+In the time it takes to square an 8x8 Rational{BigInt} matrix,    
+__thirty__ 8x8 FastRational{BigInt} matrices may be squared.    
 
-| n rand Rationals   | digits in den | `sum` relspeed | `prod` relspeed |
-|:------------------:|:-------------:|:------------:|:-------------:| 
-|200                 | 7_150         |  150         | 300           |
-|500                 | 17_700        |  300         | 500           |
+- `sum` and `prod` 
+
+| n rand Rationals   | `sum` relspeed | `prod` relspeed |
+|:------------------:|:--------------:|:---------------:| 
+|  200               |    105         | 191             |
+|  500               |    210         | 376             |
+
 
 - matrix multiply and trace
 
