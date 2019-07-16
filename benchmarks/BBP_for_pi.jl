@@ -66,9 +66,9 @@ systemqtime = @belapsed bpp(Rational{BigInt},   2000);
 fastqtime = @belapsed bpp(FastRational{BigInt}, 2000);
 bpp2000 = round(fastqtime/systemqtime, digits=1)
 
-systemqtime = @belapsed bpp(Rational{BigInt},   5000);
-fastqtime = @belapsed bpp(FastRational{BigInt}, 5000);
-bpp5000 = round(fastqtime/systemqtime, digits=1)
+systemqtime = @belapsed bpp(Rational{BigInt},   3000);
+fastqtime = @belapsed bpp(FastRational{BigInt}, 3000);
+bpp3000 = round(fastqtime/systemqtime, digits=1)
 
 
 
