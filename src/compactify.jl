@@ -35,7 +35,7 @@ end
 function compact_reduce(midpoint::Q, radius::Q) where {Q<:Rationals}
     midnum, midden = midpoint.num, midpoint.den
     radnum, radden = radius.num, radius.den
-    u = midpoint ÷ max(midden, midnum)
+    u = typemax(basetype(Q)) ÷ max(midden, midnum)
     au = midnum * u
     bu = midden * u
     v = (bu ÷ radden) * radnum
