@@ -8,7 +8,7 @@
         @test_throws DivideError inv(mx)
         @test FR(typemin(Ti) + 10000) - FR(10000) == mx
         my = FR(typemin(Ti) + 10000) - FR(10000)
-        @test_throws DivideError 1 / my
+        @test_throws DivideError Ti(1) / my
     end
 
     @testset "avoid overflow during add/subtract $N" begin
