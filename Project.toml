@@ -3,7 +3,13 @@ uuid = "275e499e-7a09-5551-a1d1-9fe535a2b717"
 license = "MIT"
 author = "Jeffrey Sarnoff"
 repo = "https://github.com/JeffreySarnoff/FastRationals.jl.git"
-version = "v0.1.6"
+version = "0.1.6"
+
+[deps]
+MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+
+[compat]
+julia = "1"
 
 [extras]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -11,6 +17,3 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
 test = ["LinearAlgebra", "Test"]
-
-[compat]
-julia = "1"
