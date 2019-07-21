@@ -25,114 +25,99 @@ basetype(::Type{FastRational{T}}) where T = T
 basetype(::Type{Rational{T}}) where T = T
 basetype(x) = basetype(typeof(x))
 
-typemax(::Type{FastRational{T}}) where {T<:SUN} = FastRational{T}(typemax(T), one(T))
-typemin(::Type{FastRational{T}}) where {T<:SUN} = FastRational{T}(typemin(T), one(T))
+typemax(::Type{FastRational{T}}) where T = FastRational(typemax(T))
+typemin(::Type{FastRational{T}}) where T = FastRational(typemin(T))
 
 widen(::Type{FastRational{T}}) where T = FastRational{widen(T)}
 
-FastRational{T}(x::Bool) where {T<:SUN} = x ? one(FastRational{T}) : zero(FastRational{T})
-FastRational{T}(x::SUN) where {T<:SUN} = FastRational{T}(T(x), one(T))
-Rational(x::FastRational{T}) where {T<:SUN} = Rational{T}(x.num, x.den)
-Rational{Q}(x::FastRational{T}) where {Q, T<:SUN} = Rational{Q}(Q(x.num), Q(x.den))
+FastRational{T}(x::Integer) where T = FastRational{T}(T(x), one(T), Val(true))
+FastRational{T}(x::FastRational) where T = FastRational{T}(x.num, x.den)
+FastRational(x::FastRational{T}) where T = FastRational{T}(x.num, x.den)
+FastRational{T}(x::Rational) where T = FastRational{T}(x.num, x.den)
+FastRational(x::Rational{T}) where T = FastRational{T}(x.num, x.den)
+Rational{T}(x::FastRational) where T = Rational{T}(x.num, x.den)
+Rational(x::FastRational{T}) where T = Rational{T}(x.num, x.den)
 
-FastQ32(x::Rational{T}) where {T<:Union{Int8, Int16, Int32}} =
-    FastQ32(x.num%Int32, x.den%Int32)
-FastQ32(x::Rational{T}) where {T<:Union{Int64, Int128}} =
-    FastQ32(Int32(x.num), Int32(x.den))
-FastQ64(x::Rational{T}) where {T<:Union{Int8, Int16, Int32, Int64}} =
-    FastQ64(x.num%Int64, x.den%Int64)
-FastQ64(x::Rational{T}) where {T<:Int128} =
-    FastQ64(Int64(x.num), Int64(x.den))
-FastQ128(x::Rational{T}) where {T<:SUN} =
-    FastQ128(Int128(x.num), Int128(x.den))
+string(x::FastRational) = string(x.num//x.den)
+show(io::IO, x::FastRational) = show(io, x.num//x.den)
 
-string(x::FastRational{T}) where {T<:SUN} = string(x.num//x.den)
-show(io::IO, x::FastRational{T}) where {T<:SUN} = show(io, x.num//x.den)
+zero(::Type{FastRational{T}}) where T = FastRational{T}(zero(T), one(T), Val(true))
+one(::Type{FastRational{T}}) where T = FastRational{T}(one(T), one(T), Val(true))
 
-zero(::Type{FastRational{T}}) where {T<:SUN} = FastRational{T}(zero(T), one(T))
-zero(x::FastRational{T}) where {T<:SUN} = zero(FastRational{T})
-one(::Type{FastRational{T}}) where {T<:SUN} = FastRational{T}(one(T), one(T))
-one(x::FastRational{T}) where {T<:SUN} = one(FastRational{T})
-
-iszero(x::FastRational{T}) where {T<:SUN} = x.num === zero(T)
-isone(x::FastRational{T}) where {T<:SUN} = x.num === x.den
-isinteger(x::FastRational{T}) where {T<:SUN} = x.den === one(T) || canonical(x.num, x.den)[2] == one(T)
-function iseven(x::FastRational{T}) where {T<:SUN}
-    q = x.num//x.den
-    return isone(q.den) && iseven(q.num)
+iszero(x::FastRational{T}) where T = iszero(x.num)
+isone(x::FastRational) where T = x.num === x.den
+isinteger(x::FastRational) = iszero(x.num % x.den)
+function iseven(x::FastRational)
+    d, r = divrem(x.num, x.den)
+    r == 0 && iseven(d)
 end
 function isodd(x::FastRational{T}) where {T<:SUN}
-    q = x.num//x.den
-    return isone(q.den) && isodd(q.num)
+    d, r = divrem(x.num, x.den)
+    r == 0 && isodd(d)
 end
 
-isfinite(x::FastRational{T}) where T<:SUN = true
-isinf(x::FastRational{T}) where T<:SUN = false
-isnan(x::FastRational{T}) where T<:SUN = false
+isfinite(x::FastRational) = true
+isinf(x::FastRational) = false
+isnan(x::FastRational) = false
 
 
-signbit(x::FastRational{T}) where {T<:SUN} = xor(signbit(x.num), signbit(x.den))
-sign(x::FastRational{T}) where {T<:SUN} = signbit(x) ? FastRational{T}(-one(T), one(T)) : FastRational{T}(one(T), one(T))
-abs(x::FastRational{T}) where {T<:SUN} = signbit(x) ? -x : x
-abs2(x::FastRational{T}) where {T<:SUN} = x * x
--(x::FastRational{T}) where {T<:SUN} = x.num !== typemin(T) ? FastRational{T}(-x.num, x.den) : FastRational{T}(x.num, -x.den)
-inv(x::FastRational{T}) where {T<:SUN} = signbit(x) ? FastRational{T}(-x.den, -x.num) : FastRational{T}(x.den, x.num)
+signbit(x::FastRational) = xor(signbit(x.num), signbit(x.den))
+sign(x::FastRational) = iszero(x) ? zero(x) : signbit(x) ? oftype(x, -1) : one(x)
+abs(x::FastRational) = signbit(x) ? -x : x
+abs2(x::FastRational) = x * x
+-(x::FastRational{T}) where T = FastRational{T}(-x.num, x.den, Val(true))
 
-copysign(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = signbit(y) ? -abs(x) : abs(x)
-flipsign(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = signbit(y) ? -x : x
+function inv(x::FastRational{T}) where T
+    den, num = x.num >= 0 ? (x.num, x.den) : (-x.num, -x.den)
+    den > 0 || throw(DivideError())
+    FastRational{T}(num, den, Val(true))
+end
 
-wider(x::Int8) = x%Int16
-wider(x::Int16) = x%Int32
-wider(x::Int32) = x%Int64
-wider(x::Int64) = x%Int128
-wider(x::Int128) = x%BigInt
-wider(x::BigInt) = x
+copysign(x::FastRational, y::Real) = signbit(y) ? -abs(x) : abs(x)
+flipsign(x::FastRational, y::Real)= signbit(y) ? -x : x
 
-==(x::FastRational{BigInt}, y::FastRational{BigInt}) = x.num * y.den == x.den * y.num
-!=(x::FastRational{BigInt}, y::FastRational{BigInt}) = x.num * y.den != x.den * y.num
+==(x::FastRational, y::FastRational) = widemul(x.num, y.den) == widemul(x.den, y.num)
 
-==(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = wider(x.num) * wider(y.den) === wider(x.den) * wider(y.num)
-!=(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = wider(x.num) * wider(y.den) !== wider(x.den) * wider(y.num)
->=(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = wider(x.num) * wider(y.den) >= wider(x.den) * wider(y.num)
-<=(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = wider(x.num) * wider(y.den) <= wider(x.den) * wider(y.num)
->(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = wider(x.num) * wider(y.den) > wider(x.den) * wider(y.num)
-<(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = wider(x.num) * wider(y.den) < wider(x.den) * wider(y.num)
+<=(x::FastRational, y::FastRational) = widemul(x.num, y.den) <= widemul(x.den, y.num)
+<(x::FastRational, y::FastRational) = widemul(x.num, y.den) < widemul(x.den, y.num)
 
-isequal(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = wider(x.num) * wider(y.den) === wider(x.den) * wider(y.num)
-isless(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = wider(x.num) * wider(y.den) < wider(x.den) * wider(y.num)
-
-cmp(x::FastRational{T}, y::FastRational{T}) where {T<:SUN} = (y<=x) - (x<=y)
+cmp(x::FastRational, y::FastRational) = cmp(widemul(x.num, y.den), widemul(x.den, y.num))
     
-function +(x::FastRational{T}, y::FastRational{T}) where {T<:SUN}
+function +(x::FastRational{T}, y::FastRational{T}) where T
     num, den, ovf = addovf(x, y)
-    !ovf && return FastRational{T}(num, den)
-    numer, denom = addq(wider(x.num), wider(x.den), wider(y.num), wider(y.den))
+    !ovf && return FastRational{T}(num, den, Val(true))
+    numer, denom = addq(widen(x.num), widen(x.den), widen(y.num), widen(y.den))
     numer, denom = canonical(numer, denom)
-    return FastRational{T}(T(numer), T(denom))
+    return FastRational{T}(T(numer), T(denom), Val(true))
 end
 
-function -(x::FastRational{T}, y::FastRational{T}) where {T<:SUN}
+function -(x::FastRational{T}, y::FastRational{T}) where T
     num, den, ovf = subovf(x, y)
-    !ovf && return FastRational{T}(num, den)
-    numer, denom = subq(wider(x.num), wider(x.den), wider(y.num), wider(y.den))
+    !ovf && return FastRational{T}(num, den, Val(true))
+    numer, denom = subq(widen(x.num), widen(x.den), widen(y.num), widen(y.den))
     numer, denom = canonical(numer, denom)
-    return FastRational{T}(T(numer), T(denom))
+    return FastRational{T}(T(numer), T(denom), Val(true))
 end
 
-function *(x::FastRational{T}, y::FastRational{T}) where {T<:SUN}
+function *(x::FastRational{T}, y::FastRational{T}) where T
     num, den, ovf = mulovf(x, y)
-    !ovf && return FastRational{T}(num, den)
-    numer, denom = mulq(wider(x.num), wider(x.den), wider(y.num), wider(y.den))
+    !ovf && return FastRational{T}(num, den, Val(true))
+    numer, denom = mulq(widen(x.num), widen(x.den), widen(y.num), widen(y.den))
     numer, denom = canonical(numer, denom)
-    return FastRational{T}(T(numer), T(denom))
+    return FastRational{T}(T(numer), T(denom), Val(true))
 end
 
-function /(x::FastRational{T}, y::FastRational{T}) where {T<:SUN}
+function /(x::FastRational{T}, y::FastRational{T}) where T
     num, den, ovf = divovf(x, y)
-    !ovf && return FastRational{T}(num, den)
-    numer, denom = divq(wider(x.num), wider(x.den), wider(y.num), wider(y.den))
+    if !ovf
+        den > 0 || throw(DivideError())
+        return FastRational{T}(num, den, Val(true))
+    end
+    numer, denom = divq(widen(x.num), widen(x.den), widen(y.num), widen(y.den))
     numer, denom = canonical(numer, denom)
-    return FastRational{T}(T(numer), T(denom))
+    den = denom%T
+    0 < den < typemax(T) || throw(DivideError())
+    return FastRational{T}(T(numer), den, Val(true))
 end
 
 
@@ -168,7 +153,7 @@ end
 @inline function divovf(x::FastRational{T}, y::FastRational{T}) where {T<:SUN}
     num, ovf  = mul_with_overflow(x.num, y.den)
     den, ovfl = mul_with_overflow(x.den, y.num)
-    ovf |= ovfl
+    ovf |= ovfl | signbit(den)
     return num, den, ovf
 end
 
@@ -201,10 +186,9 @@ end
     return num, den
 end
 
-function ^(x::FastRational{T}, y::SUN) where {T<:SUN}
-    num, den = wider(x.num)^y, wider(x.den)^y
-    num, den = canonical(num, den)
-    return FastRational{T}(T(num), T(den))
+import Base.power_by_squaring
+function ^(x::FastRational, n::Integer)
+    n >= 0 ? power_by_squaring(x,n) : power_by_squaring(inv(x),-n)
 end
 
 //(x::FastRational{T}, y::SUN) where {T<:SUN} = x / FastRational{T}(y)

@@ -18,8 +18,8 @@
     @test_throws OverflowError FR(1//2)^63
     =#
     #>>>FIXME @test_throws InexactError -FR(typemin(TI)//1)
-    @test_throws InexactError $FR(typemax($TI)//3) + 1
-    @test_throws InexactError $FR(typemax($TI)//3) * 2
+    @test_throws InexactError $FR(typemax($TI)//3) + $TI(1)
+    @test_throws InexactError $FR(typemax($TI)//3) * $TI(2)
     @test_throws InexactError $FR(1//2)^63
 
     # FIXME!!!
@@ -34,7 +34,7 @@
         end
         if ispow2(b)
             @test $FR(a//b) == $FR(a/b)
-            @test convert($FR,a/b) == $FR(a//b)
+            @test convert(FastRational{$TI}, a/b) == $FR(a//b)
         end
         # @test rationalize(a/b) == a//b
         @test $FR(a//b) == a//b
@@ -68,7 +68,7 @@
     @test 1/5 ≈ float($FR(1//5))
 
     # PR 29561
-    @test abs(one($FR)) === one($FR)
-    @test abs(-one($FR)) === one($FR)
+    @test abs(one(FastRational{$TI})) === one(FastRational{$TI})
+    @test abs(-one(FastRational{$TI})) === one(FastRational{$TI})
   end      
 end
