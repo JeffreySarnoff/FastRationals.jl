@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>A metaphor that illuminates · FastRationals.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>FastRationals.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../bpp/">The BPP formula for PI</a></li><li><a class="toctext" href="../findingtherange/">Finding the Range</a></li><li><a class="toctext" href="../thestatelessway/">The Stateless Way</a></li><li><a class="toctext" href="../mayoverflow/">What cannot overflow?</a></li><li><a class="toctext" href="../rationalmagnitude/">Rational Magnitude In Action</a></li><li class="current"><a class="toctext" href>A metaphor that illuminates</a><ul class="internal"><li><a class="toctext" href="#How-to-slow-FastRationals-1">How to slow FastRationals</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li><a href>A metaphor that illuminates</a></li></ul><a class="edit-page" href="https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/metaphoricalflashlight.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>A metaphor that illuminates</span><a class="fa fa-bars" href="#"></a></div></header><h2><a class="nav-anchor" id="How-to-slow-FastRationals-1" href="#How-to-slow-FastRationals-1">How to slow FastRationals</a></h2><p>It is demonstrated that <code>FastRationals</code> are designed for use with rational values where both numerator and denominator are of relatively small magnitude.  We find that their performance strengthens with additional use and more terms .. right up to reaching the critical region of a <code>swallow tail</code> where the magnitudes engender unreduced overflow too often.</p><table><tr><th>Swallow Tail</th></tr><tr><td><img src="../assets/swallowtail1.jpg" alt="swallowtail"/></td></tr><tr><td>this image appears courtesy of <a href="https://www2.sci.hokudai.ac.jp/faculty/en/researcher/goo-ishikawa">Goo Ishikawa</a></td></tr></table><hr/><h3><a class="nav-anchor" id="what-is-demonstrated-1" href="#what-is-demonstrated-1">what is demonstrated</a></h3><p><em>The sequences and indicies appearing in this section were obtained by running the source text that follows.</em></p><ul><li><code>FastRational{Int32}</code> most outperforms <code>Rational{Int32}</code> at index <strong>6</strong> (10x).<ul><li>this is the largest index for which <code>mayoverflow(_,_) == false</code>.</li></ul></li></ul><pre><code class="language-none">!mayoverflow(sum(fastq32_seqs[5]), fastq32_seqs[6][end]) &amp;&amp;
+ mayoverflow(sum(fastq32_seqs[6]), fastq32_seqs[7][end])    === true</code></pre><ul><li><code>FastRational{Int64}</code> most outperforms <code>Rational{Int64}</code> at index <strong>8</strong> (12x).<ul><li>this is the largest index for which <code>mayoverflow(_,_) == false</code>.</li></ul></li></ul><pre><code class="language-none">!mayoverflow(sum(fastq64_seqs[5]), fastq64_seqs[6][end]) &amp;&amp;
+ mayoverflow(sum(fastq64_seqs[6]), fastq64_seqs[7][end])    === true</code></pre><hr/><h3><a class="nav-anchor" id="demonstration-1" href="#demonstration-1">demonstration</a></h3><pre><code class="language-none">using FastRationals, BenchmarkTools, MacroTools, Plots
+
+
+BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
+BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
+BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 2.0e-6;
+BenchmarkTools.DEFAULT_PARAMETERS.samples = 200;
+BenchmarkTools.DEFAULT_PARAMETERS.seconds = 3;
+
+
+walk(x, inner, outer) = outer(x)
+walk(x::Expr, inner, outer) = outer(Expr(x.head, map(inner, x.args)...))
+postwalk(f, x) = walk(x, x -&gt; postwalk(f, x), f)
+
+function referred(expr::Expr)
+    if expr.head == :$
+        :($(Expr(:$, :(Ref($(expr.args...)))))[])
+    else
+        expr
+    end
+end
+referred(x) = x
+
+macro noelide(expr)
+    out = postwalk(referred, expr) |&gt; esc
+end
+
+
+# using the Int64 Rational types
+
+nterms = 20;     # first 2 terms are (1//1), add one at the end 
+rational_terms = [1//factorial(i) for i=1:nterms]; 
+fastq64_terms  = FastRational{Int64}.(rational_terms);
+
+# we want successively longer sequences so we can chart computational behavior
+rational_seqs = [];
+fastq64_seqs  = [];
+for i in 1:nterms
+     global rational_terms, fastq64terms, rational_seqs, fastq64_seqs
+     push!(rational_seqs, rational_terms[1:i])
+     push!(fastq64_seqs, fastq64_terms[1:i])
+end;
+
+# we time the summations so we can chart relative performance
+rational_times = [];
+fastq64_times  = [];
+for i in 1:nterms
+     global rational_seqs, fastq64_seqs, rational_times, fastq64_times
+     rseq = rational_seqs[i]
+     fseq = fastq64_seqs[i]
+     rationaltime = @noelide @belapsed sum($rseq)
+     fastq64time  = @noelide @belapsed sum($fseq)
+     push!(rational_times, rationaltime)
+     push!(fastq64_times, fastq64time)
+end;
+
+rational_to_fast64 = Float32.(rational_times ./ fastq64_times);
+
+
+
+# using the Int32 Rational types
+
+nterms = 12;     # first 2 terms are (1//1), add one at the end 
+rational_terms = Rational{Int32}.([1//factorial(i) for i=1:nterms]); 
+fastq32_terms  = FastRational{Int32}.(rational_terms);
+
+# we want successively longer sequences so we can chart computational behavior
+rational_seqs = [];
+fastq32_seqs  = [];
+for i in 1:nterms
+     global rational_terms, fastq32_terms, rational_seqs, fastq32_seqs
+     push!(rational_seqs, rational_terms[1:i])
+     push!(fastq32_seqs, fastq32_terms[1:i])
+end;
+
+# we time the summations so we can chart relative performance
+rational_times = [];
+fastq32_times  = [];
+for i in 1:nterms
+     global rational_seqs, fastq32_seqs, rational_times, fastq32_times
+     rseq = rational_seqs[i]
+     fseq = fastq32_seqs[i]
+     rationaltime = @noelide @belapsed sum($rseq)
+     fastq32time  = @noelide @belapsed sum($fseq)
+     push!(rational_times, rationaltime)
+     push!(fastq32_times, fastq32time)
+end;
+
+rational_to_fast32 = Float32.(rational_times ./ fastq32_times);
+
+# isolate each maximum
+
+len64 = length(rational_to_fast64);
+len32 = length(rational_to_fast32);
+idxofmax_fastq64 = (1:len64)[maximum(rational_to_fast64) .== rational_to_fast64];
+idxofmax_fastq32 = (1:len32)[maximum(rational_to_fast32) .== rational_to_fast32];
+
+# plot
+
+plot(rational_to_fast64, size=(600,600))
+plot(rational_to_fast32, size=(600,600))
+
+# also use log plots
+
+log_rational_to_fast64 = log.(rational_to_fast64);
+log_rational_to_fast32 = [log.(rational_to_fast32)...,  log_rational_to_fast64[(end-(len64-len32)+1):end]...,];
+ 
+plot(log_rational_to_fast64, size=(600,600))
+plot!(log_rational_to_fast32)
+
+
+println(&quot;\nThe maximum relative advantage of FastQ32 occured at index $idxofmax_fastq32\n&quot;)
+println(&quot;\nThe maximum relative advantage of FastQ64 occured at index $idxofmax_fastq64\n&quot;)
+</code></pre><footer><hr/><a class="previous" href="../rationalmagnitude/"><span class="direction">Previous</span><span class="title">Rational Magnitude In Action</span></a></footer></article></body></html>

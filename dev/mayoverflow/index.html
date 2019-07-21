@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>What cannot overflow? · FastRationals.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>FastRationals.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../bpp/">The BPP formula for PI</a></li><li><a class="toctext" href="../findingtherange/">Finding the Range</a></li><li><a class="toctext" href="../thestatelessway/">The Stateless Way</a></li><li class="current"><a class="toctext" href>What cannot overflow?</a><ul class="internal"></ul></li><li><a class="toctext" href="../rationalmagnitude/">Rational Magnitude In Action</a></li><li><a class="toctext" href="../metaphoricalflashlight/">A metaphor that illuminates</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>What cannot overflow?</a></li></ul><a class="edit-page" href="https://github.com/JeffreySarnoff/FastRationals.jl/blob/master/docs/src/mayoverflow.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>What cannot overflow?</span><a class="fa fa-bars" href="#"></a></div></header><h3><a class="nav-anchor" id="deriving-the-expresssion-for-mayoverflow:-1" href="#deriving-the-expresssion-for-mayoverflow:-1">deriving the expresssion for <code>mayoverflow</code>:</a></h3><pre><code class="language-none">bitsof(::Type{T}) where {T} = sizeof(T) * 8
+bitsof(x::T) where {T} = sizeof(T) * 8
+
+#=
+    maxmag(q) whichever is the larger, abs(numerator) or abs(denominator)
+    leading_zeros_maxmag(q) count of leading 0bits in maxmag(q)
+    msbitidx(q) 1-based bit index of the most significant bit in maxmag(q)
+                zero iff iszero(maxmag(q))
+=#
+maxmag(q::Rational{T}) where {T&lt;:Integer} = max(abs(q.num), abs(q.den))  
+leading_zeros_maxmag(q::Rational{T}) where {T&lt;:Integer} = leading_zeros(maxmag(q))
+
+msbitidx(q::Rational{T}) where {T&lt;:Integer} = bitsof(T) - leading_zeros_maxmag(q)
+msbitidx(q1::Rational{T}, q2::Rational{T}) where {T&lt;:Integer} = msbitidx(q1) + msbitidx(q2)
+
+maxmag(q::FastRational{T}) where {T&lt;:FastInt} = max(abs(q.num), abs(q.den))  # q.den != typemin(T)
+leading_zeros_maxmag(q::FastRational{T}) where {T&lt;:FastInt} = leading_zeros(maxmag(q))
+
+msbitidx(q::FastRational{T}) where {T&lt;:FastInt} = bitsof(T) - leading_zeros(maxmag(q))
+msbitidx(q1::FastRational{T}, q2::FastRational{T}) where {T&lt;:FastInt} = msbitidx(q1) + msbitidx(q2)
+
+#=
+msbitidx(q1::T) + msbitidx(q2::T) 
+    =  (bitsof(T) - leading_zeros(maxmag(q1))) + (bitsof(T) - leading_zeros(maxmag(q2)))
+    =  (bitsof(T) + bitsof(T)) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+    =  2*bitsof(T) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+=#
+
+mayoverflow(q1::T, q2::T) where {T} = bitsof(T) &lt;= msbitidx(q1, q2)
+#=
+   = bitsof(T) &lt;= 2*bitsof(T) - (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2)))
+   = (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) &lt;= 2*bitsof(T) - bitsof(T)
+   = (leading_zeros(maxmag(q1)) + leading_zeros(maxmag(q2))) &lt;= bitsof(T)
+=#
+
+mayoverflow(i1::T, i2::T) where {T&lt;:Integer} =
+    (leading_zeros(i1) + leading_zeros(i2)) &lt;= bitsof(T)
+
+#=
+   this was used in deriving the faster version immediately below
+   mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T&lt;:Integer} =
+        bitsof(T) &gt;= leading_zeros_maxmag(q1) + leading_zeros_maxmag(q2)
+=#
+
+mayoverflow(q1::Rational{T}, q2::Rational{T}) where {T&lt;:Integer} =
+    (bitsof(T)&lt;&lt;1) &gt;= leading_zeros(q1.num) + leading_zeros(q1.den) +
+                      leading_zeros(q2.num) + leading_zeros(q2.den)
+
+mayoverflow(q1::FastRational{T}, q2::FastRational{T}) where {T&lt;:FastInt} =
+    (bitsof(T)&lt;&lt;1) &gt;= leading_zeros(q1.num) + leading_zeros(q1.den) +
+                      leading_zeros(q2.num) + leading_zeros(q2.den)</code></pre><hr/><footer><hr/><a class="previous" href="../thestatelessway/"><span class="direction">Previous</span><span class="title">The Stateless Way</span></a><a class="next" href="../rationalmagnitude/"><span class="direction">Next</span><span class="title">Rational Magnitude In Action</span></a></footer></article></body></html>
