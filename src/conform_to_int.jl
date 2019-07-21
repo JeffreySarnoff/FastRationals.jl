@@ -25,7 +25,7 @@ round(::Type{I}, x::FastRational{T}, ::RoundingMode{:Up}) where {I<:Integer, T<:
 round(::Type{I}, x::FastRational{T}, ::RoundingMode{:Down}) where {I<:Integer, T<:Integer} = floor(I, x.num//x.den)
 round(::Type{I}, x::FastRational{T}, ::RoundingMode{:Nearest}) where {I<:Integer, T<:Integer} = round(I, x.num//x.den)
 
-round(::Type{Integer}, x::FastRational{T}, ::RoundingMode{:ToZero}) where {T<:Integer} = signbit(x) ? ceil(T,x) : floor(T,mx)
+round(::Type{Integer}, x::FastRational{T}, ::RoundingMode{:ToZero}) where {T<:Integer} = signbit(x) ? ceil(T,x) : floor(T,x)
 round(::Type{Integer}, x::FastRational{T}, ::RoundingMode{:FromZero}) where {T<:Integer} = signbit(x) ? floor(T,x) : ceil(T,x)
 round(::Type{Integer}, x::FastRational{T}, ::RoundingMode{:Up}) where {T<:Integer} = ceil(T, x.num//x.den)
 round(::Type{Integer}, x::FastRational{T}, ::RoundingMode{:Down}) where {T<:Integer} = floor(T, x.num//x.den)
