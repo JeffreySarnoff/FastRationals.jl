@@ -13,7 +13,7 @@ notifications:
   email: false
 
 after_success:
-  - julia -e 'using Pkg; cd(Pkg.dir("DoubleFloats")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'using Pkg; cd(Pkg.dir("FastRationals")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
 
 jobs:
   include:
