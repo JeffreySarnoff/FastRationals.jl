@@ -26,21 +26,3 @@ matinv:  3.5     2.7     1.1
 
 ```
 
-
-
-``` 
-older results, the revisions benchmarked above
-speedup FastQ4 and slowdown sum, prod
-on a relative usability basis the revisions are accepted
-
-
-|         | FastQ32 | FastQ64 |
-|:--------|:-------:|:-------:|
-|mul      | 24.0    | 15.2    |
-|add,mul  | 21.7    | 15.3    |
-|add      | 18.7    | 13.2    |
-|polyval  | 7.9     | 20.8    |
-|mat mul  | 11.7    | 14.0    |
-|mat lu   | 3.7     | 5.4     |
-|mat inv  | 3.3     | 2.8     |
-=#
