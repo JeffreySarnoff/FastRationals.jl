@@ -3,7 +3,7 @@ using Polynomials, LinearAlgebra, BenchmarkTools, MacroTools
 
 BenchmarkTools.DEFAULT_PARAMETERS.evals = 1;
 BenchmarkTools.DEFAULT_PARAMETERS.samples = 300;
-BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 2.0e-9;
+BenchmarkTools.DEFAULT_PARAMETERS.time_tolerance = 1.0e-8;
 BenchmarkTools.DEFAULT_PARAMETERS.overhead = BenchmarkTools.estimate_overhead();
 
 walk(x, inner, outer) = outer(x)
