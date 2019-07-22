@@ -25,6 +25,7 @@
 
 ## FastRational types
 
+System rationals reduce the result of every rational input and each arithmetic operation to lowest terms.  FastRational types (`FastQ32`, `FastQ64`, `FastQBig`) reduce all rational inputs and reduce each rational value prior to presenting the value. Unlike system rationals, the result of a FastRational arithmetic operation is reduced onlyif overflow occur while it is being calculated.  With appropriately sized numerators and denominators, this takes less time. 
 
 ### FastRationals using fast integers
 
