@@ -30,16 +30,20 @@ function compactify(;low::Q, high::Q) where {Q<:Rationals}
     return Q(lonumsbit ? -num : num, den)
 end
 
-# compute Q(midpoint - rad) and Q(midpoint + rad) approximately
-# preserving integer type
+# compute Q(midpoint - rad) and Q(midpoint + rad), approximately
+# preserving the underlying integer type
+
 function compact_reduce(midpoint::Q, radius::Q) where {Q<:Rationals}
     midnum, midden = midpoint.num, midpoint.den
     radnum, radden = radius.num, radius.den
     u = typemax(basetype(Q)) ÷ max(midden, midnum)
+    # either `abs(au)` or `abs(bu)` is close to typemax of the underlying integer type
     au = midnum * u
     bu = midden * u
     v = (bu ÷ radden) * radnum
+    # (au - v) // bu  <=  midpoint - rad  <  (au - v + 1) // bu
     lo3 = compact_integer(au - v, bu, au - v + 1, bu)
+    # (au + v - 1) // bu  <=  midpoint + rad  <  (au + v) // bu
     hi3 = compact_integer(au + v - 1, bu, au + v, bu)
     tuple(lo3..., hi3...)
 end
