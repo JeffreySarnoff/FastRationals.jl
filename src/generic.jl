@@ -1,18 +1,18 @@
 #=
-    when it is known of num::T, den::T 
+    when it is known of num::T, den::T
     or given by construction that
        den > 0
        use FastRational{T}(num, den)
            - skip checking for zero or negative denominator
 
-    when it is known of num::T, den::T 
+    when it is known of num::T, den::T
     or given by construction that
     or may be the case that
        den < 0 && den != typemin(T)
        use FastRationalChecked(num, den)
            - check for zero or negative denominator
-   
-    when it is known of num::T, den::T 
+
+    when it is known of num::T, den::T
     or given by construction that
     or may be the case that
        den == typemin(T)
@@ -82,7 +82,7 @@ flipsign(x::FastRational, y::Real)= signbit(y) ? -x : x
 <(x::FastRational, y::FastRational) = widemul(x.num, y.den) < widemul(x.den, y.num)
 
 cmp(x::FastRational, y::FastRational) = cmp(widemul(x.num, y.den), widemul(x.den, y.num))
-    
+
 function +(x::FastRational{T}, y::FastRational{T}) where T
     num, den, ovf = addovf(x, y)
     !ovf && return FastRational{T}(num, den, Val(true))
@@ -117,6 +117,19 @@ function /(x::FastRational{T}, y::FastRational{T}) where T
     numer, denom = canonical(numer, denom)
     den = denom%T
     0 < den < typemax(T) || throw(DivideError())
+    return FastRational{T}(T(numer), den, Val(true))
+end
+
+function /(x::FastRational{T}, y::FastRational{T}) where {T<:BigInt}
+    num, den, ovf = divovf(x, y)
+    if !ovf
+        den > 0 || throw(DivideError())
+        return FastRational{T}(num, den, Val(true))
+    end
+    numer, denom = divq(widen(x.num), widen(x.den), widen(y.num), widen(y.den))
+    numer, denom = canonical(numer, denom)
+    den = denom%T
+    0 < den || throw(DivideError())
     return FastRational{T}(T(numer), den, Val(true))
 end
 
