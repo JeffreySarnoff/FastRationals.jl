@@ -116,20 +116,7 @@ function /(x::FastRational{T}, y::FastRational{T}) where T
     numer, denom = divq(widen(x.num), widen(x.den), widen(y.num), widen(y.den))
     numer, denom = canonical(numer, denom)
     den = denom%T
-    0 < den < typemax(T) || throw(DivideError())
-    return FastRational{T}(T(numer), den, Val(true))
-end
-
-function /(x::FastRational{T}, y::FastRational{T}) where {T<:BigInt}
-    num, den, ovf = divovf(x, y)
-    if !ovf
-        den > 0 || throw(DivideError())
-        return FastRational{T}(num, den, Val(true))
-    end
-    numer, denom = divq(widen(x.num), widen(x.den), widen(y.num), widen(y.den))
-    numer, denom = canonical(numer, denom)
-    den = denom%T
-    0 < den || throw(DivideError())
+    (Base.hastypemax(T) ? (0 < den < typemax(T)) : (0 < den)) || throw(DivideError())
     return FastRational{T}(T(numer), den, Val(true))
 end
 
