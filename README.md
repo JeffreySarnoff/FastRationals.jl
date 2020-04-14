@@ -76,11 +76,11 @@ using FastRationals
 n = 10_000
 qs = [Rational{BigInt}(1,i) for i=1:n];
 fastqs = [FastQBig(1,i) for i=1:n];
-qs_time = @belapsed sum(qs);
-fastqs_time = @belapsed sum(fastqs);
+qs_time = @belapsed sum($qs);
+fastqs_time = @belapsed sum($fastqs);
 round(qs_time / fastqs_time, digits=2)
 ```
-(I get ~16.5x)
+(I get 17x)
 
 #### 25_000 decimal digits
 
