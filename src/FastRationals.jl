@@ -13,13 +13,75 @@ import Base: BitInteger, BitSigned, hash, show, repr, string, tryparse,
     +, -, *, /, ^, //,
     inv, div, fld, cld, rem, mod, trunc, floor, ceil, round, widen
 
-const SUN = Union{Signed, Unsigned}
-const FastSUN = Union{Int8, Int16, Int32, Int64, UInt8, UInt16, UInt32, UInt64}
+const StdInteger = Union{Signed, Unsigned}
+const FastInteger = Core.Compiler.typesubtract(Base.BitInteger, Union{Int128,UInt128})
 
-struct FastRational{T<:SUN} <: Real
+const Reduced   = true
+const Unchanged = false
+
+@inline function setsigns(num::T, den::T) where {T<:StdInteger}
+    den = -den
+    signbit(den) && __throw_rational_argerror_typemin(T)
+    num = -num
+    return num, den
+end  
+
+@inline function reduceterms(num::T, den::T) where {T<:StdInteger}
+    g = gcd(num, den)
+    num = div(x, g)
+    den = div(y, g)
+    return num, den
+end
+
+struct FastRational{T<:StdInteger} <: Real
     num::T
     den::T
     
+    function FastRational{T}(num::T, den::T, reduce::Bool) where {T<:StdInteger}
+        if iszero(den)
+           iszero(num) && __throw_rational_argerror_zero(T)
+           num = copysign(one(T), num)
+           reduce = false          
+        else
+           num, den = setsigns(num, den)
+        end             
+        if reduce
+            num, den = reduceterms(num, den)
+        end              
+        return new{T}(num,den)
+    end
+       
+    function FastRational{T}(num::T, den::T) where {T<:BigInt}
+        if iszero(den)
+            iszero(num) && __throw_rational_argerror_zero(T)
+            num = copysign(one(T), num)
+        end
+        if signbit(den) # reduce every other op
+            num, den = reduceterms(num, den)
+        end
+        num, den = -num, -den # if den >= 0 then it is reduced
+        return new{T}(num, den)              
+    end
+ end
+
+numerator(x::FastRational) = x.num
+denominator(x::FastRational) = x.den
+
+FastRational{T}(x::FastRational{T}) where {T<:StdInteger} = x
+FastRational(x::FastRational{T}) where {T<:StdInteger} = x
+FastRational{T1}(x::FastRational{T2}) where {T1<:StdInteger, T2<:StdInteger} = FastRational(T1(x.num), T1(x.den))
+
+FastRational{T}(num::T, den::T) where {T<:StdInteger} = FastRational{T}(num, den, Reduced)
+FastRational(num::T, den::T) where {T<:StdInteger} = FastRational{T}(num, den, Reduced)
+FastRational{T}(num::StdInteger, den::StdInteger) where {T<:StdInteger} = FastRational{T}(T(num), T(den), Reduced)
+FastRational(num::StdInteger, den::StdInteger) = FastRational(promote(num, den)...)
+
+
+#=
+
+
+
+
     # this constructor is used when den might be <= 0
     # the constructor of x assures, that
     # x.den > 0 and gcd(x.den, x.num) == 1
@@ -42,8 +104,7 @@ function FastRational(num::S, den::T) where {S,T}
 end
 const Rationals = Union{FastRational,Rational}
 
-numerator(x::FastRational) = x.num
-denominator(x::FastRational) = x.den
+
 
 # the names `FastQ*` are convencience constructors, not type names.
 for (C, T) in ((:FastQ32, Int32), (:FastQ64, Int64), (:FastQ128, Int128), (:FastQBig, BigInt))
@@ -74,3 +135,5 @@ include("conform_to_int.jl")
 include("compactify.jl")
 
 end # FastRationals
+
+=#
