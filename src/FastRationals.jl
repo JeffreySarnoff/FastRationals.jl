@@ -28,8 +28,8 @@ end
 
 @inline function reduceterms(num::T, den::T) where {T<:StdInteger}
     g = gcd(num, den)
-    num = div(x, g)
-    den = div(y, g)
+    num = div(num, g)
+    den = div(den, g)
     return num, den
 end
 
