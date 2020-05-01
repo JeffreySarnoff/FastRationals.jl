@@ -62,7 +62,8 @@ struct FastRational{T<:StdInteger} <: Real
         num, den = -num, -den # if den >= 0 then it is reduced
         return new{T}(num, den)              
     end
- end
+    FastRational{T}(num::T, den::T, reduce::Bool) where {T<:BigInt} = FastRational(num, den)
+end
 
 numerator(x::FastRational) = x.num
 denominator(x::FastRational) = x.den
