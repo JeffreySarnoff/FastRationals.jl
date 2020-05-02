@@ -77,6 +77,15 @@ FastRational(num::T, den::T) where {T<:StdInteger} = FastRational{T}(num, den, R
 FastRational{T}(num::StdInteger, den::StdInteger) where {T<:StdInteger} = FastRational{T}(T(num), T(den), Reduced)
 FastRational(num::StdInteger, den::StdInteger) = FastRational(promote(num, den)...)
 
+#= >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+function actualrational(x::T) where {T<:Base.IEEEFloat}
+    fr, xp = frexp(x)
+    ifr = Int64(ldexp(fr, Base.significand_bits(T)))
+    p2 = Base.significand_bits(T) - xp
+    return ifr//(Int64(2)<<p2)
+end
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< =#
+
 
 #=
 
