@@ -84,6 +84,14 @@ function actualrational(x::T) where {T<:Base.IEEEFloat}
     p2 = Base.significand_bits(T) - xp
     return ifr//(Int64(2)<<p2)
 end
+
+
+function actualrational(x::T, nbits=Base.significand_bits(T)) where {T<:Base.IEEEFloat}
+    fr, xp = frexp(x)
+    ifr = round(Int64, ldexp(fr, nbits))
+    p2 = nbits - xp
+    return ifr//(Int64(1)<<p2)
+end
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< =#
 
 
