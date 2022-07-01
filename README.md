@@ -175,7 +175,7 @@ tiny_radius    = 1//7_896_121_034
 
 coarse_compact = compactify(midpoint, coarse_radius)      #         7//9
 fine_compact   = compactify(midpoint, fine_radius)        #       147//191
-tiny_compact   = compactify(midpoint, passthru_radius)    #    76_963//100_003
+tiny_compact   = compactify(midpoint, tiny_radius)        #    76_963//100_003
 
 abs(midpoint - tiny_compact)   < tiny_radius    &&
 abs(midpoint - fine_compact)   < fine_radius    &&
