@@ -12,7 +12,7 @@ MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 
 [compat]
 Polynomials = "0, 1, 2, 3, 4, 5"
-MacroTools = "0, 0.5.9, 0.6, 0.7, 0.8, 0.9"
+MacroTools = "0, 0.5, 0.5.9, 0.6, 0.6.1, 0.6.2, 0.6.3, 0.6.4, 0.6.5, 0.7, 0.8"
 julia = "1"
 
 [extras]
