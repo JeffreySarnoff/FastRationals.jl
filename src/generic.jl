@@ -45,7 +45,7 @@ zero(::Type{FastRational{T}}) where T = FastRational{T}(zero(T), one(T), Val(tru
 one(::Type{FastRational{T}}) where T = FastRational{T}(one(T), one(T), Val(true))
 
 iszero(x::FastRational{T}) where T = iszero(x.num)
-isone(x::FastRational) where T = x.num === x.den
+isone(x::FastRational) = x.num === x.den
 isinteger(x::FastRational) = iszero(x.num % x.den)
 function iseven(x::FastRational)
     d, r = divrem(x.num, x.den)
