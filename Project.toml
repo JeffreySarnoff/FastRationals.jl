@@ -5,19 +5,12 @@ author = "Jeffrey Sarnoff"
 repo = "https://github.com/JeffreySarnoff/FastRationals.jl.git"
 version = "0.2.2"
 
-[deps]
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-Polynomials = "f27b6e38-b328-58d1-80ce-0feddd5e7a45"
-MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
-
 [compat]
-Polynomials = "3.1"
-MacroTools = "0.5, 0.6, 0.7"
 julia = "1.6"
 
 [extras]
-BenchmarkTools =  "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "BenchmarkTools"]
+test = ["Test", "LinearAlgebra"]
