@@ -3,7 +3,6 @@ floor(x::FastRational{T}) where {T<:Integer} = FastRational{T}(numerator(floor(T
 trunc(x::FastRational{T}) where {T<:Integer} = FastRational{T}(numerator(trunc(T, x.num//x.den)), one(T))
 round(x::FastRational{T}) where {T<:Integer} = FastRational{T}(numerator(round(T, x.num//x.den)), one(T))
 
-floor(::Type{I}, x::FastRational{T}) where {I<:Integer, T<:Integer} = floor(I, x.num//x.den)
 trunc(::Type{I}, x::FastRational{T}) where {I<:Integer, T<:Integer} = trunc(I, x.num//x.den)
 round(::Type{I}, x::FastRational{T}) where {I<:Integer, T<:Integer} = round(I, x.num//x.den)
 
@@ -32,5 +31,6 @@ round(::Type{Integer}, x::FastRational{T}, ::RoundingMode{:Nearest}) where {T<:I
 @static if VERSION < v"1.11"
     ceil(::Type{I}, x::FastRational{T}) where {I<:Integer, T<:Integer} = ceil(I, x.num//x.den)
     ceil(::Type{Integer}, x::FastRational{T}) where {T<:Integer} = ceil(Integer, x.num//x.den)
+    floor(::Type{I}, x::FastRational{T}) where {I<:Integer, T<:Integer} = floor(I, x.num//x.den)
     floor(::Type{Integer}, x::FastRational{T}) where {T<:Integer} = floor(Integer, x.num//x.den)
 end
